@@ -1,8 +1,9 @@
 /**
 
-  00_setup_master_database.sql - Algae Framework PostgreSQL master database setup.
+  Algae Framework PostgreSQL master database setup.
   
   Contains user accounts and rights to individual objects and application databases.
+  This is a "master" database that sits above individual application databases.
 	
   @author    Brian Krzys (brian.krzys@rtspatial.com)
   @copyright (c) 2026 RTSpatial Ltd.
