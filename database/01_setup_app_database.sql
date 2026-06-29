@@ -1,6 +1,6 @@
 /**
 
-  Algae Framework PostgreSQL application database setup.
+  algae framework | PostgreSQL application database setup.
 	
   @author    Brian Krzys (brian.krzys@rtspatial.com)
   @copyright (c) 2026 RTSpatial Ltd.
