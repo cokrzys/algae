@@ -1,6 +1,6 @@
 /**
 
-  Algae Framework PostgreSQL master database setup.
+  algae framework | PostgreSQL master database setup.
   
   Contains user accounts and rights to individual objects and application databases.
   This is a "master" database that sits above individual application databases.
