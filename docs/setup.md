@@ -1,16 +1,17 @@
-##Install PostgreSQL
-
+## Install PostgreSQL
+Example installing PostgreSQL 18.4 on Ubuntu 26.04 LTS.
 ```shell
 sudo apt-get install postgresql postgresql-contrib
 
-# change the password for the postgres user, note that the postgres user is automatically created with the installation.
+# start PSQL shell
 sudo -u postgres psql postgres
 ```
 
 ```sql
+-- change password at the PSQL prompt
 \password postgres
 
--- Check the version:
+-- check the version
 SELECT version();
 ```
 
