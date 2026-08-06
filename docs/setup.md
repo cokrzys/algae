@@ -25,3 +25,29 @@ PostgreSQL 18.4 (Ubuntu 18.4-0ubuntu0.26.04.1) on x86_64-pc-linux-gnu, compiled 
 ```shell
 sudo apt install postgis
 ```
+
+## Testing
+
+```shell
+sudo -u postgres createdb test
+
+sudo -u postgres psql test postgres
+```
+
+```sql
+CREATE EXTENSION postgis;
+CREATE EXTENSION postgis_topology;
+SELECT postgis_version();
+```
+
+```console
+            postgis_version            
+---------------------------------------
+ 3.6 USE_GEOS=1 USE_PROJ=1 USE_STATS=1
+```
+
+```shell
+sudo -u postgres createdb test
+
+sudo -u postgres psql test postgres
+```
