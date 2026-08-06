@@ -31,7 +31,7 @@ sudo apt install postgis
 ```shell
 sudo -u postgres createdb test
 
-sudo -u postgres psql test postgres
+sudo -u postgres psql test
 ```
 
 ```sql
