@@ -1,4 +1,5 @@
 ## Install PostgreSQL
+
 Example installing PostgreSQL 18.4 on Ubuntu 26.04 LTS.
 ```shell
 sudo apt-get install postgresql postgresql-contrib
