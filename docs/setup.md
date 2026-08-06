@@ -47,5 +47,5 @@ SELECT postgis_version();
 ```
 
 ```shell
-sudo -u postgres psql -c "DROP DATABASE test"
+sudo -u postgres dropdb test
 ```
