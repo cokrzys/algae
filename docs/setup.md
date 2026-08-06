@@ -19,3 +19,9 @@ SELECT version();
 ```console
 PostgreSQL 18.4 (Ubuntu 18.4-0ubuntu0.26.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0, 64-bit
 ```
+
+## Install PostGIS
+
+```shell
+sudo apt install postgis
+```
