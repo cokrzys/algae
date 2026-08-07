@@ -31,12 +31,15 @@ sudo apt install postgis
 ## Testing
 
 ```shell
+# create a test database
 sudo -u postgres createdb test
 
+# open database
 sudo -u postgres psql test
 ```
 
 ```sql
+-- install PostGIS extensions
 CREATE EXTENSION postgis;
 CREATE EXTENSION postgis_topology;
 SELECT postgis_version();
@@ -49,6 +52,7 @@ SELECT postgis_version();
 ```
 
 ```shell
+# delete test database
 sudo -u postgres dropdb test
 ```
 
