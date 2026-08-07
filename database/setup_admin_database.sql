@@ -1,6 +1,6 @@
 /**
 
-  algae framework | PostgreSQL master database setup.
+  algae framework | PostgreSQL admin database setup.
   
   Contains user accounts and rights to individual objects and application databases.
   This is a "master" database that sits above individual application databases.
@@ -21,7 +21,7 @@ SET client_min_messages TO WARNING;
 -- function to get the version
 --
 CREATE OR REPLACE FUNCTION algae_database_version() RETURNS varchar LANGUAGE SQL AS
-  $$ SELECT CAST('0.0.1' AS VARCHAR); $$;
+  $$ SELECT CAST('0.01' AS VARCHAR); $$;
 
 --
 -- function to keep the last modified date updated automatically
@@ -97,7 +97,7 @@ INSERT INTO ref.record_status (name, sort_order, html_color, description)
   
 --
 -- function to get the rowid for an active record
--- this is typically used to set a default value
+-- typically used to set a default value
 --
 CREATE OR REPLACE FUNCTION algae_active_rowid() RETURNS int LANGUAGE SQL AS
   $$ SELECT rowid FROM ref.record_status WHERE name = 'Active'; $$;
@@ -209,7 +209,7 @@ CREATE TRIGGER update_modified BEFORE UPDATE
   algae_update_modified_column();
  
 --
--- example only
+-- example
 --
 -- INSERT INTO core.user_right (user_rowid_fk, object_rowid_fk, role_rowid_fk) VALUES
 -- (
