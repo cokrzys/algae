@@ -7,6 +7,6 @@ PHP and Python application framework.
 
 - Lightweight and approachable
 - Solid database backend
+- Content over interface 
 - Shared administration supports multiple applications
-- Spatially enabled
-- Working class, content over interface 
+- Spatially enabled 
