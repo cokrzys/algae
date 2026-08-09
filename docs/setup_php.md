@@ -1,8 +1,10 @@
-
+```shell
 sudo apt-get install -y php libapache2-mod-php php-pgsql php-xml
 
 php -i | more
+```
 
+```console
 phpinfo()
 PHP Version => 8.5.4
 
@@ -19,3 +21,4 @@ Scan this dir for additional .ini files => /etc/php/8.5/cli/conf.d
 Additional .ini files parsed => /etc/php/8.5/cli/conf.d/10-pdo.ini,
 /etc/php/8.5/cli/conf.d/15-xml.ini,
 /etc/php/8.5/cli/conf.d/20-calendar.ini,
+```
