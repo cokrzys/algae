@@ -26,14 +26,20 @@ Additional .ini files parsed => /etc/php/8.5/cli/conf.d/10-pdo.ini,
 ## phpinfo() Web Page
 
 ```shell
+# change to web root folder
 cd /var/www/html
+
+# make a php file
 sudo vi pinfo.php
 ```
 
+Put this in the PHP file.
 ```php
 <?php
  phpinfo();
 ?>
 ```
+
+Goto `http://your_server_or_ip/pinfo.php` to check the new web page.
 
 ![phpinfo() Page](images/php_info.png)
