@@ -5,8 +5,9 @@ PHP and Python application framework.
 
 ## Objectives
 
-- Lightweight and approachable
-- Solid database backend
+- Minimize complexity
+- Stable open source toolset
+- Structured database backend
+- Support multiple applications
 - Content over interface 
-- Shared administration supports multiple applications
-- Spatially enabled 
+- Spatially enabled
