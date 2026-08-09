@@ -1,6 +1,9 @@
 /**
 
   algae framework | PostgreSQL application database setup.
+
+  Common application database model.
+  Supplement with application level additions.
 	
   @author    Brian Krzys (brian.krzys@rtspatial.com)
   @copyright (c) 2026 RTSpatial Ltd.
