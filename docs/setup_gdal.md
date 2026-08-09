@@ -1,5 +1,7 @@
 # Setup GDAL
 
+GDAL provides an extensive setup of command line geoprocessing tools.
+
 ```shell
 # install
 sudo apt install gdal-bin
