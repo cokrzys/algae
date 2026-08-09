@@ -22,3 +22,5 @@ Additional .ini files parsed => /etc/php/8.5/cli/conf.d/10-pdo.ini,
 /etc/php/8.5/cli/conf.d/15-xml.ini,
 /etc/php/8.5/cli/conf.d/20-calendar.ini,
 ```
+
+![phpinfo() Page](images/php_info.png)
