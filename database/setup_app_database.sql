@@ -18,6 +18,12 @@
 SET client_min_messages TO WARNING;
 
 --
+-- function to get the version
+--
+CREATE OR REPLACE FUNCTION algae_app_database_version() RETURNS varchar LANGUAGE SQL AS
+  $$ SELECT CAST('2026.08.07' AS VARCHAR); $$;
+
+--
 -- function to keep the last modified date updated automatically
 --
 CREATE OR REPLACE FUNCTION algae_update_modified_column() 
