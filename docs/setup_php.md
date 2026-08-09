@@ -31,6 +31,9 @@ cd /var/www/html
 
 # make a php file
 sudo vi pinfo.php
+
+# good to remove when done
+sudo rm pinfo.php
 ```
 
 Put this in the PHP file.
