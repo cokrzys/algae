@@ -18,4 +18,6 @@ Server built:   2026-07-06T15:33:20
 
 Also goto `http://your_server_or_ip` to check the default web page.
 
+![Apache Default Page](images/apache_default_screen.png)
+
 
