@@ -9,7 +9,7 @@
   echo '</head>';
   echo '<body>';
   
-  echo 'algae framework installation check<p />';
+  echo 'algae framework checks<p />';
   
   $mainConfigFile = 'algaeConfig.php';
   try 

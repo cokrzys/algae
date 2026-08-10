@@ -26,6 +26,7 @@ class algaeConfig
   public function __construct()
   // --------------------------------------------------------------------------
   {
+    echo 'DEBUG: __DIR__ = ', __DIR__, '<p />';
     $this->app_name = 'algae';
     $this->dex_json = array();
     //

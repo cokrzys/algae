@@ -1,0 +1,132 @@
+[
+  {
+    "tableName": "algae.base",
+    "parentTableName": null,
+    "comment": "Standard fields used in all tables.",
+    "source": "algae",
+    "phpClass": "algaeTblBaseV2",
+    "pythonClass": "algaeTblBaseV2",
+    "columns":
+    [
+      {
+        "name": "rowid", 
+        "canInsert": false, 
+        "canUpdate": false
+      },
+      {
+        "name": "timestamp_loaded_utc", 
+        "canInsert": false, 
+        "canUpdate": false,
+        "altReadSQL": "to_char({table_name}.timestamp_loaded_utc, 'DD-Mon-YYYY HH24:MI:SS') AS timestamp_loaded_utc_str"
+      },
+      {
+        "name": "timestamp_modified_utc", 
+        "canInsert": false, 
+        "canUpdate": false,
+        "altReadSQL": "to_char({table_name}.timestamp_modified_utc, 'DD-Mon-YYYY HH24:MI:SS') AS timestamp_modified_utc_str"
+      }
+    ]
+  },
+  {
+    "tableName": "ref.record_status",
+    "parentTableName": "base",
+    "comment": "Record status indicator orginally setup to indicate Active or InActive for data that is obsolete but cannot or should not be deleted. Does NOT inherit from a named objects base table to avoid endless loops.",
+    "source": "algae",
+    "phpClass": "algaeTblRecordStatusV2",
+    "pythonClass": "algaeTblRecordStatusV2",
+    "columns":
+    [
+      {
+        "name": "name", 
+        "unique": true
+      },
+      {
+        "name": "html_color"
+      },
+      {
+        "name": "sort_order"
+      },
+      {
+        "name": "description"
+      }
+    ]
+  },
+  {
+    "tableName": "core.user",
+    "parentTableName": "algae.base",
+    "comment": "User and table core.user support.",
+    "source": "algae",
+    "phpClass": "algaeTblCoreUserV2",
+    "pythonClass": "algaeTblCoreUserV2",
+    "columns":
+    [
+      {
+        "name": "username", 
+        "unique": true,
+        "required": true
+      },
+      {
+        "name": "name",
+        "required": true
+      },
+      {
+        "name": "email",
+        "required": true
+      },
+      {
+        "name": "password",
+        "required": true
+      },
+      {
+        "name": "failed_login_attempts"
+      },
+      {
+        "name": "record_status_rowid_fk",
+        "classVariableName": "record_status.rowid",
+        "formVariableName": "record_status.name",
+        "altWriteSQL": "(SELECT rowid FROM ref.record_status WHERE name = %(record_status.name)s)"
+      }
+    ]
+  },
+  {
+    "tableName": "algae.named_object_base",
+    "parentTableName": "algae.base",
+    "comment": "TODO",
+    "source": "algae",
+    "phpClass": "algaeTblNamedObjectBaseV2",
+    "pythonClass": "algaeTblNamedObjectBaseV2",
+    "columns":
+    [
+      {
+        "name": "name", 
+        "unique": true
+      },
+      {
+        "name": "html_color"
+      },
+      {
+        "name": "description"
+      },
+      {
+        "name": "record_status_rowid_fk",
+        "classVariableName": "record_status.rowid",
+        "formVariableName": "record_status.name",
+        "altWriteSQL": "(SELECT rowid FROM ref.record_status WHERE name = %(record_status.name)s)"
+      }
+    ]
+  },
+  {
+    "tableName": "algae.reference_base",
+    "parentTableName": "algae.named_object_base",
+    "comment": "TODO",
+    "source": "algae",
+    "phpClass": "algaeTblReferenceBaseV2",
+    "pythonClass": "algaeTblReferenceBaseV2",
+    "columns":
+    [
+      {
+        "name": "sort_order"
+      }
+    ]
+  }
+]
