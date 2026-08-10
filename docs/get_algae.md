@@ -12,8 +12,8 @@ sudo wget https://github.com/cokrzys/algae/archive/refs/heads/main.zip
 # if not already installed
 sudo apt-get install zip
 
-# unzip to algae folder
-sudo unzip main.zip -d algae
+# unzip
+sudo unzip main.zip
 
 # remove zip file
 sudo rm main.zip
@@ -22,6 +22,6 @@ sudo rm main.zip
 Note the location of the algae ```web``` folder, for example from above:
 
 ```shell
-/opt/algae/algae-main/web
+/opt/algae-main/web
 ```
 
