@@ -22,5 +22,6 @@ sudo rm main.zip
 Note the location of the algae ```web``` folder, for example from above:
 
 ```shell
-/opt/algae20260809/algae-main/web
+/opt/algae20260807/algae-main/web
 ```
+
