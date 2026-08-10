@@ -18,6 +18,8 @@ Changes to PHP configuration file
 include_path = ".:/usr/share/php:/opt/algae/algae-main/src/php"
 ```
 
+## Setup Python for algae
+
 ## Setup Web Pages
 ```shell
 # create a symbolic link to view algae web pages
