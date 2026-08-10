@@ -21,11 +21,10 @@
     echo 'ERROR: ', $e->getMessage();
     exit();
   }
+  
+  echo 'OK: ', $mainConfigFile, ' found.<p />';
     
   $config = new algaeConfig();
-  
-  echo 'OK: ', $mainConfigFile, ' found and instance created.';
-  
   
   echo '</body>';
   echo '</html>';
