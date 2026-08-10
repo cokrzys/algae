@@ -15,7 +15,7 @@ sudo systemctl restart apache2
 Changes to PHP configuration file
 ```shell
 # add algae to the PHP path
-include_path = ".:/usr/share/php:/opt/algae/algae-main/src/php"
+include_path = ".:/usr/share/php:/opt/algae-main/src/php"
 ```
 
 ## Setup Python for algae
@@ -23,5 +23,5 @@ include_path = ".:/usr/share/php:/opt/algae/algae-main/src/php"
 ## Setup Web Pages
 ```shell
 # create a symbolic link to view algae web pages
-sudo ln -s /opt/algae/algae-main/web /var/www/html/algae
+sudo ln -s /opt/algae-main/web /var/www/html/algae
 ```
