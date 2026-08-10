@@ -1,6 +1,6 @@
 # Get algae
 
-Procedure below allows Apache to follow a symbolic link to the algae web interface.  Installing algae in another location or even directly in the web root is possible as well, but managing permissions can be a challenge and is a potential security risk.  This process also allows you to quickly download and install an updated version and maintain an older version by changing the symbolic link.
+Procedure below allows Apache to follow a symbolic link to the algae web interface.  Installing algae in another location or even directly in the web root is possible, but managing permissions can be a challenge and there are potential security risks.  This process also allows you to quickly download and install an updated version and maintain an older version by changing the symbolic link.
 
 ```shell
 # change to location to install 3rd party apps
