@@ -1,5 +1,7 @@
 # Get algae
 
+Procedure below allows Apache to follow a symbolic link to the algae web interface.  Installing algae in another location or even directly in the web root is possible as well, but managing permissions can be a challenge and is a potential security risk.
+
 ```shell
 # change to location to install 3rd party apps
 cd /opt
