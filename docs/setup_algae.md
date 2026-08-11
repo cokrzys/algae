@@ -16,6 +16,9 @@ Changes to PHP configuration file
 ```shell
 # add algae to the PHP path
 include_path = ".:/usr/share/php:/opt/algae-main/src/php"
+
+# better to see errors
+display_errors = On
 ```
 
 ## Setup Python for algae
