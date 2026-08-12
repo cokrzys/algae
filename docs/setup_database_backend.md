@@ -55,4 +55,15 @@ SELECT postgis_version();
 # delete test database
 sudo -u postgres dropdb test
 ```
+## Setup Password Authentication
+
+```shell
+sudo vi /etc/postgresql/18/main/pg_hba.conf
+
+sudo systemctl restart postgresql
+```
+
+```console
+TODO
+```
 
