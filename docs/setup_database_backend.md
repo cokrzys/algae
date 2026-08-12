@@ -62,8 +62,14 @@ sudo vi /etc/postgresql/18/main/pg_hba.conf
 
 sudo systemctl restart postgresql
 ```
-
+In the lines below ```peer``` has been changed to ```md5```.
 ```console
-TODO
+# Database administrative login by UNIX sockets
+local   all         postgres                          md5
+
+# TYPE  DATABASE    USER        CIDR-ADDRESS          METHOD
+
+# "local" is for Unix domain socket connections only
+local   all         all                               md5
 ```
 
