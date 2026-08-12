@@ -22,9 +22,11 @@
     exit();
   }
   
-  echo 'OK: ', $mainConfigFile, ' found.<p />';
+  require 'algaeCore.php';
     
   $config = new algaeConfig();
+  
+  $config->showConfig();
   
   echo '</body>';
   echo '</html>';
