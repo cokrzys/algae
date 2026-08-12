@@ -24,9 +24,21 @@
   
   require 'algaeCore.php';
     
-  $config = new algaeConfig();
+  $config = new algaeConfig(false);
   
-  $config->showConfig();
+  $config->showConfig(true);
+  
+  require_once 'algaeApp.php';
+  require_once 'algaeDB.php';
+  
+  $app = new algaeApp();
+  
+  $db = algaeDB::connect();
+  if ($db)
+  {
+    echo 'OK: Connected to database ', $app->config->admin_database, '.<p />';
+    algaeDB::close($db);
+  }
   
   echo '</body>';
   echo '</html>';

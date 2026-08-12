@@ -20,11 +20,12 @@ class algaeConfig
   public $local_config_path;
   public $app_name;
   
-  public $master_database;
+  public $admin_database;
   public $app_database;
   public $database_username;
   public $database_port;
   public $database_host;
+  public $database_password;
   public $default_css;
   
   public $dex_json;
@@ -32,18 +33,20 @@ class algaeConfig
   /**
    * Constructor.
    */
-  public function __construct()
+  public function __construct($verbose = false)
   // --------------------------------------------------------------------------
   {
+    $this->verbose = $verbose;
     $this->app_name = 'algae';
     $this->config_path = '/opt/algae-main/config';
     $this->local_config_path = '/opt/rtspatial/config';
     
-    $this->master_database = 'algae';
-    $this->app_database = 'app';
+    $this->admin_database = 'algae';
+    $this->app_database = 'algae';
     $this->database_username = 'postgres';
     $this->database_port = 5432;
     $this->database_host = 'localhost';
+    $this->database_password = 'does not work';
     $this->default_css = '/algae/css/algae.css';
     
     $this->dex_json = array();
@@ -52,16 +55,16 @@ class algaeConfig
     //       config that a user should not edit
     //       updated with application updates
     //
-    echo 'OK: algaeConfig.php found at ', __DIR__, '<p />';
+    if ($verbose) { echo 'OK: algaeConfig.php found at ', __DIR__, '<p />'; }
     $p = strpos(__DIR__, '/src/php');
     if ($p != false)
     {
       $this->config_path = substr(__DIR__, 0, $p) . DIRECTORY_SEPARATOR . 'config';
-      echo 'OK: config_path set to ', $this->config_path, '<p />';
+      if ($verbose) { echo 'OK: config_path set to ', $this->config_path, '<p />'; }
     }
     else
     {
-      echo 'ERROR: Unable to convert ', __DIR__, ' into the config path, defaulting to ', $this->config_path, '<p />';
+      if ($verbose) { echo 'ERROR: Unable to convert ', __DIR__, ' into the config path, defaulting to ', $this->config_path, '<p />'; }
     }
     //
     // ----- path for local configuration changes
@@ -71,15 +74,25 @@ class algaeConfig
     if (getenv(algaeConfig::KEY_RTSPATIAL_LOCAL_CONFIG_PATH) !== false)
     {
       $this->local_config_path = getenv(algaeConfig::KEY_RTSPATIAL_LOCAL_CONFIG_PATH);
-      echo 'OK: local_config_path set to ', $this->local_config_path, '<p />';
+      if ($verbose) { echo 'OK: local_config_path set to ', $this->local_config_path, '<p />'; }
     }
     else
     {
-      echo 'WARNING: Environment varible ', algaeConfig::KEY_RTSPATIAL_LOCAL_CONFIG_PATH, ' not setup, defaulting to ', $this->local_config_path, '<p />';
+      if ($verbose) { echo 'WARNING: Environment varible ', algaeConfig::KEY_RTSPATIAL_LOCAL_CONFIG_PATH, 
+      ' not setup, defaulting to ', $this->local_config_path, '<p />'; }
     }
     //
     //
     //
+    $this->loadConfigFiles();
+  }
+  
+  /**
+   * Files are typically loaded from a derived class as well so it's broken out here.
+   */
+  protected function loadConfigFiles()
+  // --------------------------------------------------------------------------
+  {
     $this->loadINIConfig(algaeConfig::getFullPath($this->config_path, $this->app_name . '.ini'));
     $this->loadINIConfig(algaeConfig::getFullPath($this->local_config_path, $this->app_name . '.ini'));
     $this->loadDataExchangeConfig();
@@ -99,6 +112,22 @@ class algaeConfig
     return $path . DIRECTORY_SEPARATOR . $filename;
   }
   
+  protected function mergeINIConfig($config)
+  // --------------------------------------------------------------------------
+  {
+    foreach ($config as $name => $val)
+    {
+      if (property_exists($this, $name))
+      {
+        $this->{$name} = $val;
+      }
+      else 
+      {
+        $this->{$name} = $val;
+      }
+    }
+  }
+  
   /**
    * Load configuration data from a file.
    * File is read from the path defined by the RTSPATIAL_CONFIG_PATH environment variable.
@@ -111,13 +140,13 @@ class algaeConfig
   {
     if (file_exists($filename) === true)
     {
-      $app_config = parse_ini_file($filename);
-      // $this->config = array_merge($this->config, $app_config);
-      echo 'OK: Loaded configuration file ', $filename, '<p />';
+      $ini_config = parse_ini_file($filename);
+      $this->mergeINIConfig($ini_config);
+      if ($this->verbose) { echo 'OK: Loaded configuration file ', $filename, '<p />'; }
     }
     else 
     {
-      echo 'WARNING: Configuration file ', $filename, ' does not exist.<p />';
+      if ($this->verbose) { echo 'WARNING: Configuration file ', $filename, ' does not exist.<p />'; }
     }
   }
   
@@ -133,12 +162,12 @@ class algaeConfig
     {
       $str = file_get_contents($filename);
       $json = json_decode($str);
-      echo 'OK: ', count($json), ' data exchange definition(s) read from ', $filename, '<p />';
+      if ($this->verbose) { echo 'OK: ', count($json), ' data exchange definition(s) read from ', $filename, '<p />'; }
       $this->dex_json = array_merge($this->dex_json, $json);
     }
     else
     {
-      echo 'ERROR: Data exchange JSON file ', $filename, ' does not exist.<p />';
+      if ($this->verbose) { echo 'ERROR: Data exchange JSON file ', $filename, ' does not exist.<p />'; }
     }
   }
   
@@ -151,6 +180,10 @@ class algaeConfig
     {
       if ( (gettype($obj) == 'string') || (gettype($obj) == 'double') || (gettype($obj) == 'integer') || (gettype($obj) == 'boolean') )
       {
+        if (strpos(strtoupper($name), 'PASS') != false)
+        {
+          $obj = '********';
+        }
         $prop_array[$name] = $obj;
       }
     }
@@ -164,7 +197,7 @@ class algaeConfig
     $properties = $this->getConfigAsArray();
     foreach ($properties as $key => $val)
     {
-      echo $key, ' = ', $val, '<p />';
+      echo $key, ' = ', strval($val), '<p />';
     }
   }
   
