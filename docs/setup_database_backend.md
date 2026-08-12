@@ -96,7 +96,7 @@ chmod 600 ~/.pgpass
 *:*:*:postgres:password
 ```
 
-You can not connect to a database locally with:
+You can now connect to a database locally with:
 ```shell
 postgres psql database_name
 ```
