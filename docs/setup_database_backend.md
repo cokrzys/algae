@@ -57,9 +57,13 @@ sudo -u postgres dropdb test
 ```
 ## Setup Password Authentication
 
+Setup the postgres user and other local users to require a password.
+
 ```shell
+# edit postgresql config file and change lines per below
 sudo vi /etc/postgresql/18/main/pg_hba.conf
 
+# restart postgresql
 sudo systemctl restart postgresql
 ```
 In the lines below ```peer``` has been changed to ```md5```.
@@ -71,5 +75,24 @@ local   all         postgres                          md5
 
 # "local" is for Unix domain socket connections only
 local   all         all                               md5
+```
+
+## Setup .pgpass
+
+Setup a password file to automatically connect to the the database via PSQL.
+
+```shell
+# goto your home
+cd
+
+# edit .pgpass file add line per below
+vi .pgpass
+
+# change permissions on file so only you can see and use it
+chmod 600 ~/.pgpass
+```
+
+```console
+*:*:*:postgres:password
 ```
 
