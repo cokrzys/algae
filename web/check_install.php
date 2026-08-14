@@ -24,7 +24,7 @@
   
   require 'algaeCore.php';
     
-  $config = new algaeConfig(false);
+  $config = new algaeConfig(True);
   
   $config->showConfig(true);
   

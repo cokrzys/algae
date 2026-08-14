@@ -102,12 +102,11 @@ class algaeDB
   
   /**
    * Connect to a database utilizing default connection parameters when required.
-   * @param string $database The database to connect to, if left blank the global $app->settings->database is used.
-   * @param string $password The database password, if left blank the global environment variable specified by
-   * Environment variable is used to retieve the encrypted password for the database.
-   * @param string $host The host, if left blank the host specified by $app->settings->databaseHost is used.
-   * @param string $port The port, if left blank the port specified by $app->settings->databasePort is used.
-   * @param string $username The username, if left blank postgres is used.
+   * @param string $database The database to connect to, if left blank the global $app->config->app_database is used.
+   * @param string $password The database password, if left blank $app->config->database_password is used.
+   * @param string $host The host, if left blank the host specified by $app->config->database_host is used.
+   * @param string $port The port, if left blank the port specified by $app->config->database_port is used.
+   * @param string $username The username, if left blank $app->config->database_username is used.
    * @return object The database connection handle, null if not connected.
    */
   public static function connect($database = '', $password = '', $host = '', $port = '', $username = '')

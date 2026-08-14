@@ -26,15 +26,13 @@ class algaeApp
   public function __construct()
   // --------------------------------------------------------------------------
   {
-    $this->config = new algaeConfig();  // TODO: Remove when done testing
     //
     // ----- core classes
     //
-    /*
     require_once 'algaeConfig.php';
-    require_once 'algaeSettings.php';
     require_once 'algaeAccess.php';
     require_once 'algaeCore.php';
+    /*
     require_once 'algaeAdmin.php';
     require_once 'algaeFile.php';
     require_once 'algaeDB.php';
@@ -98,7 +96,9 @@ class algaeApp
     //
     //
     //
+     */
     $this->config = new algaeConfig();
+    /*
     //
     // ----- variables
     //
@@ -136,7 +136,7 @@ class algaeApp
   public function addPhotosLinkSupport()
   // --------------------------------------------------------------------------
   {
-    $prefix = $this->settings->webRootFolder . 'phobel' . '/classes/';
+    $prefix = $this->config->web_root_folder . 'phobel' . '/classes/';
     require_once $prefix . 'paApp.php';
     require_once $prefix . 'paMediaType.php';
     require_once $prefix . 'paPhoto.php';
@@ -224,8 +224,8 @@ class algaeApp
     echo '<head>';
     echo '<meta charset="UTF-8">';
     echo '<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />';
-    echo '<title>', $title, ' - ', $this->settings->appName, '</title>';
-    echo '<link rel="icon" type="image/png" href="', $this->settings->favicon, '">';
+    echo '<title>', $title, ' - ', $this->config->app_name, '</title>';
+    echo '<link rel="icon" type="image/png" href="', $this->config->favicon, '">';
     //
     // javascript components
     //
@@ -235,11 +235,6 @@ class algaeApp
     $this->addComponent($this->settings->graphsCSS, $this->settings->graphsJavaScript);
     $this->addComponent($this->settings->leafletCSS, $this->settings->leafletJavaScript);
     $this->addComponent(array(), $this->settings->sorttableJavaScript);
-    $this->addComponent($this->settings->lightboxCSS, $this->settings->lightboxJavaScript);
-    //
-    // ----- do not use, screws up margins and formatting
-    //
-    // $this->addComponent($this->settings->thickboxCSS, $this->settings->thickboxJavaScript);
     //
     // ----- algae CSS, typically loaded as the last css file since it overrides some of what happens earlier
     //

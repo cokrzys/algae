@@ -26,28 +26,44 @@ class algaeConfig
   public $database_port;
   public $database_host;
   public $database_password;
+  
+  public $security_on;
   public $default_css;
+  public $web_root_folder;
+  public $favicon;
+  public $session_username_key;
+  public $login_page;
+  public $default_page;
   
   public $dex_json;
   
   /**
    * Constructor.
    */
-  public function __construct($verbose = false)
+  public function __construct($verbose = False)
   // --------------------------------------------------------------------------
   {
     $this->verbose = $verbose;
     $this->app_name = 'algae';
-    $this->config_path = '/opt/algae-main/config';
-    $this->local_config_path = '/opt/rtspatial/config';
+    $this->config_path = '/opt/algae-main/config/';
+    $this->local_config_path = '/opt/rtspatial/config/';
     
     $this->admin_database = 'algae';
     $this->app_database = 'algae';
     $this->database_username = 'postgres';
     $this->database_port = 5432;
     $this->database_host = 'localhost';
-    $this->database_password = 'does not work';
+    $this->database_password = 'take_a_chance';
+    
+    $this->security_on = True;
     $this->default_css = '/algae/css/algae.css';
+    $this->web_root_folder = '/var/www/html/';
+    $this->favicon = '/algae/img/algae_favicon.png';
+    $this->session_username_key = 'algae_username';
+    
+    $this->login_page = '/algae/login.php';
+    $this->logout_page = '/algae/logout.php';
+    $this->default_page = '/algae/home.php';
     
     $this->dex_json = array();
     //
