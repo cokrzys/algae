@@ -7,7 +7,7 @@ User configuration settings override defaults set in code and the framework/appl
   - For example ```algae.ini```
 - ini format
 - Keys are case sensitive and match a code file member variable
-  - PHP | [alageConfig.php](/src/php/algae.php)
+  - PHP | [alageConfig.php](https://github.com/cokrzys/algae/blob/main/src/php/algaeConfig.php)
   - Python | alageConfig.py
 - Override default location with path stored in environmental variable ```RTSPATIAL_LOCAL_CONFIG_PATH```
 
