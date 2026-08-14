@@ -5,10 +5,10 @@ User configuration settings override defaults set in code and the framework/appl
 - Stored by default in ```/opt/rtspatial/config```
 - Named the same as the framework/application
   - For example ```algae.ini```
-- ini file format
+- ini format
 - Keys are case sensitive and match a code file member variable
-  - PHP alageConfig.php
-  - Python alageConfig.py
+  - PHP | [alageConfig.php](/src/php/algae.php)
+  - Python | alageConfig.py
 - Override default location with path stored in environmental variable ```RTSPATIAL_LOCAL_CONFIG_PATH```
 
 ## Example File
