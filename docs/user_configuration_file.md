@@ -1,5 +1,7 @@
 # algae User Configuration File
 
+User configuration settings override defaults set in code and the framework/application configuration files, and are not changed by framework/application updates.
+
 - Stored by default in ```/opt/rtspatial/config```
 - Named the same as the framework/application
   - For example ```algae.ini```
