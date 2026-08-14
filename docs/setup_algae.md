@@ -51,5 +51,6 @@ psql algae postgres -c "SELECT name FROM ref.record_status"
 
 ## Setup the Admin Database Password
 
+See [User Configuration Files](user_configuration_file.md)
 
 
