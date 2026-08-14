@@ -49,3 +49,7 @@ psql algae postgres -c "SELECT name FROM ref.record_status"
 (2 rows)
 ```
 
+## Setup the Admin Database Password
+
+
+
