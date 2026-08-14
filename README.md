@@ -9,5 +9,8 @@ PHP and Python application framework.
 - Stable open source toolset
 - Structured database backend
 - Support multiple applications
-- Content over interface 
 - Spatially enabled
+
+## Not Designed For
+
+- Large organizations and applications
