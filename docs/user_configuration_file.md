@@ -4,8 +4,11 @@
 - Named the same as the framework/application
   - For example ```algae.ini```
 - ini file format
+- Keys are case sensitive and match a config code entry
+  - PHP alageConfig.php
+  - Python alageConfig.py
 
-
+## Example File
 ```ini
 ; required
 database_password = something
