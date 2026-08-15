@@ -59,6 +59,8 @@ sudo rm master.zip
 
 ## jscolor
 A simple color picker.
+
+```shell
 cd /var/www/html/
 
 sudo mkdir jscolor
@@ -67,4 +69,5 @@ cd jscolor
 sudo wget https://jscolor.com/release/latest.zip
 sudo unzip latest.zip
 sudo rm latest.zip
+```
 
