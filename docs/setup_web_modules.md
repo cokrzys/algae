@@ -42,3 +42,19 @@ wget https://github.com/harvesthq/chosen/releases/download/v1.8.7/chosen_v1.8.7.
 unzip chosen_v1.8.7.zip
 rm unzip chosen_v1.8.7.zip
 ```
+
+## tablesorter
+
+```shell
+# change to web root
+cd /var/www/html/
+
+# make directory for tablesorter
+sudo mkdir tablesorter
+cd tablesorter
+
+sudo wget https://github.com/Mottie/tablesorter/archive/master.zip
+sudo unzip master.zip
+sudo rm master.zip
+```
+
