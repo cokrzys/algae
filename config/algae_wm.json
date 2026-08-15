@@ -1,0 +1,34 @@
+[
+  {
+    "name": "jquery",
+    "files":
+    [
+      "/jquery/jquery-ui-themes-1.12.1/themes/smoothness/jquery-ui.min.css",
+      "/jquery/chosen/chosen.min.css",
+      "/jquery/jquery-3.5.1.min.js",
+      "/jquery/jquery-ui-1.12.1/jquery-ui.min.js",
+      "/jquery/chosen/chosen.jquery.min.js",
+      "/jscolor/jscolor.js"
+    ]
+  },
+  {
+    "name": "tablesorter",
+    "files":
+    [
+      "/algae/css/theme.algae.css",
+      "/tablesorter/tablesorter-master/dist/js/jquery.tablesorter.min.js",
+      "/tablesorter/tablesorter-master/dist/js/jquery.tablesorter.widgets.min.js",
+      "/algae/js/algaeTablesorter.js"
+    ]
+  },
+  {
+    "name": "algae",
+    "files":
+    [
+      "/algae/js/algaeFramework.js",
+      "/algae/js/algaeColStats.js",
+      "/algae/js/algaeReport.js",
+      "/algae/js/algaeMap.js"
+    ]
+  }
+]

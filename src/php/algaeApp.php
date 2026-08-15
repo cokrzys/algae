@@ -32,12 +32,12 @@ class algaeApp
     require_once 'algaeConfig.php';
     require_once 'algaeAccess.php';
     require_once 'algaeCore.php';
-    /*
     require_once 'algaeAdmin.php';
     require_once 'algaeFile.php';
     require_once 'algaeDB.php';
     require_once 'algaeTable.php';
     require_once 'algaeForm.php';
+    /*
     require_once 'algaeQueryTool.php';
     require_once 'algaeSVG.php';
     require_once 'algaeGraph.php';
@@ -180,7 +180,7 @@ class algaeApp
    * @param array $cssFiles Array of CSS files associated with the component.
    * @param array $javascriptFiles Array of JavaScript files associated with the component.
    */
-  public function addComponent($cssFiles, $javascriptFiles, $javaScriptType = 'text/javascript')
+  public function addComponentObsolete($cssFiles, $javascriptFiles, $javaScriptType = 'text/javascript')
   // --------------------------------------------------------------------------
   {
     //
@@ -193,6 +193,22 @@ class algaeApp
     foreach ($javascriptFiles as $js)
     {
       $this->addJavaScriptLibrary($js, $javaScriptType);
+    }
+  }
+  
+  public function addWebModule($files, $javaScriptType = 'text/javascript')
+  // --------------------------------------------------------------------------
+  {
+    foreach ($files as $file)
+    {
+      if (str_ends_with($file, '.css'))
+      {
+        $this->addStyleSheet($file);
+      }
+      else 
+      {
+        $this->addJavaScriptLibrary($file, $javaScriptType);
+      }
     }
   }
 
@@ -211,6 +227,7 @@ class algaeApp
   public function startPage($title, $css = '', $close_head_section = True)
   // --------------------------------------------------------------------------
   {
+    $files_tag = 'files';
     //
     // ----- start the page
     //
@@ -229,24 +246,36 @@ class algaeApp
     //
     // javascript components
     //
+    foreach ($this->config->wm_json as $module)
+    {
+      // echo 'DEBUG: ', $module->name, '<p />';
+      if (property_exists($module, $files_tag))
+      {
+        $this->addWebModule($module->{$files_tag});
+      }
+    }
+    /*
     $this->addComponent($this->settings->jQueryCSS, $this->settings->jQuery);
     $this->addComponent($this->settings->tablesorterCSS, $this->settings->tablesorter);
     $this->addComponent($this->settings->codeMirrorCSS, $this->settings->codeMirrorJavaScript);
     $this->addComponent($this->settings->graphsCSS, $this->settings->graphsJavaScript);
     $this->addComponent($this->settings->leafletCSS, $this->settings->leafletJavaScript);
     $this->addComponent(array(), $this->settings->sorttableJavaScript);
+    */
     //
     // ----- algae CSS, typically loaded as the last css file since it overrides some of what happens earlier
     //
-    if (strlen($css) == 0) $css = $this->settings->defaultCSS;
+    if (strlen($css) == 0) $css = $this->config->default_css;
     $this->addStyleSheet($css);
     //
     // ----- algae JavaScript
     //
+    /*
     foreach ($this->settings->algaeJavaScript as $js)
     {
       $this->addJavaScriptLibrary($js);
     }
+    */
 
     if ($close_head_section) $this->closeHeadSection();
       
@@ -308,6 +337,11 @@ class algaeApp
       $this->successMessage($_REQUEST['message']);
     }
     */
+    
+    echo '<a href="/algae/home.php">algae</a>';
+    echo $this->config->menu_separator, $title;
+    
+    /*
     if ($addRTSMenu)
     {
       echo '<a href="/admdal/home.php">RTS</a>';
@@ -327,15 +361,16 @@ class algaeApp
         echo $title;
       }
     }
+    */
     
     // echo '<h1><a href="/admin/home.php">RTSpatial</a>&nbsp;';
     // echo '<img src="', $this->settings->favicon, '" alt="AppIcon">&nbsp;';
     // echo ucfirst($this->settings->appName), '</h1>';
     // echo '<h1><a href="/admin/home.php">RTSpatial</a> ', $this->settings->appName, ' ', $title, '</h1>';
-    if ( ($this->settings->showQueryLink) && ((algaeAccess::isLoggedIn(False, False)) || (! $this->settings->securityOn)) )
+    if ( ($this->config->show_query_link) && ((algaeAccess::isLoggedIn(False, False)) || (! $this->config->security_on)) )
     {
       $upperRightText = '<a href="' . $this->getURLBase() . 'query_tool.php" target="_blank">Query</a>';
-      if ($this->settings->securityOn) $upperRightText .= '&nbsp;|&nbsp;' . algaeAccess::getLogoutLink();
+      if ($this->config->security_on) $upperRightText .= '&nbsp;|&nbsp;' . algaeAccess::getLogoutLink();
       // $upperRightText .= '&nbsp;|&nbsp;' . '<a href="/admin/home.php">RTSpatial</a>';
       echo '<div class="top_right_links">', $upperRightText, '</div>';
     }
@@ -357,8 +392,8 @@ class algaeApp
     echo '</div>';  // ends the main body indent
     echo '<br /><hr class="footer">';
     echo '<div class="page_footer">';
-    echo $this->settings->footerMessage;
-    echo $this->settings->menuSeparator;
+    echo $this->config->footer_message;
+    echo $this->config->menu_separator;
     echo gmdate("d-M-Y H:i:s"), ' UTC';
     echo '<p /></div>';
   }

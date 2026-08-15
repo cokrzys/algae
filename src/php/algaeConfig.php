@@ -34,8 +34,13 @@ class algaeConfig
   public $session_username_key;
   public $login_page;
   public $default_page;
+  public $tablesorter_theme;
+  public $show_query_link;
+  public $footer_message;
+  public $menu_separator;
   
   public $dex_json;
+  public $wm_json;
   
   /**
    * Constructor.
@@ -65,7 +70,14 @@ class algaeConfig
     $this->logout_page = '/algae/logout.php';
     $this->default_page = '/algae/home.php';
     
+    $this->tablesorter_theme = 'algae';
+    $this->show_query_link = True;
+    $this->footer_message = 'Copyright &copy; 2026 <a href="https://www.rtspatial.com">RTSpatial Ltd.</a>';
+    $this->menu_separator = '&nbsp;|&nbsp;';
+    
     $this->dex_json = array();
+    $this->wm_json = array();
+    
     //
     // ----- path for main configuration files
     //       config that a user should not edit
@@ -111,7 +123,9 @@ class algaeConfig
   {
     $this->loadINIConfig(algaeConfig::getFullPath($this->config_path, $this->app_name . '.ini'));
     $this->loadINIConfig(algaeConfig::getFullPath($this->local_config_path, $this->app_name . '.ini'));
-    $this->loadDataExchangeConfig();
+    // $this->loadDataExchangeConfig();
+    $this->loadJSONConfig($this->getFullPath($this->config_path, $this->app_name . '_dex.json'), $this->dex_json);
+    $this->loadJSONConfig($this->getFullPath($this->config_path, $this->app_name . '_wm.json'), $this->wm_json);
   }
   
   protected static function getFullPath($path, $filename)
@@ -121,7 +135,7 @@ class algaeConfig
     {
       return $filename;
     }
-    if (str_ends_with($filename, DIRECTORY_SEPARATOR))
+    if (str_ends_with($path, DIRECTORY_SEPARATOR))
     {
       return $path . $filename;
     }
@@ -187,6 +201,24 @@ class algaeConfig
     }
   }
   
+  /**
+   */
+  public function loadJSONConfig($filename, &$var)
+  // --------------------------------------------------------------------------
+  {
+    if (file_exists($filename) === true)
+    {
+      $str = file_get_contents($filename);
+      $json = json_decode($str);
+      if ($this->verbose) { echo 'OK: ', count($json), ' JSON config items(s) read from ', $filename, '<p />'; }
+      $var = array_merge($var, $json);
+    }
+    else
+    {
+      if ($this->verbose) { echo 'ERROR: JSON config file ', $filename, ' does not exist.<p />'; }
+    }
+  }
+    
   public function getConfigAsArray()
   // --------------------------------------------------------------------------
   {

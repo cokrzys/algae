@@ -1,0 +1,628 @@
+@CHARSET "UTF-8";
+
+@import url('https://rsms.me/inter/inter.css');
+/* html { font-family: 'Inter', sans-serif; } */
+
+body {
+  font-family: 'Inter', 'Lucida Grande', 'Lucida Sans', 'Verdana', 'sans-serif';
+  font-size: 11pt; 
+  line-height: 1.8em;
+  margin-left: 2%;
+  margin-right: 2%;
+  margin-top: 2%;
+  margin-bottom: 1.0cm;
+  color: #B0B0B0;
+  background-image: url('/algae/img/slate.png');
+  background-repeat: repeat;
+  background-size: cover;
+
+}
+
+/* #1C1B20; good very dark slate-black */
+/* #191E22; good very dark gunmetal https://encycolorpedia.com/1f262a */
+/* #020F17; excellent dark black/blue https://encycolorpedia.com/02131d */
+/* #2A593F; darker color of US$ green https://colorate.azurewebsites.net/Color/2A593F */
+/* #0E2145; darker Hinckley blue */
+/* #020220; almost black azurite blue */
+
+h1 {
+  font-family: 'Inter', 'Lucida Grande', 'Lucida Sans', 'Verdana', 'sans-serif';
+  font-size: 18pt;
+  font-weight: bold;
+  color: #F5F5F5;
+}
+
+h2 {
+  font-family: 'Inter', 'Lucida Grande', 'Lucida Sans', 'Verdana', 'sans-serif';
+  font-size: 14pt;
+  font-weight: bold;
+  color: #F5F5F5;
+}
+
+.main_body_indent {
+  margin-left:0.5%;
+  margin-right:0.5%;
+  margin-top:1.5%;
+  margin-bottom:1%;
+}
+
+.page_footer {
+  font-size: 9pt;
+  color: #888888;
+}
+
+hr.header {
+  height:1px;
+  border-width:0;
+  color:#8A8A8A;
+  background-color:#8A8A8A;
+}
+
+hr.footer {
+  height:1px;
+  border-width:0;
+  color:#8A8A8A;
+  background-color:#8A8A8A;
+}
+
+.error_message {
+  color: #cc0000;
+}
+
+.success_message {
+  color: #8cae4a;
+}
+
+a:link {
+  text-decoration: none;
+  color: #FFFFFF;
+}
+
+a:visited {
+  text-decoration: none;
+  color: #FFFFFF;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a:active {
+  text-decoration: underline;
+}
+
+input {
+  font-family: 'Inter', 'Lucida Grande', 'Lucida Sans', 'Verdana', 'sans-serif';
+  font-size: 11pt;
+  padding: 3px;
+  color: #000000;
+}
+
+textarea {
+  font-size: 11pt;
+  border: 1px solid #BFBFBF; 
+  padding: 8px;
+}
+
+div.top_right_links {
+    position: absolute;
+    top:0.75cm;
+    right:0.75cm;
+}
+
+div.sql_code {
+  line-height: 1.1em;
+}
+
+div.footnote {
+  font-family: 'Inter', 'Lucida Grande', 'Lucida Sans', 'Verdana', 'sans-serif';
+  font-size: 8pt; 
+  line-height: 1em;
+  color: #4B4B4B;
+}
+
+.align_right {
+  float: right;
+}
+
+.row_container { 
+  height: 20px;
+  position: relative;
+}
+
+.vertical-center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+/*
+  ----- standard table
+*/
+
+.algae_table {
+  font-family: 'Inter', 'Lucida Grande', 'Lucida Sans', 'Verdana', 'sans-serif';
+  font-size: 10pt;
+  border-collapse:collapse;
+  border:#cccccc 1px solid;
+  border-spacing: 0;
+  border-width: 1px 0 0 0px;
+}
+
+.algae_table th {
+  font-weight:bold; 
+  /* background-color:#ABABAB; */
+  background-color:#CBCBCB;
+  padding:4px 8px 4px 8px;
+  border-collapse:collapse;
+  border-bottom:#4B4B4B 1px solid;
+  border-left:#ABABAB 1px solid;
+  color: #4B4B4B;
+}
+
+.algae_table td {
+  font-weight:normal;  
+  padding:4px 8px 4px 8px;
+  border-collapse:collapse;
+  /* border:white 1px solid; */
+  border-spacing: 0;
+  border: #cccccc 1px solid;
+  border-width: 0 1px 1px 0;
+  color: #4B4B4B;
+}
+
+.algae_table th:last-of-type, 
+.algae_table td:last-of-type { 
+  border-right: none; 
+}
+
+.algae_table th:first-of-type, 
+.algae_table td:first-of-type { 
+  border-left: none; 
+}
+
+.algae_table tbody > tr:hover > td,
+.algae_table tbody > tr.even:hover > td,
+.algae_table tbody > tr.odd:hover > td {
+  background: #FFEB7A; 
+}
+
+.algae_table tr:nth-child(even) {
+  background-color:#FFF;
+}
+
+.algae_table tr:nth-child(odd) {
+  background-color:#F6F6F6;
+}
+
+td.gain  {
+  color: #4B4B4B; 
+}
+
+td.loss {
+  color: #cc0000;
+}
+
+td.align_center {
+	text-align: center;
+}
+
+/*
+  ----- form table
+*/
+
+.algae_form_table {
+  border-collapse: separate;
+  border-spacing: 8px;
+  font-size: 11pt; 
+  border: none;
+  color: #4B4B4B;
+}
+
+/* a.colStatsTab {  
+  font-family: 'Inter', 'Lucida Grande', 'Lucida Sans', 'Verdana', 'sans-serif';
+  font-size: 11pt;
+  font-weight: normal;
+  padding: 0.4em 0.8em !important;
+  color: #4B4B4B;
+} */
+
+#colStatsStatsData {
+  font-family: 'Inter', 'Lucida Grande', 'Lucida Sans', 'Verdana', 'sans-serif';
+  font-size: 11pt; 
+  line-height: 1.2em;
+  margin-top: 0.25cm;
+  margin-bottom: 0.25cm;
+  color: #4B4B4B;
+}
+
+div.colStatsCSVTab {
+  font-family: 'Courier New', 'Courier';
+  font-size: 11pt; 
+  line-height: 1.2em;
+  margin-top: 0.25cm;
+  margin-bottom: 0.25cm;
+  color: #000000;
+}
+
+/*
+  ----- graphs
+*/
+
+.graphArea {
+  stroke: #888888;
+  fill: #FFFFFF;
+}
+
+.graphTitle {
+  font-family: 'Inter', 'Lucida Grande', 'Lucida Sans', 'Verdana', 'sans-serif';
+  font-size: 12pt; 
+  fill: #888888;
+}
+
+.graphSubTitle {
+  font-family: 'Inter', 'Lucida Grande', 'Lucida Sans', 'Verdana', 'sans-serif';
+  font-size: 9pt; 
+  fill: #888888;
+}
+
+.graphAxis path {
+  fill: none;
+  stroke: #888888;
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+
+.graphAxis line {
+  fill: none;
+  stroke: #888888;
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+
+.graphAxis text {
+  fill: #888888;
+  font-family: 'Inter', 'Lucida Grande', 'Lucida Sans', 'Verdana', 'sans-serif';
+  font-size: 9pt; 
+}
+
+.graphAxisTitle {
+  font-family: 'Inter', 'Lucida Grande', 'Lucida Sans', 'Verdana', 'sans-serif';
+  font-size: 9pt; 
+  fill: #888888;
+}
+
+.graphBlackText {
+  font-family: 'Inter', 'Lucida Grande', 'Lucida Sans', 'Verdana', 'sans-serif';
+  font-size: 9pt; 
+  fill: black;
+}
+
+.graphRedText {
+  font-family: 'Inter', 'Lucida Grande', 'Lucida Sans', 'Verdana', 'sans-serif';
+  font-size: 9pt; 
+  fill: red;
+}
+
+.graphTooltip {   
+  position: absolute;    
+  text-align: left;        
+  margin: 4px 8px 4px 4px;
+  padding: 10px 8px 8px 8px; /* top right bottom left */
+  background: white;   
+  border: 1px solid black;
+  border-radius: 3px;           
+  pointer-events: none;        
+  font-family: 'Inter', 'Lucida Grande', 'Lucida Sans', 'Verdana', 'sans-serif';
+  font-size: 11pt; 
+  line-height: 0.7em;
+  color: black;
+}
+
+.graphHighlight {
+  stroke-width: 3;
+}
+
+.graphBlackBorder {
+  stroke: #000;
+}
+
+.graphHighlightedBorder {
+  stroke: #000;
+  stroke-width: 3;
+}
+
+div.bar { 
+  border-top: solid 2px #0077DD;
+  background-color: #004080;
+  border-bottom: solid 2px #002266;
+  color: white;
+  float: left;
+  height: 1em;
+}
+
+textarea.fullwidth {
+  width: 100%;
+}
+
+/*
+  ----- 
+*/
+
+#fields_container {
+  margin:0px;
+  overflow-y:hidden;
+}
+
+#fields_left_container {
+  margin:0px;
+  width: 49%; 
+  float: left; 
+  overflow-y:hidden;
+}
+
+#fields_right_container {
+  margin:0px;
+  width: 49%; 
+  float: right; 
+  overflow-y:hidden;
+}
+
+.fields_header {
+  margin: 8px 3px 6px 10px; 
+  padding: 0.1em; 
+  /* font-weight: bold; */
+}
+
+#available_fields_div {
+  /* width: 49%; */
+  /* float: left; */
+  min-height:260px;  /* was 248 px */
+  max-height:260px;
+  border: 1px solid gray;
+  margin: 0px 2px 0px 0px;
+  overflow-y:scroll;
+}
+
+#selected_fields_div {
+  /* width: 49%; */
+  /* float: right; */
+  min-height:220px;
+  max-height:220px;
+  border: 1px solid gray;
+  margin: 0px 2px 0px 0px;
+  overflow-y:scroll;
+}
+
+#fields_filter_div {
+  /* float:left; */
+  /* width:49%; */
+  margin-left:10px;
+  margin-top:10px;
+}
+
+#selected_fields_div.border {
+  border: 1px solid blue;
+}
+
+.available_fields_list { 
+  list-style-type: none; 
+  margin: 0; 
+  padding: 0; 
+  width: 100%; 
+}
+
+.available_fields_list li { 
+  margin: 3px 8px 0px 8px; 
+  padding: 0.1em 0.5em; 
+  font-size: 0.9em; 
+  cursor: move;
+  color: black !important; /* extrodinary bad form, but could not figure out the ui- setting */
+}
+
+.selected_fields_list { 
+  list-style-type: none; 
+  margin: 0; 
+  padding: 0; 
+  width: 100%; 
+}
+
+.selected_fields_list li { 
+  margin: 3px 8px 0px 8px; 
+  padding: 0.1em 0.5em; 
+  font-size: 0.9em; 
+  cursor: auto;
+  color: black !important; /* extrodinary bad form, but could not figure out the ui- setting */
+}
+
+div#groupStatsDialogInnerDiv {
+  margin: 6px;
+  padding: 1px;
+  font-family: Arial;
+  font-size: 13px;
+}
+
+div#loadSaveDialogInnerDiv {
+  margin: 15px;
+  padding: 1px;
+  font-family: Arial;
+  font-size: 13px;
+}
+
+/*
+  ----- Checkbox formatting from: https://www.w3schools.com/howto/howto_css_custom_checkbox.asp
+*/
+
+/* Customize the label (the container) */
+.container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  padding-top: 10px;
+}
+
+/* Hide the browser's default checkbox */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: #FFF;
+  border: solid #d3d3d3;
+  border-width: 1px;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkmark {
+  background-color: #e6e6e6;  
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.container .checkmark:after {
+  left: 6px;
+  top: 2px;
+  width: 5px;
+  height: 10px;
+  border: solid #4b4b65;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+/*
+  ----- jQueryUI overrides, must be  loaded after the jQueryUI css.
+*/
+
+.ui-widget {
+  font-family: 'Inter', 'Lucida Grande', 'Lucida Sans', 'Verdana', 'sans-serif';
+  font-size: 1.0em;
+} 
+
+.ui-dialog-title {
+  font-family: 'Inter', 'Lucida Grande', 'Lucida Sans', 'Verdana', 'sans-serif';
+  font-size: 12pt;
+  font-weight: bold;
+  color: #4B4B4B;
+}
+
+.ui-tabs .ui-tabs-nav .ui-tabs-anchor {
+  font-family: 'Inter', 'Lucida Grande', 'Lucida Sans', 'Verdana', 'sans-serif';
+  font-size: 10pt;
+  font-weight: normal;
+  padding: 0.4em 0.8em;
+  color: #4B4B4B;
+}
+
+.ui-tabs a:link {
+  text-decoration: none;
+  color: #0366d6;
+}
+
+.ui-tabs a:visited {
+  text-decoration: none;
+  color: #0366d6;
+}
+
+.ui-tabs a:hover {
+  text-decoration: underline;
+}
+
+.ui-tabs a:active {
+  text-decoration: underline;
+}
+
+.ui-tabs h2 {
+  font-family: 'Inter', 'Lucida Grande', 'Lucida Sans', 'Verdana', 'sans-serif';
+  font-size: 14pt;
+  font-weight: bold;
+  color: #4B4B4B;
+}
+
+.ui-button {
+  font-family: 'Inter', 'Lucida Grande', 'Lucida Sans', 'Verdana', 'sans-serif';
+  font-size: 11pt;
+  font-weight: normal;
+  padding: 0.3em 0.6em;
+  color: #4B4B4B;
+}
+
+/*
+  ----- CodeMirror overrides, must be  loaded after the codemirror.css.
+*/
+
+.CodeMirror {
+  border: 1px solid #DDDDDD;
+  line-height: 1.25em;
+}
+
+#algaeMapOuterDiv 
+{
+  position: relative;
+  /* top: 53; */
+  /* bottom: 15; */
+  /* left: 20; */
+  /* right: 20; */
+  height: 88%;
+}
+
+#algaeMap {
+	position: relative;
+	margin: 0 0 0 0;
+  height: 100%;  /* for map centering only absolute values seem to work was 540px */
+}
+
+.detail_text {
+  font-family: 'Inter', 'Lucida Grande', 'Lucida Sans', 'Verdana', 'sans-serif';
+  font-size: 8pt; 
+  line-height: 1.1em;
+  color: #B0B0B0;
+}
+
+.preformatted {
+    font-family: monospace;
+    white-space: pre;
+    line-height: 50%;
+    margin-left: 20px;
+}
+
+
+
+
+
