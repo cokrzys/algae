@@ -336,15 +336,7 @@ function showMap() {
 	  zoomOffset: -1,
 	  noWrap: true,
 	  id: 'mapbox/dark-v10',
-<<<<<<< HEAD
-<<<<<<< HEAD
 	  accessToken: ''
-=======
-	  accessToken: ''
->>>>>>> af07713... Removed access tokens.
-=======
-	  accessToken: ''
->>>>>>> d428e9b... Removed TODOs
 	  });
   
   var mbLight = new L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
@@ -354,15 +346,7 @@ function showMap() {
 	  zoomOffset: -1,
 	  noWrap: true,
 	  id: 'mapbox/light-v10',
-<<<<<<< HEAD
-<<<<<<< HEAD
 	  accessToken: ''
-=======
-	  accessToken: ''
->>>>>>> af07713... Removed access tokens.
-=======
-	  accessToken: ''
->>>>>>> d428e9b... Removed TODOs
 	  });
   
   mapLink = 
