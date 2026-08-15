@@ -44,12 +44,11 @@ rm unzip chosen_v1.8.7.zip
 ```
 
 ## tablesorter
+The primary interactive table control used throughout algae.
 
 ```shell
-# change to web root
 cd /var/www/html/
 
-# make directory for tablesorter
 sudo mkdir tablesorter
 cd tablesorter
 
@@ -57,4 +56,15 @@ sudo wget https://github.com/Mottie/tablesorter/archive/master.zip
 sudo unzip master.zip
 sudo rm master.zip
 ```
+
+## jscolor
+A simple color picker.
+cd /var/www/html/
+
+sudo mkdir jscolor
+cd jscolor
+
+sudo wget https://jscolor.com/release/latest.zip
+sudo unzip latest.zip
+sudo rm latest.zip
 
