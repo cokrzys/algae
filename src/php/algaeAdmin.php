@@ -55,7 +55,7 @@ class algaeAdmin
       }
       else
       {
-        $url = $app->settings->defaultURL;
+        $url = $app->config->default_page;
       }
       if (algaeForm::validTokens($this->form_token))
       {
