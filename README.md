@@ -12,4 +12,4 @@ PHP and Python application framework.
 
 ## Documentation
 
-- 
+- [Security Model](docs/security_model.md)
