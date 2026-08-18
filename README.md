@@ -10,6 +10,6 @@ PHP and Python application framework.
 - Support multiple applications
 - Minimize complexity
 
-## References
+## Documentation
 
 - 
