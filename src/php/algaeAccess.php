@@ -279,7 +279,7 @@ class algaeAccess
     global $app;
     $coreUserRight = new algaeTblCoreUserRight();
     $rightsArray = array();
-    $sql = $coreUserRight->getSQL();
+    $sql = $coreUserRight->getSQLV1();
     $sql .= ' WHERE core.user.username = $1';
     $sql .= ' ORDER BY  ref.object.name, ref.role.level';
     $parms = array();
@@ -294,7 +294,7 @@ class algaeAccess
     //
     // ----- connect to the database
     //
-    $db = algaeDB::connect($app->config->admin_atabase);
+    $db = algaeDB::connect($app->config->admin_database);
     if ($db)
     {
       $result = pg_query_params($db, $sql, $parms);

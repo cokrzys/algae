@@ -54,10 +54,10 @@ class algaeTblCoreUserRight extends algaeTblBase
   /**
    * Get list of fields to use in a SQL statement.
    */
-  public function getFields()
+  public function getFieldsV1()
   // --------------------------------------------------------------------------
   {
-    $sql = parent::getFields();
+    $sql = parent::getFieldsV1();
     $sql .= ", $this->table_name.user_rowid_fk, $this->table_name.object_rowid_fk, $this->table_name.role_rowid_fk, core.user.username,
              ref.object.name, ref.role.name, ref.role.level";
     return $sql;
@@ -67,7 +67,7 @@ class algaeTblCoreUserRight extends algaeTblBase
    * Get tables and joins to select data.
    * @param string $alias Name alias for the primary table.
    */
-  public function getTableAndJoins()
+  public function getTableAndJoinsV1()
   // --------------------------------------------------------------------------
   {
     return " FROM $this->table_name

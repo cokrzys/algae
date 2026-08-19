@@ -851,5 +851,25 @@ class algaeTblBase
     return $ret;
   }
   
+  /**
+   * Get list of fields to use in a SQL statement.
+   */
+  public function getFieldsV1()
+  // --------------------------------------------------------------------------
+  {
+    return "$this->table_name.rowid,
+    	        to_char($this->table_name.timestamp_loaded_utc, 'DD-Mon-YYYY HH24:MI:SS'),
+    	        to_char($this->table_name.timestamp_modified_utc, 'DD-Mon-YYYY HH24:MI:SS')";
+  }
+  
+  /**
+   * Get SQL to read a record of data.
+   */
+  public function getSQLV1()
+  // --------------------------------------------------------------------------
+  {
+    return "SELECT " . $this->getFieldsV1() . $this->getTableAndJoinsV1();
+  }
+  
 }
 

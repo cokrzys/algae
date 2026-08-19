@@ -469,7 +469,7 @@ class algaeApp
   public function isSufficientRights($requiredRole, $object, $die = True)
   // --------------------------------------------------------------------------
   {
-    if ($this->settings->securityOn == False) return True;
+    if ($this->config->security_on == False) return True;
     $ret = False;
     //
     // ----- check role
@@ -588,7 +588,7 @@ class algaeApp
   public function getURLBase()
   // --------------------------------------------------------------------------
   {
-    return '/' . $this->settings->appFolder . '/';
+    return '/' . $this->config->app_folder . '/';
   }
   
   /**

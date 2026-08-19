@@ -38,6 +38,7 @@ class algaeConfig
   public $show_query_link;
   public $footer_message;
   public $menu_separator;
+  public $app_folder;
   
   public $dex_json;
   public $wm_json;
@@ -74,6 +75,8 @@ class algaeConfig
     $this->show_query_link = True;
     $this->footer_message = 'Copyright &copy; 2026 <a href="https://www.rtspatial.com">RTSpatial Ltd.</a>';
     $this->menu_separator = '&nbsp;|&nbsp;';
+    
+    $this->app_folder = 'algae';
     
     $this->dex_json = array();
     $this->wm_json = array();
