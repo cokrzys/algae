@@ -60,7 +60,7 @@ class algaeConfig
     $this->database_host = 'localhost';
     $this->database_password = 'take_a_chance';
     
-    $this->security_on = True;
+    $this->security_on = False;
     $this->default_css = '/algae/css/algae.css';
     $this->web_root_folder = '/var/www/html/';
     $this->favicon = '/algae/img/algae_favicon.png';

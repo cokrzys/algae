@@ -66,12 +66,10 @@
         "required": true
       },
       {
-        "name": "name",
-        "required": true
+        "name": "name"
       },
       {
-        "name": "email",
-        "required": true
+        "name": "email"
       },
       {
         "name": "password",

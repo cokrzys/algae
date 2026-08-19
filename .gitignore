@@ -219,3 +219,8 @@ __marimo__/
 
 # RTSpatial
 deploy/
+# eclipse IDE items
+.metadata/
+.buildpath
+.project
+.settings/

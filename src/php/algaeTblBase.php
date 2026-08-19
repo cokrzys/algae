@@ -22,6 +22,7 @@ class algaeTblBase
   const RELATIONSHIPS_PROP_NAME = 'relationships';
   const JOIN_SQL_PROP_NAME = 'joinSQL';
   
+  public $database;
   public $table_name;
   public $rowid;
   public $timestamp_loaded_utc;
@@ -50,6 +51,8 @@ class algaeTblBase
   public function init()
   // --------------------------------------------------------------------------
   {
+    global $app;
+    $this->database = $app->config->app_database;
     $this->table_name = 'algae.base';
     $this->rowid = null;
     $this->timestamp_loaded_utc = null;

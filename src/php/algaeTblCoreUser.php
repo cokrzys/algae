@@ -37,7 +37,9 @@ class algaeTblCoreUser extends algaeTblBase
   public function init()
   // --------------------------------------------------------------------------
   {
+    global $app;
     parent::init();
+    $this->database = $app->config->admin_database;
     $this->table_name = 'core.user';
     $this->record_status = new algaeTblRecordStatus();
     $this->username = '';

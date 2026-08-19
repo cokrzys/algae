@@ -19,9 +19,9 @@
   //
   // ----- check login and rights
   //
-  // algaeAccess::isLoggedIn();
-  // $app->readRoles();
-  // $app->isSufficientRights(algaeAccess::ROLE_READ, $app->settings->appName);
+  algaeAccess::isLoggedIn();
+  $app->readRoles();
+  $app->isSufficientRights(algaeAccess::ROLE_READ, $app->config->app_name);
   //
   // ----- initial the html page
   //
