@@ -99,7 +99,7 @@ class algaeTblCoreUser extends algaeTblBase
   // --------------------------------------------------------------------------
   {
     $saved_password = $this->password;
-    $this->password = md5($this->password);
+    $this->password = password_hash($this->password, PASSWORD_DEFAULT);
     $ret = parent::insert();
     $this->password = $saved_password;
     return $ret;

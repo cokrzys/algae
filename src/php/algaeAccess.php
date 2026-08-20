@@ -7,7 +7,7 @@
   @author    Brian Krzys (brian.krzys@rtspatial.com)
   @copyright (c) 2026 RTSpatial Ltd.
   @license   SPDX-License-Identifier: MIT
-  @link      https://github.com/cokrzys/slate
+  @link      https://github.com/cokrzys/algae
 
 */
 
@@ -118,45 +118,46 @@ class algaeAccess
   public static function login($username, $password, $url = '')
   // --------------------------------------------------------------------------
   {
-    $encrypted_password = md5($password);
-    $sql = "SELECT u.username
+    $sql = "SELECT u.password
   	        FROM core.user u
   	        INNER JOIN ref.record_status s ON u.record_status_rowid_fk = s.rowid
-  	        WHERE u.username ILIKE $1 AND u.password = $2 AND u.failed_login_attempts < $3
-  	        AND s.name = 'Active'";
-    $db_username = algaeDB::getScalarString($sql, array($username, $encrypted_password, algaeAccess::MAX_LOGIN_ATTEMPTS()));
-    if ( (isset($db_username)) && (strlen($db_username) > 0) )
+  	        WHERE u.username ILIKE $1 AND u.failed_login_attempts < $2 AND s.name = 'Active'";
+    $hash = algaeDB::getScalarString($sql, array($username, algaeAccess::MAX_LOGIN_ATTEMPTS()));
+    if ( (isset($hash)) && (strlen($hash) > 0) )
     {
-      //
-      // ----- save the referring url if it was set
-      //
-      if (!session_id())
-      {
-        session_start();
-        session_regenerate_id(true);
-      }
-      //
-      // ----- restart a new session
-      //
-      algaeAccess::restartSession($db_username, $url);
-      //
-      // ----- reset the count of failed login attempts back to 0
-      //
-      $sql = "UPDATE core.user SET failed_login_attempts = 0 WHERE username ILIKE $1
-                AND record_status_rowid_fk = (SELECT rowid FROM ref.record_status WHERE name = 'Active')";
-      algaeDB::executeQuery($sql, array($username));
-      return true;
-    }
-    else
-    {
-      if (strlen($username) > 0)
+      if (password_verify($password, $hash))
       {
         //
-        // ----- increment number of failed login attemps
+        // ----- save the referring url if it was set
         //
-        $sql = "UPDATE core.user SET failed_login_attempts = failed_login_attempts + 1 WHERE username ILIKE $1
-                AND record_status_rowid_fk = (SELECT rowid FROM ref.record_status WHERE name = 'Active')";
+        if (!session_id())
+        {
+          session_start();
+          session_regenerate_id(true);
+        }
+        //
+        // ----- restart a new session
+        //
+        algaeAccess::restartSession($username, $url);
+        //
+        // ----- reset the count of failed login attempts back to 0
+        //
+        $sql = "UPDATE core.user SET failed_login_attempts = 0 WHERE username ILIKE $1
+                  AND record_status_rowid_fk = (SELECT rowid FROM ref.record_status WHERE name = 'Active')";
         algaeDB::executeQuery($sql, array($username));
+        return true;
+      }
+      else
+      {
+        if (strlen($username) > 0)
+        {
+          //
+          // ----- increment number of failed login attemps
+          //
+          $sql = "UPDATE core.user SET failed_login_attempts = failed_login_attempts + 1 WHERE username ILIKE $1
+                  AND record_status_rowid_fk = (SELECT rowid FROM ref.record_status WHERE name = 'Active')";
+          algaeDB::executeQuery($sql, array($username));
+        }
       }
     }
     return false;

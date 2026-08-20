@@ -9,6 +9,13 @@
   @copyright (c) 2026 RTSpatial Ltd.
   @license   SPDX-License-Identifier: MIT
   @link      https://github.com/cokrzys/algae
+  
+  Versions
+  
+  Notes specific to this file, may or may not coincide with git comments when added.
+  
+  2026.08.07 | First tracked version.
+  2026.08.19 | Changed framework root user setup and added rights.
 
 */
 
@@ -21,7 +28,7 @@ SET client_min_messages TO WARNING;
 -- function to get the version
 --
 CREATE OR REPLACE FUNCTION algae_admin_database_version() RETURNS varchar LANGUAGE SQL AS
-  $$ SELECT CAST('2026.08.07' AS VARCHAR); $$;
+  $$ SELECT CAST('2026.08.19' AS VARCHAR); $$;
 
 --
 -- function to keep the last modified date updated automatically
@@ -182,11 +189,10 @@ CREATE TRIGGER update_modified BEFORE UPDATE
   algae_update_modified_column();
   
 --
--- the password is stored encrypted when a user is created via the web interface
--- so while a "password" is stored here it's not a risk as it won't work
+-- default framework root username and password
 --
-INSERT INTO core.user (username, password, name) 
-VALUES ('guest', 'won''t work', 'Guest');
+INSERT INTO core.user (username, password) 
+VALUES ('algae', '$2y$12$epN/Azw2P5mGEXSYS6iw/.WuCjqOU6ffnnsoq8XGq38EIGIyiIuuq');
   
 --
 -- core.user_right
@@ -209,14 +215,14 @@ CREATE TRIGGER update_modified BEFORE UPDATE
   algae_update_modified_column();
  
 --
--- example
+-- assign rights for framework root user
 --
--- INSERT INTO core.user_right (user_rowid_fk, object_rowid_fk, role_rowid_fk) VALUES
--- (
---   (SELECT rowid FROM core.user WHERE username = 'trilobite'),
---   (SELECT rowid FROM ref.object WHERE name = 'algae'),
---   (SELECT rowid FROM ref.role WHERE name = 'SysAdmin')
--- );
+INSERT INTO core.user_right (user_rowid_fk, object_rowid_fk, role_rowid_fk) VALUES
+(
+  (SELECT rowid FROM core.user WHERE username = 'algae'),
+  (SELECT rowid FROM ref.object WHERE name = 'algae'),
+  (SELECT rowid FROM ref.role WHERE name = 'SysAdmin')
+);
   
 --
 -- cleanup, refresh stats

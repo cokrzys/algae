@@ -7,7 +7,7 @@
     @author    Brian Krzys (brian.krzys@rtspatial.com)
     @copyright (c) 2026 RTSpatial Ltd.
     @license   SPDX-License-Identifier: MIT
-    @link      https://github.com/cokrzys/slate
+    @link      https://github.com/cokrzys/algae
   
   */
 
@@ -32,7 +32,6 @@
   // ----- page content
   //
   algaeForm::startSingleTab($title);
-  // $app->showSummary();
   algaeForm::endSingleTab();
   //
   // ----- finish up and close page
