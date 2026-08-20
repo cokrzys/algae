@@ -13,3 +13,8 @@ PHP and Python application framework.
 ## Documentation
 
 - [Security Model](docs/security_model.md)
+
+## TODO
+
+- Change password page
+  - Setup notes on changing algae user password and enabling security
