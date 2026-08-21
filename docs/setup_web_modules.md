@@ -71,3 +71,19 @@ sudo unzip latest.zip
 sudo rm latest.zip
 ```
 
+## CodeMirror
+Web based text editor for a wide variety of file types.
+
+```shell
+cd /var/www/html/
+
+sudo mkdir codemirror
+cd codemirror
+
+# not current, but supported by algae
+# newer ver 6 code is module based which causes problems
+sudo wget https://codemirror.net/5/codemirror-5.49.2.zip
+sudo unzip codemirror-5.49.2.zip
+sudo rm codemirror-5.49.2.zip
+```
+
