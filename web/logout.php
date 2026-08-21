@@ -15,7 +15,7 @@
   $app = new algaeApp();
   
   //
-  // ----- this destroys the session variables and puts the user at the login screen
+  // ----- destroy session variables and goto the login screen
   //
   session_unset();
   session_start();

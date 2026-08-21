@@ -69,8 +69,8 @@ class algaeApp
     */
     require_once 'algaeTblCoreUser.php';
     require_once 'algaeTblCoreUserRight.php';
-    /*
     require_once 'algaeTblCoreUserParameter.php';
+    /*
     require_once 'algaeTblCoreStandardQuery.php';
     require_once 'algaeTblField.php';
     require_once 'algaeTblFieldSet.php';

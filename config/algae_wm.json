@@ -22,6 +22,19 @@
     ]
   },
   {
+    "name": "codemirror",
+    "files":
+    [
+      "/codemirror/codemirror-5.49.2/lib/codemirror.css",
+      "/codemirror/codemirror-5.49.2/theme/eclipse.css",
+      "/codemirror/codemirror-5.49.2/lib/codemirror.js",
+      "/codemirror/codemirror-5.49.2/addon/edit/matchbrackets.js",
+      "/codemirror/codemirror-5.49.2/mode/sql/sql.js",
+      "/codemirror/codemirror-5.49.2/mode/shell/shell.js",
+      "/codemirror/codemirror-5.49.2/mode/javascript/javascript.js"
+    ]    
+  },
+  {
     "name": "algae",
     "files":
     [
