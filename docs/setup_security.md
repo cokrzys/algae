@@ -25,3 +25,5 @@ Edit the [Local Config File](user_configuration_file.md) to include:
 security_on = 1
 ```
 
+You should now be able to login to an algae webpage with the ```algae``` username and newly updated password. 
+
