@@ -19,7 +19,7 @@ UPDATE core.user SET password = 'hash_from_webpage' WHERE username = 'algae';
 
 ## Turn on Security
 
-Edit the [Local Config File](configuration_files.md) to include:
+Edit the [Local Config File](user_configuration_file.md) to include:
 
 ```ini
 security_on = 1
