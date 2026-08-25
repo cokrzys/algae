@@ -16,5 +16,3 @@ PHP and Python application framework.
 
 ## TODO
 
-- Add hange password page
-  - Setup notes on changing algae user password and enabling security
