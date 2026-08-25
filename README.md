@@ -16,3 +16,4 @@ PHP and Python application framework.
 
 ## TODO
 
+- SqlFormatter and credits
