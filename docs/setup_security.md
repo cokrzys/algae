@@ -1,7 +1,7 @@
 # Enable Security
 Security requiring user accounts and logins is off by default when algae is installed.  To enable it first set the algae root admin password then turn on security by editing the local config file.
 
-## Setting the algae User Password
+## Updating the algae User Password
 This is a manual process using a temporary webpage to create a password hash then updating the database.
 
 Create a .php file with the following in ```/var/www/html/algae```.
