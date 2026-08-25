@@ -9,6 +9,7 @@ Benchmark system setup on Ubuntu Server 26.04 LTS.
 - [Get algae](get_algae.md)
 - [Setup algae](setup_algae.md)
 - [Configuration Files](configuration_files.md)
+- [Enable Security](setup_security.md)
 
 ## Spatial Support
 - [Install GDAL](setup_gdal.md)
