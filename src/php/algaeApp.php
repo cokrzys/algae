@@ -114,8 +114,8 @@ class algaeApp
     //
     // ----- 3rd party libraries
     //
-    require_once 'SqlFormatter.php';
     */
+    require_once 'SqlFormatter.php';
     //
     // ----- application specific classes
     //       moved to application constructor 11 Mar 2025

@@ -219,6 +219,7 @@ __marimo__/
 
 # RTSpatial
 deploy/
+testing/
 # eclipse IDE items
 .metadata/
 .buildpath

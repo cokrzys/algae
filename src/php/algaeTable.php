@@ -44,7 +44,7 @@ class algaeTable
     $code .= 'addMilDateParser();';
     $code .= 'addThousandsParser();';
     $code .= "$(\"#$tableId\").tablesorter(
-  	{theme: '" . $app->settings->tablesorterTheme ."', sortList: $sortOrder, widgets: $widgets,
+  	{theme: '" . $app->config->tablesorter_theme ."', sortList: $sortOrder, widgets: $widgets,
   	widgetOptions: {filter_hideFilters : false}";
     if (strlen($headers) > 0)
     {

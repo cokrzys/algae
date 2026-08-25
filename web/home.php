@@ -32,7 +32,6 @@
   // ----- page content
   //
   algaeForm::startSingleTab($title);
-  // $app->showSummary();
   algaeForm::endSingleTab();
   //
   // ----- finish up and close page
