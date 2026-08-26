@@ -18,5 +18,6 @@ PHP and Python application framework.
 ## TODO
 
 - SqlFormatter and credits
+  - sorttable
 - More testing when running without security
   - For example when writing a query from the query tool
