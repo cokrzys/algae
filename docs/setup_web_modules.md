@@ -87,3 +87,18 @@ sudo unzip codemirror-5.49.2.zip
 sudo rm codemirror-5.49.2.zip
 ```
 
+## D3
+Graphs and data visualization.
+
+```shell
+cd /var/www/html/
+
+sudo mkdir d3
+cd d3
+
+sudo wget https://github.com/d3/d3/releases/download/v5.16.0/d3.zip
+sudo unzip d3.zip 
+sudo rm d3.zip
+```
+
+
