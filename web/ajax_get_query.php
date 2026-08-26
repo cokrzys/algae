@@ -2,7 +2,7 @@
 
   /**
   
-    algae framework | Get table schema via an ajax call.
+    algae framework | Get a saved query via an ajax call.
     
     @author    Brian Krzys (brian.krzys@rtspatial.com)
     @copyright (c) 2026 RTSpatial Ltd.
@@ -25,4 +25,4 @@
   $app->readRoles();
   $app->isSufficientRights(algaeAccess::ROLE_ADMIN, $app->config->app_name);
 
-  algaeQueryTool::processAjaxGetSchema();
+  algaeQueryTool::processAjaxGetQuery();

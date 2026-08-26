@@ -39,6 +39,10 @@
     "files":
     [
       "/algae/js/algaeFramework.js",
+      "/algae/js/algaeGraph.js",
+      "/algae/js/algaeGraphAxis.js",
+      "/algae/js/algaeGraphNumericAxis.js",
+      "/algae/js/algaeLineGraph.js",
       "/algae/js/algaeColStats.js",
       "/algae/js/algaeReport.js",
       "/algae/js/algaeMap.js"
