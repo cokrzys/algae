@@ -15,9 +15,14 @@ PHP and Python application framework.
 
 - [Security Model](docs/security_model.md)
 
+## Credits
+
+- [SqlFormatter](https://github.com/jdorn/sql-formatter/blob/master/lib/SqlFormatter.php)
+
 ## TODO
 
 - SqlFormatter and credits
   - sorttable
 - More testing when running without security
   - For example when writing a query from the query tool
+ 
