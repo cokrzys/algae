@@ -17,12 +17,11 @@ PHP and Python application framework.
 
 ## Credits
 
+- [sorttable](https://www.kryogenix.org/code/browser/sorttable/)
 - [SqlFormatter](https://github.com/jdorn/sql-formatter/blob/master/lib/SqlFormatter.php)
 
 ## TODO
 
-- SqlFormatter and credits
-  - sorttable
 - More testing when running without security
   - For example when writing a query from the query tool
  
