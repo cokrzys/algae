@@ -22,6 +22,7 @@ PHP and Python application framework.
 
 ## TODO
 
-- More testing when running without security
-  - For example when writing a query from the query tool
+- Test when running without security
+- Look at tables that require a user rowid
+- Add document showing basic page setup
  
