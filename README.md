@@ -22,6 +22,7 @@ PHP and Python application framework.
 
 ## TODO
 
+- Finish setup checks page
 - Test when running without security
 - Look at tables that require a user rowid
 - Add document showing basic page setup
