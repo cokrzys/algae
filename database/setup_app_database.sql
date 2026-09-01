@@ -9,6 +9,13 @@
   @copyright (c) 2026 RTSpatial Ltd.
   @license   SPDX-License-Identifier: MIT
   @link      https://github.com/cokrzys/algae
+  
+  Versions
+  
+  Notes specific to this file, may or may not coincide with git comments when added.
+  
+  2026.08.07 | First tracked version.
+  2026.08.29 | Added stripped down core.user table.
 
 */
 
@@ -21,7 +28,7 @@ SET client_min_messages TO WARNING;
 -- function to get the version
 --
 CREATE OR REPLACE FUNCTION algae_app_database_version() RETURNS varchar LANGUAGE SQL AS
-  $$ SELECT CAST('2026.08.07' AS VARCHAR); $$;
+  $$ SELECT CAST('2026.08.29' AS VARCHAR); $$;
 
 --
 -- function to keep the last modified date updated automatically
@@ -284,6 +291,24 @@ CREATE TRIGGER update_modified BEFORE UPDATE
 -- ============================================================================
 --  core 
 -- ============================================================================ 
+
+--
+-- core.user
+--
+DROP SEQUENCE IF EXISTS core.user_rowid;
+DROP TABLE IF EXISTS core.user;
+CREATE SEQUENCE core.user_rowid START 1;
+CREATE TABLE core.user
+(
+  rowid INTEGER PRIMARY KEY DEFAULT nextval('core.user_rowid'),
+  record_status_rowid_fk INTEGER NOT NULL REFERENCES ref.record_status DEFAULT algae_active_rowid(),
+  username VARCHAR NOT NULL UNIQUE,
+  timestamp_loaded_utc TIMESTAMP NOT NULL DEFAULT current_timestamp,
+  timestamp_modified_utc TIMESTAMP NOT NULL DEFAULT current_timestamp
+);
+CREATE TRIGGER update_modified BEFORE UPDATE
+  ON core.user FOR EACH ROW EXECUTE PROCEDURE
+  algae_update_modified_column();
 
 --
 -- core.process

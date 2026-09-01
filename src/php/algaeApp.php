@@ -124,6 +124,13 @@ class algaeApp
     // $this->addAppSpecificClasses();
   }
   
+  public static function addAppIncludesPath($app_name)
+  // --------------------------------------------------------------------------
+  {
+    require_once 'algaeConfig.php';
+    return algaeConfig::addAppIncludesPath($app_name);
+  }
+  
   /**
    * Add support for the Tasks module.
    */
@@ -490,11 +497,10 @@ class algaeApp
       $title = "Insufficient Rights";
       $this->startPage($title);
       $this->showHeader($title);
-      $this->errorMessage("Sorry, you don't have rights to view the page.");
-      //
-      // ----- add a nice back link
-      //
+      algaeForm::startSingleTab($title);
+      $this->errorMessage('Unable to access the page.');
       echo  '<a href="javascript:history.back()">Back</a><p />';
+      algaeForm::endSingleTab();
       //
       // ----- footer and close the page
       //

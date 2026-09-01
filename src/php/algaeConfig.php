@@ -42,11 +42,12 @@ class algaeConfig
   
   public $dex_json;
   public $wm_json;
+  public $apps_json;
   
   /**
    * Constructor.
    */
-  public function __construct($verbose = False)
+  public function __construct($verbose = False, $load_detailed_config = True)
   // --------------------------------------------------------------------------
   {
     $this->verbose = $verbose;
@@ -80,6 +81,7 @@ class algaeConfig
     
     $this->dex_json = array();
     $this->wm_json = array();
+    $this->apps_json = array();
     
     //
     // ----- path for main configuration files
@@ -113,9 +115,36 @@ class algaeConfig
       ' not setup, defaulting to ', $this->local_config_path, '<p />'; }
     }
     //
+    // ----- basic config for algae applications
+    //       this is to support "boostrapping" an app so it can find it's include files
     //
+    $this->loadJSONConfig($this->getFullPath($this->local_config_path, 'algae_apps.json'), $this->apps_json);
     //
-    $this->loadConfigFiles();
+    // ----- load detailed configuration files
+    //
+    if ($load_detailed_config)
+    {
+      $this->loadConfigFiles();
+    }
+  }
+  
+  public static function addAppIncludesPath($app_name)
+  // --------------------------------------------------------------------------
+  {
+    $name_tag = 'name';
+    $includes_tag = 'phpIncludesPath';
+    $config = new algaeConfig(False, False);
+    foreach ($config->apps_json as $app)
+    {
+      if ( (property_exists($app, $name_tag)) && ($app->{$name_tag} == $app_name) )
+      {
+        if (property_exists($app, $includes_tag))
+        {
+          set_include_path(get_include_path() . PATH_SEPARATOR . $app->{$includes_tag});
+        }
+        break;
+      }
+    }
   }
   
   /**
