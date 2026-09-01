@@ -2,6 +2,7 @@
 PHP and Python application framework.
 
 - [Setup](docs/setup.md)
+- [Example Application](https://github.com/cokrzys/slate/tree/main)
 - [Troubleshooting](docs/troubleshooting.md)
 
 ## Objectives
@@ -15,15 +16,15 @@ PHP and Python application framework.
 
 - [Security Model](docs/security_model.md)
 
-## Credits
-
-- [sorttable](https://www.kryogenix.org/code/browser/sorttable/)
-- [SqlFormatter](https://github.com/jdorn/sql-formatter/blob/master/lib/SqlFormatter.php)
-
 ## TODO
 
 - Finish setup checks page
 - Test when running without security
 - Look at tables that require a user rowid
 - Add document showing basic page setup
+
+## Credits
+
+- [sorttable](https://www.kryogenix.org/code/browser/sorttable/)
+- [SqlFormatter](https://github.com/jdorn/sql-formatter/blob/master/lib/SqlFormatter.php)
  
