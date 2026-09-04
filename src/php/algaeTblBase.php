@@ -73,6 +73,7 @@ class algaeTblBase
   protected function preUpdate() { return True; }
   protected function postInsert() { return True; }
   protected function postUpdate() { return True; }
+  protected function processDerivedVariables() {}
   
   protected function errorNotImplemented($method)
   // --------------------------------------------------------------------------
