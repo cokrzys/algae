@@ -357,10 +357,11 @@ class algaeForm
       $html .= '>';
       //
       // ----- add a blank value at the top if no default is set
+      //       &nbsp; added to support blank choice using chosen()
       //
       if ( (strlen($default) == 0) || (! $required) )
       {
-        $html .= '<option value=""></option>';
+        $html .= '<option value="">&nbsp;</option>';
       }
       //
       // ----- add choices from the database
