@@ -29,7 +29,7 @@
   },
   {
     "tableName": "ref.record_status",
-    "parentTableName": "base",
+    "parentTableName": "algae.base",
     "comment": "Record status indicator orginally setup to indicate Active or InActive for data that is obsolete but cannot or should not be deleted. Does NOT inherit from a named objects base table to avoid endless loops.",
     "source": "algae",
     "phpClass": "algaeTblRecordStatusV2",
@@ -89,7 +89,7 @@
   {
     "tableName": "algae.named_object_base",
     "parentTableName": "algae.base",
-    "comment": "TODO",
+    "comment": "Standard fields for tables with uniquely named objects.",
     "source": "algae",
     "phpClass": "algaeTblNamedObjectBaseV2",
     "pythonClass": "algaeTblNamedObjectBaseV2",
@@ -97,7 +97,8 @@
     [
       {
         "name": "name", 
-        "unique": true
+        "unique": true,
+        "uniqueKey": true
       },
       {
         "name": "html_color"

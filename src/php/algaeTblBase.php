@@ -748,6 +748,9 @@ class algaeTblBase
     $cvn = $this->get_class_variable_name($column);
     if (property_exists($this, $cvn))
     {
+      // TODO: This likely needs to be more complex to account for data type and adding null values appropriately.
+      //       Example is adding a slate geoprocess with blank decimals, not zero, blank.
+      //       Could also handle writing a fixed number of decimals.
       return array($this->{$cvn});
     }
     //
