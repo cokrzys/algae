@@ -35,6 +35,8 @@ class algaeTblBase
   public $itemNamePlural;
   public $showBrowsePageLink;
   public $debug;
+  public $inserted;
+  public $updated;
   
   /**
    * Constructor.
@@ -65,6 +67,8 @@ class algaeTblBase
     $this->itemNamePlural = null;  // leave null to automatically determine the plural name
     $this->showBrowsePageLink = True;
     $this->debug = False;
+    $this->inserted = False;
+    $this->updated = False;
   }
   
   protected function addDerivedFieldsToForm() {}
@@ -142,6 +146,10 @@ class algaeTblBase
       {
         $index += 1;  
       }
+    }
+    if ($table_found === false)
+    {
+      echo 'ERROR: Data exchange parameters not found for table ', $table_name, PHP_EOL;
     }
     return $columns;
   }
@@ -821,12 +829,14 @@ class algaeTblBase
   public function insert()
   // --------------------------------------------------------------------------
   {
+    $this->inserted = False;
     if ( ($this->preInsert()) && ($this->ok_to_insert()) )
     {
       $this->rowid = algaeDB::executeInsert($this->get_insert_sql(), $this->get_insert_data());
       if ($this->rowid > 0)
       {
         $this->postInsert();
+        $this->inserted = True;
         return True;
       }
     }
@@ -838,6 +848,7 @@ class algaeTblBase
   // --------------------------------------------------------------------------
   {
     $ret = False;
+    $this->updated = False;
     if ( ($this->preUpdate()) && ($this->ok_to_update()) )
     {
       if ($this->debug)
@@ -850,6 +861,7 @@ class algaeTblBase
       if ($ret == True)
       {
         $this->postUpdate();
+        $this->updated = True;
       }
     }
     return $ret;

@@ -17,6 +17,7 @@
   2026.08.07 | First tracked version.
   2026.08.19 | Changed framework root user setup and added rights.
   2026.08.21 | Added table core.user_parameter and core.query.
+  2026.09.05 | Added defaults for all html_color fields.
 
 */
 
@@ -29,7 +30,7 @@ SET client_min_messages TO WARNING;
 -- function to get the version
 --
 CREATE OR REPLACE FUNCTION algae_admin_database_version() RETURNS varchar LANGUAGE SQL AS
-  $$ SELECT CAST('2026.08.21' AS VARCHAR); $$;
+  $$ SELECT CAST('2026.09.05' AS VARCHAR); $$;
 
 --
 -- function to keep the last modified date updated automatically
@@ -89,7 +90,7 @@ CREATE TABLE ref.record_status
   rowid INTEGER PRIMARY KEY DEFAULT nextval('ref.record_status_rowid'),
   name VARCHAR NOT NULL UNIQUE,
   sort_order INTEGER NOT NULL UNIQUE,
-  html_color VARCHAR NOT NULL,
+  html_color VARCHAR NOT NULL DEFAULT algae_default_color(),
   description VARCHAR,
   timestamp_loaded_utc TIMESTAMP NOT NULL DEFAULT current_timestamp,
   timestamp_modified_utc TIMESTAMP NOT NULL DEFAULT current_timestamp
