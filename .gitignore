@@ -220,6 +220,7 @@ __marimo__/
 # RTSpatial
 deploy/
 testing/
+test/
 # eclipse IDE items
 .metadata/
 .buildpath
