@@ -17,6 +17,7 @@
   2026.08.07 | First tracked version.
   2026.08.29 | Added stripped down core.user table.
   2026.09.05 | Added defaults for all html_color fields.
+  2026.09.07 | Added algae_random_color() function.
 
 */
 
@@ -29,7 +30,7 @@ SET client_min_messages TO WARNING;
 -- function to get the version
 --
 CREATE OR REPLACE FUNCTION algae_app_database_version() RETURNS varchar LANGUAGE SQL AS
-  $$ SELECT CAST('2026.09.05' AS VARCHAR); $$;
+  $$ SELECT CAST('2026.09.07' AS VARCHAR); $$;
 
 --
 -- function to keep the last modified date updated automatically
@@ -52,10 +53,19 @@ CREATE OR REPLACE FUNCTION algae_iso_timestamp(timestamp with time zone)
 $$ LANGUAGE SQL IMMUTABLE;
 
 --
--- function to get a default color
+-- get a default html color
 --
 CREATE OR REPLACE FUNCTION algae_default_color() RETURNS varchar LANGUAGE SQL AS
   $$ SELECT CAST('#000000' AS VARCHAR); $$;
+
+--
+-- get a random html color
+--
+CREATE OR REPLACE FUNCTION algae_random_color() RETURNS varchar LANGUAGE SQL AS
+  $$ SELECT '#' ||
+     LPAD(TO_HEX(CAST(FLOOR(RANDOM() * 255) AS INTEGER)), 2, '0') ||
+     LPAD(TO_HEX(CAST(FLOOR(RANDOM() * 255) AS INTEGER)), 2, '0') ||
+     LPAD(TO_HEX(CAST(FLOOR(RANDOM() * 255) AS INTEGER)), 2, '0'); $$;
   
 --
 -- Linear interpolation with clipping to the min/max destination bounds.
