@@ -21,6 +21,8 @@ class algaeTblBase
   const UNIQUE_PROP_NAME = 'unique';
   const RELATIONSHIPS_PROP_NAME = 'relationships';
   const JOIN_SQL_PROP_NAME = 'joinSQL';
+  const VARIABLE_NAME = 'variableName';
+  # const PHP_VARIABLE_NAME = 'phpVariableName';
   
   public $database;
   public $table_name;
@@ -78,6 +80,7 @@ class algaeTblBase
   protected function postInsert() { return True; }
   protected function postUpdate() { return True; }
   protected function processDerivedVariables() {}
+  public function getControl($calling_class) { return ''; }
   
   protected function errorNotImplemented($method)
   // --------------------------------------------------------------------------
@@ -263,13 +266,13 @@ class algaeTblBase
   public function get_class_variable_name($column)
   // --------------------------------------------------------------------------
   {
-    return $this->get_column_value_for_key($column, 'classVariableName');
+    return $this->get_column_value_for_key($column, algaeTblBase::VARIABLE_NAME);
   }
   
   public function get_form_variable_name($column)
   // --------------------------------------------------------------------------
   {
-    return $this->get_column_value_for_key($column, 'formVariableName');
+    return $this->get_column_value_for_key($column, algaeTblBase::VARIABLE_NAME);
   }
   
   public function get_fields()
@@ -541,6 +544,10 @@ class algaeTblBase
   // --------------------------------------------------------------------------
   {
     $col = $this->get_columns_for_name($column_name);
+    if ($this->debug)
+    {
+      echo 'Found ', count($col), ' column(s) matching column name ', $column_name, '<p />';
+    }
     if (count($col) == 1)
     {
       $formVariableName = $this->get_form_variable_name($col[0]);
@@ -566,6 +573,7 @@ class algaeTblBase
   {
     foreach ($_POST as $key => $val)
     {
+      if ($this->debug) { echo '$_POST key = ', $key, ', value = ', $val, '<p />'; }
       if (strpos($key, algaeTblBase::DEX_DOT) !== false)
       {
         $parts = explode(algaeTblBase::DEX_DOT, $key);
@@ -573,7 +581,12 @@ class algaeTblBase
         {
           if ( (property_exists($this, $parts[0])) && property_exists($this->{$parts[0]}, $parts[1]) )
           {
+            if ($this->debug) { echo 'Posting to object.name variable = ', $parts[0], '.', $parts[1], '<p />'; }
             $this->{$parts[0]}->{$parts[1]} = algaeForm::cleanInput($val);
+          }
+          else 
+          {
+            algaeApp::errorMessage('Class variable ' . $parts[0], '.', $parts[1] . ' does not exist.');
           }
         }
       }
@@ -581,7 +594,13 @@ class algaeTblBase
       {
         if (property_exists($this, $key))
         {
+          if ($this->debug) { echo 'Posting directly to variable ', $key, '<p />'; }
           $this->{$key} = algaeForm::cleanInput($val);
+        }
+        else
+        {
+          // ok to skip, there are lots of posted values that rightfully don't connect to a class variable
+          // algaeApp::errorMessage('Class variable ' . $key . ' does not exist.');
         }
       }
     }
@@ -751,47 +770,68 @@ class algaeTblBase
   // --------------------------------------------------------------------------
   {
     //
-    // ----- check for simple names like rowid
+    // ----- single names like description
     //
     $cvn = $this->get_class_variable_name($column);
-    if (property_exists($this, $cvn))
+    if ($cvn != null)
     {
-      // TODO: This likely needs to be more complex to account for data type and adding null values appropriately.
-      //       Example is adding a slate geoprocess with blank decimals, not zero, blank.
-      //       Could also handle writing a fixed number of decimals.
-      return array($this->{$cvn});
-    }
-    //
-    // -----
-    //
-    $data = array();
-    $parameters = $this->get_named_parameters_from_altsql($column);
-    foreach ($parameters as $parameter)
-    {
-      # echo 'DEBUG: variable name from altsql = ', $vn, '<p /';
-      if (strpos($parameter, '.') !== false)
+      if (property_exists($this, $cvn))
       {
-        $parts = explode('.', $parameter);
+        // TODO: This likely needs to be more complex to account for data type and adding null values appropriately.
+        //       Example is adding a slate geoprocess with blank decimals, not zero, blank.
+        //       Could also handle writing a fixed number of decimals.
+        return array($this->{$cvn});
+      }
+      //
+      // ----- single names like record_status.rowid 
+      //
+      elseif (strpos($cvn, '.') !== false)
+      {
+        $parts = explode('.', $cvn);
         if (count($parts) == 2)
         {
           # echo 'DEBUG: [', $parts[0], '] [', $parts[1], ']<p />';
           if ( (property_exists($this, $parts[0])) && (property_exists($this->{$parts[0]}, $parts[1])) )
           {
-            $data[] = $this->{$parts[0]}->{$parts[1]};
+            return array($this->{$parts[0]}->{$parts[1]});
           }
         }
       }
-      else 
+    }
+    //
+    // ----- names from alternate sql
+    //
+    $data = array();
+    $parameters = $this->get_named_parameters_from_altsql($column);
+    if ($parameters != null)
+    {
+      foreach ($parameters as $parameter)
       {
-        if (property_exists($this, $parameter))
+        # echo 'DEBUG: variable name from altsql = ', $vn, '<p /';
+        if (strpos($parameter, '.') !== false)
         {
-          $data[] = $this->{$parameter};
+          $parts = explode('.', $parameter);
+          if (count($parts) == 2)
+          {
+            # echo 'DEBUG: [', $parts[0], '] [', $parts[1], ']<p />';
+            if ( (property_exists($this, $parts[0])) && (property_exists($this->{$parts[0]}, $parts[1])) )
+            {
+              $data[] = $this->{$parts[0]}->{$parts[1]};
+            }
+          }
+        }
+        else 
+        {
+          if (property_exists($this, $parameter))
+          {
+            $data[] = $this->{$parameter};
+          }
         }
       }
     }
     if (count($data) == 0)
     {
-      algaeApp::errorMessage('Unable to find a data value for the ', $column->name, ' column.');
+      algaeApp::errorMessage('Unable to find a data value for the ' . $column->name . ' column.');
     }
     return $data;
   }

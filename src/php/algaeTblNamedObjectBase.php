@@ -96,8 +96,7 @@ class algaeTblNamedObjectBase extends algaeTblBase
     //
     // ----- record status
     //
-    algaeTable::writeTwoColumns('Status', algaeForm::selectWithTableAndField('ref.record_status', 'name', 
-      $this->get_control_id('record_status_rowid_fk'), $this->record_status->name), False);
+    algaeTable::writeTwoColumns('Status', $this->record_status->getControl($this), False);
     algaeTable::end();
     $form->submitButton('Save', False);
     echo '</div>';

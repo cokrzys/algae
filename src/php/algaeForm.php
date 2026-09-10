@@ -394,16 +394,28 @@ class algaeForm
   }
 
   public static function selectWithTableAndField($table, $field, $id, $default, $required = False, 
-    $attributes = array(), $width = null, $activeOnly = False)
+    $attributes = array(), $width = null, $activeOnly = False, $includeRowid = False)
   // --------------------------------------------------------------------------
   {
-    $sql = "SELECT DISTINCT t.{$field} FROM {$table} t";
+    $sql = "SELECT DISTINCT t.{$field}";
+    if ($includeRowid)
+    {
+      $sql .= ', t.rowid';
+    }
+    $sql .= " FROM {$table} t";
     if ($activeOnly)
     {
       $sql .= " WHERE t.record_status_rowid_fk = (SELECT rowid FROM ref.record_status WHERE name = 'Active')";
     }
     $sql .= " ORDER BY t.{$field}";
     return algaeForm::selectWithSQL($sql, $id, $default, $required, $attributes, $width);
+  }
+  
+  public static function selectWithTableAndFieldWithRowid($table, $field, $id, $default, $required = False,
+    $attributes = array(), $width = null, $activeOnly = False)
+  // --------------------------------------------------------------------------
+  {
+    return algaeForm::selectWithTableAndField($table, $field, $id, $default, $required, $attributes, $width, $activeOnly, True);
   }
   
   /**

@@ -47,5 +47,12 @@ class algaeTblRecordStatus extends algaeTblBase
     $this->description = null;
   }
   
+  public function getControl($calling_class)
+  // --------------------------------------------------------------------------
+  {
+    return algaeForm::selectWithTableAndFieldWithRowid($this->table_name, 'name',
+      $calling_class->get_control_id('record_status_rowid_fk'), $this->name, True);
+  }
+  
 }
 
