@@ -602,7 +602,7 @@ class algaeTblBase
         {
           if ( (! isset($val)) || ($val == null) || (strlen(strval($val)) == 0) )
           {
-            algaeApp::errorMessage('Required data for ' . $column->name . ' missing.');
+            algaeApp::errorMessage('Required data for ' . $column->name . ' is missing.');
             $num_errors += 1;
           }
         }
