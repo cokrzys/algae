@@ -168,9 +168,17 @@ class algaeTblNamedObjectBase extends algaeTblBase
   protected function reportDetails()
   // --------------------------------------------------------------------------
   {
-    algaeForm::startSingleTab($this->itemName);
+    algaeForm::startTabs(array(
+      array('#overview_tab', 'Overview'),
+      array('#existing_tab', 'Existing ' . algaeCore::getSingularOrPlural(2, $this->itemName, $this->itemNamePlural))
+    ));    
+    echo '<div id="overview_tab">';
     $this->reportOverallDetails();
-    algaeForm::endSingleTab();
+    echo '</div>';
+    echo '<div id="existing_tab">';
+    $this->reportExistingRecords();
+    echo '</div>';
+    algaeForm::endTabs('tabs');
   }
   
   protected function getTableHeaderActionLinks($openInNewTab = False)
