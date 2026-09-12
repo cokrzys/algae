@@ -766,6 +766,17 @@ class algaeTblBase
     return $sql;
   }
   
+  protected function get_value_or_null($val)
+  // --------------------------------------------------------------------------
+  {
+    if ( (! isset($val)) || (strlen($val) == 0) || (strlen(trim(strval($val))) == 0) )
+    {
+      # inserts null in the parameters to postgresql
+      return null;
+    }
+    return $val;
+  }
+  
   protected function get_data_for_column($column)
   // --------------------------------------------------------------------------
   {
@@ -777,10 +788,7 @@ class algaeTblBase
     {
       if (property_exists($this, $cvn))
       {
-        // TODO: This likely needs to be more complex to account for data type and adding null values appropriately.
-        //       Example is adding a slate geoprocess with blank decimals, not zero, blank.
-        //       Could also handle writing a fixed number of decimals.
-        return array($this->{$cvn});
+        return array(get_value_or_null($this->{$cvn}));
       }
       //
       // ----- single names like record_status.rowid 
@@ -793,7 +801,7 @@ class algaeTblBase
           # echo 'DEBUG: [', $parts[0], '] [', $parts[1], ']<p />';
           if ( (property_exists($this, $parts[0])) && (property_exists($this->{$parts[0]}, $parts[1])) )
           {
-            return array($this->{$parts[0]}->{$parts[1]});
+            return array(get_value_or_null($this->{$parts[0]}->{$parts[1]}));
           }
         }
       }
@@ -816,7 +824,7 @@ class algaeTblBase
             # echo 'DEBUG: [', $parts[0], '] [', $parts[1], ']<p />';
             if ( (property_exists($this, $parts[0])) && (property_exists($this->{$parts[0]}, $parts[1])) )
             {
-              $data[] = $this->{$parts[0]}->{$parts[1]};
+              $data[] = get_value_or_null($this->{$parts[0]}->{$parts[1]});
             }
           }
         }
@@ -824,7 +832,7 @@ class algaeTblBase
         {
           if (property_exists($this, $parameter))
           {
-            $data[] = $this->{$parameter};
+            $data[] = get_value_or_null($this->{$parameter});
           }
         }
       }
