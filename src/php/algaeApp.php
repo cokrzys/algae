@@ -37,8 +37,8 @@ class algaeApp
     require_once 'algaeDB.php';
     require_once 'algaeTable.php';
     require_once 'algaeForm.php';
-    /*
     require_once 'algaeQueryTool.php';
+    /*
     require_once 'algaeSVG.php';
     require_once 'algaeGraph.php';
     require_once 'algaeGraphAxis.php';
