@@ -63,7 +63,6 @@ class algaeAdmin
         $password = algaeDB::cleanInput($_REQUEST['password']);
         if (algaeAccess::login($username, $password, $url))
         {
-          // algaeDB::logActivity("WebLogin", $_SERVER['HTTP_USER_AGENT']);
           if (!session_id())
           {
             session_start();

@@ -56,7 +56,12 @@
       "/algae/js/algaeGraph.js",
       "/algae/js/algaeGraphAxis.js",
       "/algae/js/algaeGraphNumericAxis.js",
+      "/algae/js/algaeXYGraph.js",
       "/algae/js/algaeLineGraph.js",
+      "/algae/js/algaeBarChart.js",
+      "/algae/js/algaeBoxPlot.js",
+      "/algae/js/algaeHistogram.js",
+      "/algae/js/algaeTreemap.js",
       "/algae/js/algaeColStats.js",
       "/algae/js/algaeReport.js",
       "/algae/js/algaeMap.js"

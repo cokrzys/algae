@@ -39,6 +39,7 @@ class algaeConfig
   public $footer_message;
   public $menu_separator;
   public $app_folder;
+  public $max_app_shortcuts;
   
   public $dex_json;
   public $wm_json;
@@ -78,6 +79,7 @@ class algaeConfig
     $this->menu_separator = '&nbsp;|&nbsp;';
     
     $this->app_folder = 'algae';
+    $this->max_app_shortcuts = 3;
     
     $this->dex_json = array();
     $this->wm_json = array();

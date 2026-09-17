@@ -155,6 +155,17 @@ class algaeDB
     return $db;
   }
   
+  public static function connectToDatabase($useAdminDatabase = False)
+  // --------------------------------------------------------------------------
+  {
+    global $app;
+    if ($useAdminDatabase)
+    {
+      return algaeDB::connect($app->config->admin_database);
+    }
+    return algaeDB::connect();
+  }
+  
   /**
    * Close a database connection.
    * @param object $db An opened database connection resource.
@@ -257,14 +268,14 @@ class algaeDB
    * @param array $parms An array of parameters to substitute into the SQL string.
    * @return array[][] Array of size [nrows][cols].
    */
-  public static function getArray($query, $parms)
+  public static function getArray($query, $parms, $useAdminDatabase = False)
   // --------------------------------------------------------------------------
   {
     $data = array();
     //
     // ----- connect to the database and read the data
     //
-    $db = algaeDB::connect();
+    $db = algaeDB::connectToDatabase($useAdminDatabase);
     if ($db)
     {
       $result = pg_query_params($db, $query, $parms);
@@ -385,13 +396,11 @@ class algaeDB
    * Execute a query against the database, typically an INSERT or UPDATE query, uses the pg_query_params() function.
    * @param string $query A SQL query command with coded parameters.
    * @param array $parms An array of parameters that will be substituted into the query string.
-   * @param string $logActivityType Optional log activity type, when specified must be a valid entry in std.activity_type;
    * @param object $db Optional opened database connection, if not specified a new connection will be opened and closed, default is null.
    * @param boolean $showErrors True (the default) to show error messages, False otherwise.
-   * @param boolean $logMessage An optional message for the activity log, default is the SQL used for the query.
    * @return integer The rowid of the record that was just inserted or 0 if it failed.
    */
-  public static function executeInsert($query, $parms, $logActivityType = '', $db = null, $showErrors = True, $logMessage = null)
+  public static function executeInsert($query, $parms, $db = null, $showErrors = True)
   // --------------------------------------------------------------------------
   {
     $rowid = 0;
@@ -428,221 +437,6 @@ class algaeDB
       }
     }
     return $rowid;
-  }
-  
-  /**
-   * Add a log entry to the database activity table.
-   * @param string $activityType The activity type, must match an entry in the std.activity_type table.
-   * @param string $description A descriptive comment associated with the activity.
-   * @param string $username Optional username, if not specified uses the current user.
-   * @param string $application Optional application, if not specified uses the current application as defined by the $app initialization.
-   */
-  public static function logActivity($activityType, $description, $username = '', $application = '')
-  // --------------------------------------------------------------------------
-  {
-    global $app;
-    if (strlen($application) > 0)
-    {
-      $cleanAppName = algaeDB::cleanInput($application);
-    }
-    else
-    {
-      $cleanAppName = algaeDB::cleanInput($app->name);
-    }
-    if (strlen($username) > 0)
-    {
-      $cleanUsername = algaeDB::cleanInput($username);
-    }
-    else
-    {
-      $cleanUsername = algaeDB::cleanInput(algaeAccess::getUsername());
-    }
-    $cleanActivityType = algaeDB::cleanInput($activityType);
-    $cleanDescription = algaeDB::cleanInput($description);
-    $query = "INSERT INTO core.activity (application_rowid_fk, user_info_rowid_fk, activity_type_rowid_fk, description) VALUES (
-              (SELECT rowid FROM std.application WHERE name = $1),
-              (SELECT rowid FROM core.user_info WHERE username = $2),
-              (SELECT rowid FROM std.activity_type WHERE name = $3), $4)";
-    algaeDB::executeQuery($query, array($cleanAppName, $cleanUsername, $cleanActivityType, $cleanDescription),
-      '', null, False);
-  }
-  
-  /**
-   * Create a combo box of choices on a web form from data in a database.
-   * @param string $sql The SQL used to select a list of items, should return one column of results.
-   * @param string $id The id for the control in the HTML form.
-   * @param string $default If applicable the default (current) value for the item.
-   * @param string $event A Javascript event handler if applicable.
-   * @param string $group A string value like "All" indicating that there is a choice to select all the values.
-   * @param boolean $required True or False (default) if a value is required or not.
-   * @param integer $size Width of the control, if not specified width is set automatically.
-   * @param string $class Class name for the control, typically used to associate the control with CSS styling.
-   * @param integer $connection Specifies type of database connection
-   */
-  public static function comboWithSQL($sql, $id, $default, $event, $group, $required = false, $size=-1, $class='', $connection = 0)
-  // --------------------------------------------------------------------------
-  {
-    if ($connection == algaeDB::DB_POSTGRESQL())
-    {
-      $db = algaeDB::connect();
-    }
-    else if ($connection == algaeDB::DB_MSSQL())
-    {
-      $db = algaeDB::connect_mssql();
-    }
-    if ($db)
-    {
-      //
-      // ----- select records for dropdown list
-      //
-      if ($connection == algaeDB::DB_POSTGRESQL())
-      {
-        $result = pg_query($db, $sql);
-      }
-      else if ($connection == algaeDB::DB_MSSQL())
-      {
-        $result = mssql_query($sql);
-      }
-      if (! $result)
-      {
-        algaeDB::errorWithSQL($sql);
-      }
-      //
-      // ----- create the select control and add choices
-      //
-      print "\n<select name=\"{$id}\" id=\"{$id}\" $event";
-      if ($size>-1)
-      {
-        print(" style=\"width:{$size}px;\"");
-      }
-      if ($class)
-      {
-        print(" class=\"$class\"");
-      }
-      if ($required)
-      {
-        print(" required=\"required\"");
-      }
-      print(">\n");
-      //
-      // ----- add a blank value at the top if no default is set
-      //
-      if ( (strlen($default) == 0) || (! $required) )
-      {
-        print "\n\t<option value=\"\"></option>";
-      }
-      if (strlen($group) > 0)
-      {
-        if (isset($default) && ($group == $default))
-        {
-          print "\n\t<option selected value=\"" . algaeCore::toHtml($group) . "\">" . algaeCore::toHtml($group) . "</option>";
-        }
-        else
-        {
-          print "\n\t<option value=\"" . algaeCore::toHtml($group) . "\">" . algaeCore::toHtml($group) . "</option>";
-        }
-      }
-      //
-      // ----- add choices from the database
-      //
-      if ($connection == algaeDB::DB_POSTGRESQL())
-      {
-        while ($row = pg_fetch_array($result))
-        {
-          $str = utf8_decode($row[0]);
-          if (isset($row[1]))
-          {
-            $val = utf8_decode($row[1]);
-          }
-          else
-          {
-            $val = $str;
-          }
-          if (isset($default) && ($str == $default))
-          {
-            print "\n\t<option selected value=\"" . algaeCore::toHtml($val) . "\">" . algaeCore::toHtml($str) . "</option>";
-          }
-          else
-          {
-            print "\n\t<option value=\"" . algaeCore::toHtml($val) . "\">" . algaeCore::toHtml($str) . "</option>";
-          }
-        }
-      }
-      else if ($connection == algaeDB::DB_MSSQL())
-      {
-        while ($row = mssql_fetch_array($result))
-        {
-          $str = utf8_decode($row[0]);
-          if (isset($row[1]))
-          {
-            $val = utf8_decode($row[1]);
-          }
-          else
-          {
-            $val = $str;
-          }
-          if (isset($default) && ($str == $default))
-          {
-            print "\n\t<option selected value=\"" . algaeCore::toHtml($val) . "\">" . algaeCore::toHtml($str) . "</option>";
-          }
-          else
-          {
-            print "\n\t<option value=\"" . algaeCore::toHtml($val) . "\">" . algaeCore::toHtml($str) . "</option>";
-          }
-        }
-      }
-      print "\n</select>";
-      //
-      // ----- free memory from the results array
-      //
-      if ($connection == algaeDB::DB_POSTGRESQL())
-      {
-        algaeDB::close($db, $result);
-      }
-    }
-  }
-  
-  /**
-   * Create a combo box of choices on a web form from a table and field.
-   * @param string $table Table to read the data from.
-   * @param string $field Field to read the data from.
-   * @param string $id The id for the control in the HTML form.
-   * @param string $default If applicable the default (current) value for the item.
-   * @param string $event A Javascript event handler if applicable.
-   * @param boolean $required True or False (default) if a value is required or not.
-   * @param boolean $activeOnly True (default) to add a clause for active rows only, this will be an inner join to std.record_status.
-   * @param string $group A string value like "All" indicating that there is a choice to select all the values.
-   * @param string $where_clause An optional where clause to add to the sql statement.
-   * @param integer $connection Determines if this is a postgres (0) or mssql (1) database connection.
-   * @param boolean $second true if a second field should be displayed in the drop-down menu.
-   * @param string $second_table table to get the second field from
-   * @param string $second_field name of the second field
-   * @param string $foreign_key the foreign key column in the first table used to join the two tables
-   * @param string $id_column the column of the primary key in the second table
-   */
-  public static function comboWithTableAndField($table, $field, $id, $default, $event = '', $required = False, $activeOnly = True, $group = '', $where_clause = '',
-    $connection = 0, $second = null, $second_table = null, $second_field = null, $foreign_key = null, $id_column = null)
-    // --------------------------------------------------------------------------
-  {
-    if ($second)
-    {
-      $sql = "SELECT t.{$field} + ' (' + tt.{$second_field} + ')' AS full_name, t.{$field} FROM {$table} t";
-    }
-    else
-    {
-      $sql = "SELECT DISTINCT t.{$field} FROM {$table} t";
-    }
-    if ($activeOnly)
-    {
-      $sql .= " INNER JOIN std.record_status s ON t.record_status_rowid_fk = s.rowid AND s.name = 'Active'";
-    }
-    if ($second_field)
-    {
-      $sql .= " INNER JOIN {$second_table} tt ON t.{$foreign_key} = tt.{$id_column}";
-    }
-    $sql .= " {$where_clause}";
-    $sql .= " ORDER BY t.{$field}";
-    algaeDB::comboWithSQL($sql, $id, $default, $event, $group, $required, null, null, $connection);
   }
   
   /**
@@ -853,26 +647,6 @@ class algaeDB
   }
   
   /**
-   * Show a row count statistic, for example: 5,403 (62.7%) of 8,612.
-   * This is a common reporting utility to show how many and the percentage of rows in a subset of data.
-   * @param string $sqlAll The SQL to count ALL rows in the table or larger set.
-   * @param string $sqlSelected The SQL to count the number of rows in the subset.
-   * @param number $pctDecimals The number of decimal places for the percentage, 1 by default.
-   */
-  public static function showRowCountStatistic($sqlAll, $sqlSelected, $pctDecimals = 1)
-  // --------------------------------------------------------------------------
-  {
-    $total = algaeDB::getScalarInteger($sqlAll, array(), 0);
-    $selected = algaeDB::getScalarInteger($sqlSelected, array(), 0);
-    echo algaeCore::getFormattedNumber($selected, 0, -99);
-    if ($total > 0)
-    {
-      echo ' (', algaeCore::getFormattedNumber($selected / $total * 100, $pctDecimals, -99), '%)';
-    }
-    echo ' of ', algaeCore::getFormattedNumber($total, 0, -99);
-  }
-  
-  /**
    * Checks if a query is allowed.  This is used to validate a query input by a user in a
    * web page, for example anything containing DELETE, TRUNCATE, etc., is not allowed.
    * @param string $sql The SQL query to check.
@@ -894,31 +668,6 @@ class algaeDB
       return false;
     }
     return true;
-  }
-  
-  /**
-   * Get the name of a unique table that doesn't already exist.
-   * Format will be prefixXXXXX, i.e. tmp03876.
-   * @param string $schema Schema, will new within the schema.
-   * @param string $prefix Prefix, optional, 'tmp' by default.
-   * @param integer $digits Number of digits in the random number to test for uniquness, default 5.
-   * @return string Tablename or null if not successful.
-   */
-  public static function getUniqueNewTablename($schema, $prefix = 'tmp', $digits = 5)
-  // --------------------------------------------------------------------------
-  {
-    global $app;
-    $max_tries = 500;
-    for ($i=0; $i < $max_tries; $i++)
-    {
-      $table = $prefix . str_pad(rand(0, pow(10, $digits)-1), $digits, '0', STR_PAD_LEFT);
-      if (! algaeDB::tableExists($schema, $table))
-      {
-        return $table;
-      }
-    }
-    $app->errorMessage('Exceeded ' . $max_tries . ' trying to make a uique table name.');
-    return null;
   }
   
   /**

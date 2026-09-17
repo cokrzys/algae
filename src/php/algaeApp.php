@@ -322,36 +322,51 @@ class algaeApp
   // --------------------------------------------------------------------------
   {
   }
+  
+  protected function addAppShortcuts($separator)
+  // --------------------------------------------------------------------------
+  {
+    global $app;
+    $sql = "SELECT name 
+            FROM ref.object 
+            WHERE name <> 'algae'
+            ORDER BY name ASC LIMIT $1";
+    $data = algaeDB::getArray($sql, array($app->config->max_app_shortcuts), True);
+    if ( ($data != null) && (count($data) > 0) )
+    {
+      foreach ($data as $row)
+      {
+        echo $separator;
+        echo '<a href="/', $row[0], '/home.php">', $row[0], '</a>';
+      }
+    }
+  }
 
   /**
    * Show a standard header for the application.
    *
    * @param string $title Page title.
    * @param boolean $addMenu Add the lower level main menu.
-   * @param boolean $addRTSMenu Add the main RTSpatial and shortcuts menu across the top left.
+   * @param boolean $addAppsMenu Add the main RTSpatial and shortcuts menu across the top left.
    */
-  public function showHeader($title, $addMenu = True, $addRTSMenu = True)
+  public function showHeader($title, $addMenu = True, $addAppMenu = True, $addAppShortcuts = True)
   // --------------------------------------------------------------------------
   {
-    /*
-    echo '<h1>', $this->settings->appName, ' ', $title, '</h1>';
-    if (algaeAccess::isLoggedIn(False, False)) 
-    {
-      $upperRightText = '<a href="query_tool.php">Query</a>';
-      $upperRightText .= '&nbsp;|&nbsp;' . algaeAccess::getLogoutLink();
-      echo '<div class="top_right_links">', $upperRightText, '</div>';
-    }
-    echo '<hr class="header">';
-    if ($addMenu) $this->addMenu();
-    echo '<div class="main_body_indent">';
-    if (isset($_REQUEST['message']))
-    {
-      $this->successMessage($_REQUEST['message']);
-    }
-    */
     
-    echo '<a href="/algae/home.php">algae</a>';
-    echo $this->config->menu_separator, $title;
+    $separator = '';
+    
+    if ($addMenu)
+    {
+      echo '<a href="/algae/home.php">algae</a>';
+      $separator = $this->config->menu_separator;
+      if ($addAppShortcuts)
+      {
+        $this->addAppShortcuts($separator);
+      }
+    }
+    
+    echo $separator;
+    echo $title;
     
     /*
     if ($addRTSMenu)
@@ -387,7 +402,7 @@ class algaeApp
       echo '<div class="top_right_links">', $upperRightText, '</div>';
     }
     echo '<hr class="header">';
-    if ($addMenu && $addRTSMenu) $this->addMenu();
+    if ($addMenu && $addAppMenu) $this->addMenu();
     echo '<div class="main_body_indent">';
     if (isset($_REQUEST['message']))
     {

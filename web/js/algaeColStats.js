@@ -403,6 +403,11 @@ colStatsDialog.drawLineGraph = function() {
   graph.draw();
 }
 
+colStatsDialog.drawBarGraph = function() {
+//--------------------------------------------------------------------------
+  // TODO: Implement a bar graph.
+}
+
 colStatsDialog.drawGraph = function() {
 //--------------------------------------------------------------------------
   if (this.data.length > 0) {
