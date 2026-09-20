@@ -18,6 +18,7 @@
   2026.08.29 | Added stripped down core.user table.
   2026.09.05 | Added defaults for all html_color fields.
   2026.09.07 | Added algae_random_color() function.
+  2026.09.20 | Changed core.user to core.app_user.
 
 */
 
@@ -30,7 +31,7 @@ SET client_min_messages TO WARNING;
 -- function to get the version
 --
 CREATE OR REPLACE FUNCTION algae_app_database_version() RETURNS varchar LANGUAGE SQL AS
-  $$ SELECT CAST('2026.09.07' AS VARCHAR); $$;
+  $$ SELECT CAST('2026.09.20' AS VARCHAR); $$;
 
 --
 -- function to keep the last modified date updated automatically
@@ -304,21 +305,20 @@ CREATE TRIGGER update_modified BEFORE UPDATE
 -- ============================================================================ 
 
 --
--- core.user
+-- core.app_user
 --
-DROP SEQUENCE IF EXISTS core.user_rowid;
-DROP TABLE IF EXISTS core.user;
-CREATE SEQUENCE core.user_rowid START 1;
-CREATE TABLE core.user
+DROP SEQUENCE IF EXISTS core.app_user_rowid;
+DROP TABLE IF EXISTS core.app_user;
+CREATE SEQUENCE core.app_user_rowid START 1;
+CREATE TABLE core.app_user
 (
-  rowid INTEGER PRIMARY KEY DEFAULT nextval('core.user_rowid'),
-  record_status_rowid_fk INTEGER NOT NULL REFERENCES ref.record_status DEFAULT algae_active_rowid(),
+  rowid INTEGER PRIMARY KEY DEFAULT nextval('core.app_user_rowid'),
   username VARCHAR NOT NULL UNIQUE,
   timestamp_loaded_utc TIMESTAMP NOT NULL DEFAULT current_timestamp,
   timestamp_modified_utc TIMESTAMP NOT NULL DEFAULT current_timestamp
 );
 CREATE TRIGGER update_modified BEFORE UPDATE
-  ON core.user FOR EACH ROW EXECUTE PROCEDURE
+  ON core.app_user FOR EACH ROW EXECUTE PROCEDURE
   algae_update_modified_column();
 
 --
@@ -330,7 +330,7 @@ CREATE SEQUENCE core.process_rowid START 1;
 CREATE TABLE core.process
 (
   rowid INTEGER PRIMARY KEY DEFAULT nextval('core.process_rowid'),
-  user_rowid_fk INTEGER NOT NULL REFERENCES core.user,
+  user_rowid_fk INTEGER NOT NULL REFERENCES core.app_user,
   process_status_rowid_fk INTEGER NOT NULL REFERENCES ref.process_status,
   application VARCHAR,
   command VARCHAR,
@@ -358,7 +358,7 @@ CREATE SEQUENCE core.query_rowid START 1;
 CREATE TABLE core.query
 (
   rowid INTEGER PRIMARY KEY DEFAULT nextval('core.query_rowid'),
-  user_rowid_fk INTEGER NOT NULL REFERENCES core.user, 
+  user_rowid_fk INTEGER NOT NULL REFERENCES core.app_user, 
   sql VARCHAR,
   description VARCHAR,
   timestamp_loaded_utc TIMESTAMP NOT NULL DEFAULT current_timestamp,
@@ -401,7 +401,7 @@ CREATE SEQUENCE core.user_parameter_rowid START 1;
 CREATE TABLE core.user_parameter
 (
   rowid INTEGER PRIMARY KEY DEFAULT nextval('core.user_parameter_rowid'),
-  user_rowid_fk INTEGER NOT NULL REFERENCES core.user, 
+  user_rowid_fk INTEGER NOT NULL REFERENCES core.app_user, 
   name VARCHAR NOT NULL,
   val VARCHAR NOT NULL,
   description VARCHAR,
@@ -422,7 +422,7 @@ CREATE SEQUENCE core.report_rowid START 1;
 CREATE TABLE core.report
 (
   rowid INTEGER PRIMARY KEY DEFAULT nextval('core.report_rowid'),
-  user_rowid_fk INTEGER NOT NULL REFERENCES core.user, 
+  user_rowid_fk INTEGER NOT NULL REFERENCES core.app_user, 
   name VARCHAR NOT NULL,
   version VARCHAR NOT NULL,
   timestamp_loaded_utc TIMESTAMP NOT NULL DEFAULT current_timestamp,

@@ -29,9 +29,9 @@ class algaeApp
     //
     // ----- core classes
     //
+    require_once 'algaeCore.php';
     require_once 'algaeConfig.php';
     require_once 'algaeAccess.php';
-    require_once 'algaeCore.php';
     require_once 'algaeAdmin.php';
     require_once 'algaeFile.php';
     require_once 'algaeDB.php';
@@ -70,6 +70,7 @@ class algaeApp
     require_once 'algaeTblCoreUser.php';
     require_once 'algaeTblCoreUserRight.php';
     require_once 'algaeTblCoreUserParameter.php';
+    require_once 'algaeTblCoreAppUser.php';
     /*
     require_once 'algaeTblCoreStandardQuery.php';
     require_once 'algaeTblField.php';

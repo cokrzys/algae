@@ -85,6 +85,23 @@
     ]
   },
   {
+    "tableName": "core.app_user",
+    "parentTableName": "algae.base",
+    "comment": "Application user and table core.app_user support.",
+    "source": "algae",
+    "phpClass": "algaeTblCoreAppUser",
+    "pythonClass": "algaeTblCoreAppUser",
+    "columns":
+    [
+      {
+        "name": "username", 
+        "unique": true,
+        "required": true,
+        "canUpdate": false
+      }
+    ]
+  },
+  {
     "tableName": "algae.named_object_base",
     "parentTableName": "algae.base",
     "comment": "Standard fields for tables with uniquely named objects.",

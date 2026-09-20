@@ -52,6 +52,8 @@ class algaeConfig
   public function __construct($load_detailed_config = True, $debug = False)
   // --------------------------------------------------------------------------
   {
+    require_once 'algaeCore.php';
+    
     $this->debug = $debug;
     $this->app_name = 'algae';
     $this->config_path = '/opt/algae-main/config/';
@@ -122,7 +124,7 @@ class algaeConfig
     //       this is to support "boostrapping" an app so it can find it's include files
     //       do not add this to the loadConfigFiles() method
     //
-    $this->loadJSONConfig($this->getFullPath($this->local_config_path, 'algae_apps.json'), $this->apps_json);
+    $this->loadJSONConfig(algaeCore::getFullPath($this->local_config_path, 'algae_apps.json'), $this->apps_json);
     //
     // ----- load detailed configuration files
     //
@@ -157,14 +159,14 @@ class algaeConfig
   protected function loadConfigFiles()
   // --------------------------------------------------------------------------
   {
-    $this->loadINIConfig(algaeConfig::getFullPath($this->config_path, $this->app_name . '.ini'));
-    $this->loadINIConfig(algaeConfig::getFullPath($this->local_config_path, $this->app_name . '.ini'));
+    $this->loadINIConfig(algaeCore::getFullPath($this->config_path, $this->app_name . '.ini'));
+    $this->loadINIConfig(algaeCore::getFullPath($this->local_config_path, $this->app_name . '.ini'));
     // $this->loadDataExchangeConfig();
-    $this->loadJSONConfig($this->getFullPath($this->config_path, $this->app_name . '_dex.json'), $this->dex_json);
-    $this->loadJSONConfig($this->getFullPath($this->config_path, $this->app_name . '_wm.json'), $this->wm_json);
+    $this->loadJSONConfig(algaeCore::getFullPath($this->config_path, $this->app_name . '_dex.json'), $this->dex_json);
+    $this->loadJSONConfig(algaeCore::getFullPath($this->config_path, $this->app_name . '_wm.json'), $this->wm_json);
   }
   
-  protected static function getFullPath($path, $filename)
+  protected static function getFullPathObsolete($path, $filename)
   // --------------------------------------------------------------------------
   {
     if (strlen($path) == 0)

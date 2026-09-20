@@ -554,6 +554,20 @@ class algaeCore
     return algaeCore::getConcatenatedPartsFromRowid($rowid, $num_levels, '/');
   }
   
+  public static function getFullPath($path, $filename)
+  // --------------------------------------------------------------------------
+  {
+    if (strlen($path) == 0)
+    {
+      return $filename;
+    }
+    if (str_ends_with($path, DIRECTORY_SEPARATOR))
+    {
+      return $path . $filename;
+    }
+    return $path . DIRECTORY_SEPARATOR . $filename;
+  }
+  
 }
 
 
