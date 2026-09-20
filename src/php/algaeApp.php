@@ -23,7 +23,7 @@ class algaeApp
   /**
    * Constructor.
    */
-  public function __construct()
+  public function __construct($load_detailed_config = True, $debug = False)
   // --------------------------------------------------------------------------
   {
     //
@@ -102,7 +102,7 @@ class algaeApp
     //
     //
      */
-    $this->config = new algaeConfig();
+    $this->config = new algaeConfig($load_detailed_config, $debug);
     /*
     //
     // ----- variables
@@ -561,7 +561,7 @@ class algaeApp
     $html = '<span class="detail_text">';
     if ($addSeparatorPrefix)
     {
-      $html .= $this->settings->menuSeparator;
+      $html .= $this->config->menu_separator;
     }
     $html .= $str . '</span>';
     return $html;

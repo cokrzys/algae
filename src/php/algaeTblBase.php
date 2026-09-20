@@ -788,7 +788,7 @@ class algaeTblBase
     {
       if (property_exists($this, $cvn))
       {
-        return array(get_value_or_null($this->{$cvn}));
+        return array($this->get_value_or_null($this->{$cvn}));
       }
       //
       // ----- single names like record_status.rowid 
@@ -801,7 +801,7 @@ class algaeTblBase
           # echo 'DEBUG: [', $parts[0], '] [', $parts[1], ']<p />';
           if ( (property_exists($this, $parts[0])) && (property_exists($this->{$parts[0]}, $parts[1])) )
           {
-            return array(get_value_or_null($this->{$parts[0]}->{$parts[1]}));
+            return array($this->get_value_or_null($this->{$parts[0]}->{$parts[1]}));
           }
         }
       }
@@ -824,7 +824,7 @@ class algaeTblBase
             # echo 'DEBUG: [', $parts[0], '] [', $parts[1], ']<p />';
             if ( (property_exists($this, $parts[0])) && (property_exists($this->{$parts[0]}, $parts[1])) )
             {
-              $data[] = get_value_or_null($this->{$parts[0]}->{$parts[1]});
+              $data[] = $this->get_value_or_null($this->{$parts[0]}->{$parts[1]});
             }
           }
         }
@@ -832,7 +832,7 @@ class algaeTblBase
         {
           if (property_exists($this, $parameter))
           {
-            $data[] = get_value_or_null($this->{$parameter});
+            $data[] = $this->get_value_or_null($this->{$parameter});
           }
         }
       }

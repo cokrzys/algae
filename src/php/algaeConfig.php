@@ -19,6 +19,7 @@ class algaeConfig
   public $config_path;
   public $local_config_path;
   public $app_name;
+  public $debug;
   
   public $admin_database;
   public $app_database;
@@ -41,17 +42,17 @@ class algaeConfig
   public $app_folder;
   public $max_app_shortcuts;
   
-  public $dex_json;
-  public $wm_json;
-  public $apps_json;
+  public $dex_json;   // data exchange configuration
+  public $wm_json;    // web manifest, files to load
+  public $apps_json;  // basic app configuration
   
   /**
    * Constructor.
    */
-  public function __construct($verbose = False, $load_detailed_config = True)
+  public function __construct($load_detailed_config = True, $debug = False)
   // --------------------------------------------------------------------------
   {
-    $this->verbose = $verbose;
+    $this->debug = $debug;
     $this->app_name = 'algae';
     $this->config_path = '/opt/algae-main/config/';
     $this->local_config_path = '/opt/rtspatial/config/';
@@ -90,16 +91,16 @@ class algaeConfig
     //       config that a user should not edit
     //       updated with application updates
     //
-    if ($verbose) { echo 'OK: algaeConfig.php found at ', __DIR__, '<p />'; }
+    if ($debug) { echo 'OK: algaeConfig.php found at ', __DIR__, '<p />'; }
     $p = strpos(__DIR__, '/src/php');
     if ($p != false)
     {
       $this->config_path = substr(__DIR__, 0, $p) . DIRECTORY_SEPARATOR . 'config';
-      if ($verbose) { echo 'OK: config_path set to ', $this->config_path, '<p />'; }
+      if ($debug) { echo 'OK: config_path set to ', $this->config_path, '<p />'; }
     }
     else
     {
-      if ($verbose) { echo 'ERROR: Unable to convert ', __DIR__, ' into the config path, defaulting to ', $this->config_path, '<p />'; }
+      echo 'ERROR: Unable to convert ', __DIR__, ' into the config path, defaulting to ', $this->config_path, '<p />';
     }
     //
     // ----- path for local configuration changes
@@ -109,16 +110,17 @@ class algaeConfig
     if (getenv(algaeConfig::KEY_RTSPATIAL_LOCAL_CONFIG_PATH) !== false)
     {
       $this->local_config_path = getenv(algaeConfig::KEY_RTSPATIAL_LOCAL_CONFIG_PATH);
-      if ($verbose) { echo 'OK: local_config_path set to ', $this->local_config_path, '<p />'; }
+      if ($debug) { echo 'OK: local_config_path set to ', $this->local_config_path, '<p />'; }
     }
     else
     {
-      if ($verbose) { echo 'WARNING: Environment varible ', algaeConfig::KEY_RTSPATIAL_LOCAL_CONFIG_PATH, 
+      if ($debug) { echo 'WARNING: Environment varible ', algaeConfig::KEY_RTSPATIAL_LOCAL_CONFIG_PATH, 
       ' not setup, defaulting to ', $this->local_config_path, '<p />'; }
     }
     //
     // ----- basic config for algae applications
     //       this is to support "boostrapping" an app so it can find it's include files
+    //       do not add this to the loadConfigFiles() method
     //
     $this->loadJSONConfig($this->getFullPath($this->local_config_path, 'algae_apps.json'), $this->apps_json);
     //
@@ -206,11 +208,11 @@ class algaeConfig
     {
       $ini_config = parse_ini_file($filename);
       $this->mergeINIConfig($ini_config);
-      if ($this->verbose) { echo 'OK: Loaded configuration file ', $filename, '<p />'; }
+      if ($this->debug) { echo 'OK: Loaded configuration file ', $filename, '<p />'; }
     }
     else 
     {
-      if ($this->verbose) { echo 'WARNING: Configuration file ', $filename, ' does not exist.<p />'; }
+      if ($this->debug) { echo 'WARNING: Configuration file ', $filename, ' does not exist.<p />'; }
     }
   }
   
@@ -220,18 +222,17 @@ class algaeConfig
   // --------------------------------------------------------------------------
   {
     $filename = $this->config_path . '/' . $this->app_name . '_dex.json';
-    // echo 'DEBUG: ', $this->app_name, '<p />';
-    // echo 'DEBUG: Loading config file ', $filename, '<p /';
+    if ($this->debug) { echo 'DEBUG: Loading config file ', $filename, '<p /'; }
     if (file_exists($filename) === true)
     {
       $str = file_get_contents($filename);
       $json = json_decode($str);
-      if ($this->verbose) { echo 'OK: ', count($json), ' data exchange definition(s) read from ', $filename, '<p />'; }
+      if ($this->debug) { echo 'OK: ', count($json), ' data exchange definition(s) read from ', $filename, '<p />'; }
       $this->dex_json = array_merge($this->dex_json, $json);
     }
     else
     {
-      if ($this->verbose) { echo 'ERROR: Data exchange JSON file ', $filename, ' does not exist.<p />'; }
+      echo 'ERROR: Data exchange JSON file ', $filename, ' does not exist.<p />';
     }
   }
   
@@ -240,16 +241,17 @@ class algaeConfig
   public function loadJSONConfig($filename, &$var)
   // --------------------------------------------------------------------------
   {
+    if ($this->debug) { echo 'DEBUG: Starting JSON config load of ', $filename, '<p />'; }
     if (file_exists($filename) === true)
     {
       $str = file_get_contents($filename);
       $json = json_decode($str);
-      if ($this->verbose) { echo 'OK: ', count($json), ' JSON config items(s) read from ', $filename, '<p />'; }
+      if ($this->debug) { echo 'OK: ', count($json), ' JSON config items(s) read from ', $filename, '<p />'; }
       $var = array_merge($var, $json);
     }
     else
     {
-      if ($this->verbose) { echo 'ERROR: JSON config file ', $filename, ' does not exist.<p />'; }
+      echo 'ERROR: JSON config file ', $filename, ' does not exist.<p />';
     }
   }
     
@@ -281,6 +283,24 @@ class algaeConfig
     {
       echo $key, ' = ', strval($val), '<p />';
     }
+  }
+  
+  public function getAppConfigParameter($app_name, $parameter_name)
+  // --------------------------------------------------------------------------
+  {
+    $name_tag = 'name';
+    foreach ($this->apps_json as $app)
+    {
+      if ( (property_exists($app, $name_tag)) && ($app->{$name_tag} == $app_name) )
+      {
+        if (property_exists($app, $parameter_name))
+        {
+          return $app->{$parameter_name};
+        }
+      }
+    }
+    echo 'ERROR: Unable to get configuration parameter ', $parameter_name, ' for app ', $app_name, '.<p />';
+    return null;
   }
   
 }
