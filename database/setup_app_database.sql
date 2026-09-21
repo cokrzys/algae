@@ -330,7 +330,7 @@ CREATE SEQUENCE core.process_rowid START 1;
 CREATE TABLE core.process
 (
   rowid INTEGER PRIMARY KEY DEFAULT nextval('core.process_rowid'),
-  user_rowid_fk INTEGER NOT NULL REFERENCES core.app_user,
+  app_user_rowid_fk INTEGER NOT NULL REFERENCES core.app_user,
   process_status_rowid_fk INTEGER NOT NULL REFERENCES ref.process_status,
   application VARCHAR,
   command VARCHAR,
@@ -358,7 +358,7 @@ CREATE SEQUENCE core.query_rowid START 1;
 CREATE TABLE core.query
 (
   rowid INTEGER PRIMARY KEY DEFAULT nextval('core.query_rowid'),
-  user_rowid_fk INTEGER NOT NULL REFERENCES core.app_user, 
+  app_user_rowid_fk INTEGER NOT NULL REFERENCES core.app_user, 
   sql VARCHAR,
   description VARCHAR,
   timestamp_loaded_utc TIMESTAMP NOT NULL DEFAULT current_timestamp,
@@ -401,13 +401,13 @@ CREATE SEQUENCE core.user_parameter_rowid START 1;
 CREATE TABLE core.user_parameter
 (
   rowid INTEGER PRIMARY KEY DEFAULT nextval('core.user_parameter_rowid'),
-  user_rowid_fk INTEGER NOT NULL REFERENCES core.app_user, 
+  app_user_rowid_fk INTEGER NOT NULL REFERENCES core.app_user, 
   name VARCHAR NOT NULL,
   val VARCHAR NOT NULL,
   description VARCHAR,
   timestamp_loaded_utc TIMESTAMP NOT NULL DEFAULT current_timestamp,
   timestamp_modified_utc TIMESTAMP NOT NULL DEFAULT current_timestamp,
-  UNIQUE(user_rowid_fk, name)
+  UNIQUE(app_user_rowid_fk, name)
 );
 CREATE TRIGGER update_modified BEFORE UPDATE
   ON core.user_parameter FOR EACH ROW EXECUTE PROCEDURE
@@ -422,12 +422,12 @@ CREATE SEQUENCE core.report_rowid START 1;
 CREATE TABLE core.report
 (
   rowid INTEGER PRIMARY KEY DEFAULT nextval('core.report_rowid'),
-  user_rowid_fk INTEGER NOT NULL REFERENCES core.app_user, 
+  app_user_rowid_fk INTEGER NOT NULL REFERENCES core.app_user, 
   name VARCHAR NOT NULL,
   version VARCHAR NOT NULL,
   timestamp_loaded_utc TIMESTAMP NOT NULL DEFAULT current_timestamp,
   timestamp_modified_utc TIMESTAMP NOT NULL DEFAULT current_timestamp,
-  UNIQUE(user_rowid_fk, name, version)
+  UNIQUE(app_user_rowid_fk, name, version)
 );
 CREATE TRIGGER update_modified BEFORE UPDATE
   ON core.report FOR EACH ROW EXECUTE PROCEDURE

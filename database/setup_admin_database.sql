@@ -18,6 +18,7 @@
   2026.08.19 | Changed framework root user setup and added rights.
   2026.08.21 | Added table core.user_parameter and core.query.
   2026.09.05 | Added defaults for all html_color fields.
+  2026.09.20 | Streamlined, removed core.user_parameter and core.query, iso timestamp function.
 
 */
 
@@ -30,7 +31,7 @@ SET client_min_messages TO WARNING;
 -- function to get the version
 --
 CREATE OR REPLACE FUNCTION algae_admin_database_version() RETURNS varchar LANGUAGE SQL AS
-  $$ SELECT CAST('2026.09.05' AS VARCHAR); $$;
+  $$ SELECT CAST('2026.09.20' AS VARCHAR); $$;
 
 --
 -- function to keep the last modified date updated automatically
@@ -42,15 +43,6 @@ CREATE OR REPLACE FUNCTION algae_update_modified_column()
     RETURN NEW;
   END;
 ' LANGUAGE 'plpgsql';
-
---
--- function to get a timestamp in ISO 8601 format, from:
--- http://postgresql.1045698.n5.nabble.com/Format-string-for-ISO-8601-date-and-time-td1910959.html
---
-CREATE OR REPLACE FUNCTION algae_iso_timestamp(timestamp with time zone) 
-   RETURNS VARCHAR AS $$ 
-  SELECT substring(xmlelement(name x, $1)::VARCHAR FROM 4 for 32) 
-$$ LANGUAGE SQL IMMUTABLE; 
 
 --
 -- function to get a default color
@@ -225,46 +217,6 @@ INSERT INTO core.user_right (user_rowid_fk, object_rowid_fk, role_rowid_fk) VALU
   (SELECT rowid FROM ref.object WHERE name = 'algae'),
   (SELECT rowid FROM ref.role WHERE name = 'SysAdmin')
 );
-
---
--- core.user_parameter
---
-DROP SEQUENCE IF EXISTS core.user_parameter_rowid;
-DROP TABLE IF EXISTS core.user_parameter;
-CREATE SEQUENCE core.user_parameter_rowid START 1;
-CREATE TABLE core.user_parameter
-(
-  rowid INTEGER PRIMARY KEY DEFAULT nextval('core.user_parameter_rowid'),
-  user_rowid_fk INTEGER NOT NULL REFERENCES core.user, 
-  name VARCHAR NOT NULL,
-  val VARCHAR NOT NULL,
-  description VARCHAR,
-  timestamp_loaded_utc TIMESTAMP NOT NULL DEFAULT current_timestamp,
-  timestamp_modified_utc TIMESTAMP NOT NULL DEFAULT current_timestamp,
-  UNIQUE(user_rowid_fk, name)
-);
-CREATE TRIGGER update_modified BEFORE UPDATE
-  ON core.user_parameter FOR EACH ROW EXECUTE PROCEDURE
-  algae_update_modified_column();
-
---
--- core.query
---
-DROP SEQUENCE IF EXISTS core.query_rowid;
-DROP TABLE IF EXISTS core.query;
-CREATE SEQUENCE core.query_rowid START 1;
-CREATE TABLE core.query
-(
-  rowid INTEGER PRIMARY KEY DEFAULT nextval('core.query_rowid'),
-  user_rowid_fk INTEGER NOT NULL REFERENCES core.user, 
-  sql VARCHAR,
-  description VARCHAR,
-  timestamp_loaded_utc TIMESTAMP NOT NULL DEFAULT current_timestamp,
-  timestamp_modified_utc TIMESTAMP NOT NULL DEFAULT current_timestamp
-);
-CREATE TRIGGER update_modified BEFORE UPDATE
-  ON core.query FOR EACH ROW EXECUTE PROCEDURE
-  algae_update_modified_column(); 
   
 --
 -- cleanup, refresh stats
