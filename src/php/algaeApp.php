@@ -62,8 +62,8 @@ class algaeApp
     require_once 'algaeTblBase.php';
     require_once 'algaeTblRecordStatus.php';
     require_once 'algaeTblNamedObjectBase.php';
-    /*
     require_once 'algaeTblReferenceBase.php';
+    /*
     require_once 'algaeTblSetItemBase.php';
     require_once 'algaeTblSetBase.php';
     */

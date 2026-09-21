@@ -37,11 +37,12 @@ class algaeTblCoreAppUser extends algaeTblBase
     $this->username = null;
   }
   
-  public function getAppUserRowidForLoggedInUser()
+  public static function getAppUserRowidForLoggedInUser()
   // --------------------------------------------------------------------------
   {
+    $o = new algaeTblCoreAppUser();
     $username = algaeAccess::getUsername();
-    $sql = "SELECT rowid FROM $this->table_name WHERE $this->table_name.username = $1";
+    $sql = "SELECT rowid FROM $o->table_name WHERE $o->table_name.username = $1";
     return algaeDB::getScalarInteger($sql, array($username), null);
   }
   

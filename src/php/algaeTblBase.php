@@ -419,7 +419,7 @@ class algaeTblBase
     $html = '';
     if (strlen($page) > 0)
     {
-      $html = $app->getPageLink($app->getURLBase() . $page . '?rowid=' . $this->rowid, $label, algaeAccess::ROLE_WRITE, $app->settings->appName, '', $openInNewTab);
+      $html = $app->getPageLink($app->getURLBase() . $page . '?rowid=' . $this->rowid, $label, algaeAccess::ROLE_WRITE, $app->config->app_name, '', $openInNewTab);
     }
     return $html;
   }
@@ -469,19 +469,19 @@ class algaeTblBase
       if (strlen($this->editpage) > 0)
       {
         $html = $this->getEditPageLink('Edit', $openInNewTab);
-        $separator = $app->settings->menuSeparator;
+        $separator = $app->config->menu_separator;
       }
       if (strlen($this->deletepage) > 0)
       {
         $html .= $separator;
         $html .= $app->getPageLink($this->deletepage . '?rowid=' . $this->rowid, 'Delete', algaeAccess::ROLE_WRITE, $app->settings->appName, '', $openInNewTab);
-        $separator = $app->settings->menuSeparator;
+        $separator = $app->config->menu_separator;
       }
       if ( (strlen($this->browsepage) > 0) && (! $app->isCurrentPage($this->browsepage)) && ($this->showBrowsePageLink) )
       {
         $html .= $separator;
         $html .= $app->getPageLink($this->browsepage, algaeCore::getSingularOrPlural(2, $this->itemName, $this->itemNamePlural), algaeAccess::ROLE_READ, $app->settings->appName, '', $openInNewTab);
-        $separator = $app->settings->menuSeparator;
+        $separator = $app->config->menu_separator;
       }
     }
     return $html;
@@ -943,6 +943,16 @@ class algaeTblBase
       }
     }
     return $ret;
+  }
+  
+  public function write()
+  // --------------------------------------------------------------------------
+  {
+    if ($this->exists())
+    {
+      return $this->update();
+    }
+    return $this->insert();
   }
   
   public function exists()

@@ -43,6 +43,24 @@ class algaeTblCoreUserParameter extends algaeTblBase
     $this->description = null;
   }
   
+  public static function get_parameter($name)
+  // --------------------------------------------------------------------------
+  {
+    $o = new algaeTblCoreUserParameter();
+    $sql = "SELECT val FROM $o->table_name WHERE app_user_rowid_fk = $1 AND name = $2";
+    return algaeDB::getScalarString($sql, array(algaeTblCoreAppUser::getAppUserRowidForLoggedInUser(), $name));
+  }
+  
+  public static function save_parameter($name, $value)
+  // --------------------------------------------------------------------------
+  {
+    $o = new algaeTblCoreUserParameter();
+    $o->app_user->rowid = algaeTblCoreAppUser::getAppUserRowidForLoggedInUser();
+    $o->name = $name;
+    $o->val = $value;
+    $o->write();
+  }
+  
 }
 
 
