@@ -37,17 +37,12 @@ class algaeTblCoreAppUser extends algaeTblBase
     $this->username = null;
   }
   
-  /**
-   * Read from the database with a username.
-   * @param string $username The username.
-   * @return boolean
-   */
-  public function readRowFromDatabaseWithUsername($username)
+  public function getAppUserRowidForLoggedInUser()
   // --------------------------------------------------------------------------
   {
-    $sql = $this->get_sql();
-    $sql .= " WHERE $this->table_name.username = $1";
-    return $this->read_row_from_database_with_sql($sql, array($username));
+    $username = algaeAccess::getUsername();
+    $sql = "SELECT rowid FROM $this->table_name WHERE $this->table_name.username = $1";
+    return algaeDB::getScalarInteger($sql, array($username), null);
   }
   
 }

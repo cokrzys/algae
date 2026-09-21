@@ -766,6 +766,30 @@ class algaeTblBase
     return $sql;
   }
   
+  public function get_unique_key_sql()
+  // --------------------------------------------------------------------------
+  {
+    global $app;
+    $sql = null;
+    $columns = $this->get_unique_key_columns();
+    if (count($columns) > 0)
+    {
+      $sql = "SELECT rowid FROM $this->table_name WHERE ";
+      $parameter_number = 1;
+      $separator = '';
+      foreach ($columns as $column)
+      {
+        $sql .= $separator . $column->name . ' = ' . $this->get_data_placeholders($parameter_number, $column);
+        $separator = ' AND ';
+      }
+    }
+    else 
+    {
+      $app->errorMessage('No unique key columns defined for table ' . $this->table_name . '.');
+    }
+    return $sql;
+  }
+  
   protected function get_value_or_null($val)
   // --------------------------------------------------------------------------
   {
@@ -874,6 +898,12 @@ class algaeTblBase
     return $this->get_data($this->get_update_columns(), True); 
   }
   
+  protected function get_unique_key_data()
+  // --------------------------------------------------------------------------
+  {
+    return $this->get_data($this->get_unique_key_columns(), False);
+  }
+  
   public function insert()
   // --------------------------------------------------------------------------
   {
@@ -913,6 +943,30 @@ class algaeTblBase
       }
     }
     return $ret;
+  }
+  
+  public function exists()
+  // --------------------------------------------------------------------------
+  {
+    $sql = $this->get_unique_key_sql();
+    if ($sql != null)
+    {
+      $data = $this->get_unique_key_data();
+      if ($data != null)
+      {
+        if ($this->debug)
+        {
+          echo $sql, '<p />';
+          var_dump($data);
+        }
+        $this->rowid = algaeDB::getScalarInteger($sql, $data, null);
+        if ($this->rowid != null)
+        {
+          return True;
+        }
+      }
+    }
+    return False;
   }
   
   /**

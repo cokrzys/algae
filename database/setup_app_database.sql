@@ -422,12 +422,9 @@ CREATE SEQUENCE core.report_rowid START 1;
 CREATE TABLE core.report
 (
   rowid INTEGER PRIMARY KEY DEFAULT nextval('core.report_rowid'),
-  app_user_rowid_fk INTEGER NOT NULL REFERENCES core.app_user, 
-  name VARCHAR NOT NULL,
-  version VARCHAR NOT NULL,
+  name VARCHAR NOT NULL UNIQUE,
   timestamp_loaded_utc TIMESTAMP NOT NULL DEFAULT current_timestamp,
-  timestamp_modified_utc TIMESTAMP NOT NULL DEFAULT current_timestamp,
-  UNIQUE(app_user_rowid_fk, name, version)
+  timestamp_modified_utc TIMESTAMP NOT NULL DEFAULT current_timestamp
 );
 CREATE TRIGGER update_modified BEFORE UPDATE
   ON core.report FOR EACH ROW EXECUTE PROCEDURE

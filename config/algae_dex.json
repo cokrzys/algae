@@ -163,5 +163,35 @@
         "variableName": "record_status.rowid"
       }
     ]
+  },
+  {
+    "tableName": "core.user_parameter",
+    "parentTableName": "algae.base",
+    "comment": "User parameters stored in the database and core.user_parameter support.",
+    "source": "algae",
+    "phpClass": "algaeTblCoreUserParameter",
+    "pythonClass": "algaeTblCoreUserParameter",
+    "columns":
+    [
+      {
+        "name": "app_user_rowid_fk", 
+        "uniqueKey": true,
+        "required": true,
+        "canUpdate": false,
+        "variableName": "app_user.rowid"
+      },
+      {
+        "name": "name", 
+        "uniqueKey": true,
+        "required": true,
+        "canUpdate": false
+      },
+      {
+        "name": "val"
+      },
+      {
+        "name": "description"
+      }
+    ]
   }
 ]

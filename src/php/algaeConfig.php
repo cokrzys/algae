@@ -77,7 +77,7 @@ class algaeConfig
     $this->default_page = '/algae/home.php';
     
     $this->tablesorter_theme = 'algae';
-    $this->show_query_link = True;
+    $this->show_query_link = False;
     $this->footer_message = 'Copyright &copy; 2026 <a href="https://www.rtspatial.com">RTSpatial Ltd.</a>';
     $this->menu_separator = '&nbsp;|&nbsp;';
     

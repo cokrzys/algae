@@ -369,37 +369,21 @@ class algaeApp
     echo $separator;
     echo $title;
     
-    /*
-    if ($addRTSMenu)
+
+    $upperRightText = '';
+    $separator = '';
+    if ( ($this->config->show_query_link) && (algaeAccess::isLoggedIn(False, False)) )
     {
-      echo '<a href="/admdal/home.php">RTS</a>';
-      echo ' | <a href="/exptog/edit_expense.php">exp</a>';
-      echo ' | <a href="/stkard/home.php">stk</a>';
-      echo ' | <a href="/tacobi/edit_activity.php">tac</a>';
-      echo ' | ', $title; // , $this->settings->appName;
+      $upperRightText .= '<a href="' . $this->getURLBase() . 'query_tool.php" target="_blank">Query</a>';
+      $separator = $this->config->menu_separator;
     }
-    else 
+    if ($this->config->security_on) 
     {
-      if ($addMenu)
-      {
-        $this->addMenu();
-      }
-      else 
-      {
-        echo $title;
-      }
+      $upperRightText .= $separator . algaeAccess::getLogoutLink();
     }
-    */
     
-    // echo '<h1><a href="/admin/home.php">RTSpatial</a>&nbsp;';
-    // echo '<img src="', $this->settings->favicon, '" alt="AppIcon">&nbsp;';
-    // echo ucfirst($this->settings->appName), '</h1>';
-    // echo '<h1><a href="/admin/home.php">RTSpatial</a> ', $this->settings->appName, ' ', $title, '</h1>';
-    if ( ($this->config->show_query_link) && ((algaeAccess::isLoggedIn(False, False)) || (! $this->config->security_on)) )
+    if (strlen($upperRightText) > 0)
     {
-      $upperRightText = '<a href="' . $this->getURLBase() . 'query_tool.php" target="_blank">Query</a>';
-      if ($this->config->security_on) $upperRightText .= '&nbsp;|&nbsp;' . algaeAccess::getLogoutLink();
-      // $upperRightText .= '&nbsp;|&nbsp;' . '<a href="/admin/home.php">RTSpatial</a>';
       echo '<div class="top_right_links">', $upperRightText, '</div>';
     }
     echo '<hr class="header">';
