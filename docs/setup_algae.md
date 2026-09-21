@@ -39,6 +39,8 @@ psql algae postgres -f /opt/algae-main/database/setup_admin_database.sql
 
 # check reading some data
 psql algae postgres -c "SELECT name FROM ref.record_status"
+
+psql algae postgres -c "SELECT algae_admin_database_version()"
 ```
 
 ```console
@@ -47,6 +49,11 @@ psql algae postgres -c "SELECT name FROM ref.record_status"
  Active
  InActive
 (2 rows)
+
+algae_admin_database_version 
+------------------------------
+ 2026.09.20
+(1 row)
 ```
 
 ## Setup the Admin Database Password
