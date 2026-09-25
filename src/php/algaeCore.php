@@ -430,6 +430,7 @@ class algaeCore
   // --------------------------------------------------------------------------
   {
     $url = '~(?:(https?)://([^\s<]+)|(www\.[^\s<]+?\.[^\s<]+))(?<![\.,:])~i';
+    ini_set("pcre.jit", "0");
     return nl2br(preg_replace($url, '<a href="$0" target="_blank" title="$0">$0</a>', $str));
   }
   

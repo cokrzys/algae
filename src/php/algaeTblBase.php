@@ -447,7 +447,7 @@ class algaeTblBase
       {
         $label = $this->name;
       }
-      return $app->getPageLink($app->getURLBase() . $this->homepage . '?rowid=' . $this->rowid, $label, $role, $app->settings->appName, '', $new_page, $title);
+      return $app->getPageLink($app->getURLBase() . $this->homepage . '?rowid=' . $this->rowid, $label, $role, $app->config->app_name, '', $new_page, $title);
     }
     return '';
   }
@@ -474,13 +474,13 @@ class algaeTblBase
       if (strlen($this->deletepage) > 0)
       {
         $html .= $separator;
-        $html .= $app->getPageLink($this->deletepage . '?rowid=' . $this->rowid, 'Delete', algaeAccess::ROLE_WRITE, $app->settings->appName, '', $openInNewTab);
+        $html .= $app->getPageLink($this->deletepage . '?rowid=' . $this->rowid, 'Delete', algaeAccess::ROLE_WRITE, $app->config->app_name, '', $openInNewTab);
         $separator = $app->config->menu_separator;
       }
       if ( (strlen($this->browsepage) > 0) && (! $app->isCurrentPage($this->browsepage)) && ($this->showBrowsePageLink) )
       {
         $html .= $separator;
-        $html .= $app->getPageLink($this->browsepage, algaeCore::getSingularOrPlural(2, $this->itemName, $this->itemNamePlural), algaeAccess::ROLE_READ, $app->settings->appName, '', $openInNewTab);
+        $html .= $app->getPageLink($this->browsepage, algaeCore::getSingularOrPlural(2, $this->itemName, $this->itemNamePlural), algaeAccess::ROLE_READ, $app->config->app_name, '', $openInNewTab);
         $separator = $app->config->menu_separator;
       }
     }

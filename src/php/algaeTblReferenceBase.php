@@ -90,7 +90,7 @@ class algaeTblReferenceBase extends algaeTblNamedObjectBase
       $first_letter = strtoupper($this->itemName[0]);
       $prep = 'a';
       if ($first_letter == 'A') $prep = 'an';
-      $add_link = $app->getPageLink($this->editpage, 'Add ' . $prep . ' '. $this->itemName, algaeAccess::ROLE_WRITE, $app->settings->appName, '') . '<p />';
+      $add_link = $app->getPageLink($this->editpage, 'Add ' . $prep . ' '. $this->itemName, algaeAccess::ROLE_WRITE, $app->config->app_name, '') . '<p />';
       //
       // ----- run the query
       //
