@@ -174,7 +174,7 @@ class algaeFile
    * @param string $id Posted id (name) of object with the files.
    * @param $showMessages True (default) to show summary messages about what was uploaded.
    */
-  public function uploadMultiple($id, $showMessages = False)
+  public function uploadMultiple($id, $showMessages = False, $debug = False)
   // --------------------------------------------------------------------------
   {
     global $app;
@@ -183,10 +183,12 @@ class algaeFile
     $this->uploaded_array = array();
     if (count($_FILES[$id]) > 0)
     {      
+      if ($debug) { echo 'DEBUG: ', count($_FILES[$id]), ' item(s) in the $_FILES[$id] array.<p />'; }
       foreach ($_FILES[$id]["error"] as $key => $error) 
       {
         $name = basename($_FILES[$id]["name"][$key]);
-        $target_file = $this->target_dir . $name;
+        $target_file = algaeCore::getFullPath($this->target_dir, $name);
+        if ($debug) { echo 'DEBUG: Uploading to ', $target_file, '<p />'; }
         if ($error == UPLOAD_ERR_OK) 
         {
           if (! file_exists($target_file))
@@ -347,13 +349,13 @@ class algaeFile
    * @param boolean $showErrorMessage True (default) so show an error message if it doesn't work.
    * @return boolean True on success, False on fail.
    */
-  public static function makeFolder($folder, $showErrorMessage = True)
+  public static function makeFolder($folder, $showErrorMessage = True, $recursive = True)
   // --------------------------------------------------------------------------
   {
     global $app;
     if (! file_exists($folder))
     {
-      mkdir($folder);
+      mkdir($folder, 0755, $recursive);
     }
     if (file_exists($folder))
     {

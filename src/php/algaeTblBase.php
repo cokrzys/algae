@@ -80,7 +80,7 @@ class algaeTblBase
   protected function postInsert() { return True; }
   protected function postUpdate() { return True; }
   protected function processDerivedVariables() {}
-  public function getControl($calling_class) { return ''; }
+  public function getControl($calling_class, $fk_column_name = null) { return ''; }
   
   protected function errorNotImplemented($method)
   // --------------------------------------------------------------------------

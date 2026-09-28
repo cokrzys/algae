@@ -47,11 +47,20 @@ class algaeTblRecordStatus extends algaeTblBase
     $this->description = null;
   }
   
-  public function getControl($calling_class)
+  public function getControl($calling_class, $fk_column_name = null)
   // --------------------------------------------------------------------------
   {
     return algaeForm::selectWithTableAndFieldWithRowid($this->table_name, 'name',
       $calling_class->get_control_id('record_status_rowid_fk'), $this->name, True);
+  }
+  
+  /**
+   */
+  public function set_rowid_for_active()
+  // --------------------------------------------------------------------------
+  {
+    $sql = $this->get_sql() . " WHERE $this->table_name.name = $1";
+    $this->rowid = algaeDB::getScalarInteger($sql, array('Active'), null);
   }
   
 }

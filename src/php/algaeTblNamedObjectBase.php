@@ -44,6 +44,24 @@ class algaeTblNamedObjectBase extends algaeTblBase
   }
   
   /**
+   * Read row with a name.
+   * @param string $name The field name.
+   */
+  public function read_row_from_database_with_name($name, $deep_read = True)
+  // --------------------------------------------------------------------------
+  {
+    $sql = $this->get_sql() . " WHERE $this->table_name.name = $1";
+    return $this->read_row_from_database_with_sql($sql, array($name), $deep_read);
+  }
+  
+  public function getControl($calling_class, $fk_column_name = null)
+  // --------------------------------------------------------------------------
+  {
+    return algaeForm::selectWithTableAndFieldWithRowid($this->table_name, 'name',
+      $calling_class->get_control_id($fk_column_name), $this->name, True);
+  }
+  
+  /**
    * TODO: Remove, handled in base class.
    * Get a link to the homepage for a record.
    * @param string $label Label for the link, will be the name if not specified.

@@ -552,7 +552,15 @@ class algaeCore
   public static function getPathFromRowid($rowid, $num_levels=2)
   // --------------------------------------------------------------------------
   {
-    return algaeCore::getConcatenatedPartsFromRowid($rowid, $num_levels, '/');
+    if ( (isset($rowid)) && ($rowid > 0) )
+    {
+      return algaeCore::getConcatenatedPartsFromRowid($rowid, $num_levels, '/');
+    }
+    else 
+    {
+      echo 'ERROR: rowid missing in getPathFromRowid().<p />';
+    }
+    return null;
   }
   
   public static function getFullPath($path, $filename)
