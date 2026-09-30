@@ -71,6 +71,10 @@ class algaeApp
     require_once 'algaeTblCoreUserRight.php';
     require_once 'algaeTblCoreUserParameter.php';
     require_once 'algaeTblCoreAppUser.php';
+    //
+    // ----- processing
+    //
+    require_once 'algaeTblCoreProcess.php';
     /*
     require_once 'algaeTblCoreStandardQuery.php';
     require_once 'algaeTblField.php';
@@ -95,13 +99,6 @@ class algaeApp
     //
     require_once 'algaeReport.php';
     require_once 'algaeFieldStats.php';
-    //
-    // ----- processing
-    //
-    require_once 'algaeTblCoreProcess.php';
-    //
-    //
-    //
      */
     $this->config = new algaeConfig($load_detailed_config, $debug);
     /*

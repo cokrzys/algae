@@ -84,6 +84,8 @@ class algaeConfig
     $this->app_folder = 'algae';
     $this->max_app_shortcuts = 3;
     
+    $this->process_status_page = 'process_status.php';
+    
     $this->dex_json = array();
     $this->wm_json = array();
     $this->apps_json = array();
