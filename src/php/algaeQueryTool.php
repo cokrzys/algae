@@ -31,7 +31,7 @@ class algaeQueryTool
     $this->form = new algaeForm();
     $this->sql = '';
     $this->last_sql = '';
-    $this->schema = algaeTblCoreUserParameter::getParameter(algaeQueryTool::SCHEMA_PARAMETER);
+    $this->schema = algaeTblCoreUserParameter::get_parameter(algaeQueryTool::SCHEMA_PARAMETER);
     $max_rowid = algaeDB::getScalarInteger('SELECT MAX(rowid) FROM core.query', array(), 0);
     if ($max_rowid > 0)
     {
@@ -188,10 +188,11 @@ class algaeQueryTool
         //
         if ($this->sql != $this->last_sql)
         {
-          if (strlen(algaeAccess::getUsername()) > 0)
+          $app_user_rowid_fk = algaeTblCoreAppUser::getAppUserRowidForLoggedInUser();
+          if ( isset($app_user_rowid_fk) && ($app_user_rowid_fk > 0) )
           {
-            $insert_sql = 'INSERT INTO core.query (user_rowid_fk, sql) VALUES (';
-            $insert_sql .= algaeAccess::getRowidSQLforUsername(algaeAccess::getUsername());
+            $insert_sql = 'INSERT INTO core.query (app_user_rowid_fk, sql) VALUES (';
+            $insert_sql .= $app_user_rowid_fk;
             $insert_sql .= ', ' . algaeDB::getStringOrNull(algaeDB::cleanInput($this->sql));
             $insert_sql .= ')';
           }
@@ -287,7 +288,7 @@ class algaeQueryTool
     if (isset($_GET['schema_and_table']))
     {
       $schema_and_table = $_GET['schema_and_table'];
-      algaeTblCoreUserParameter::saveParameter(algaeQueryTool::SCHEMA_PARAMETER, $schema_and_table);
+      algaeTblCoreUserParameter::save_parameter(algaeQueryTool::SCHEMA_PARAMETER, $schema_and_table);
       $pieces = explode('.', $schema_and_table);
       if (count($pieces) == 2)
       {
