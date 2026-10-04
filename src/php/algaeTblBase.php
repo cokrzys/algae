@@ -437,17 +437,22 @@ class algaeTblBase
    * @param boolean $new_page True to open in a new tab, default is False.
    * @return string The link.
    */
-  public function getHomepageLink($label = null, $role = algaeAccess::ROLE_READ, $new_page = False, $title = null)
+  public function getHomepageLink($label = null, $role = algaeAccess::ROLE_READ, $new_page = False, $title = null, $include_color = False)
   // --------------------------------------------------------------------------
   {
     if ($this->homepage != null)
     {
+      $color_block = '';
       global $app;
       if ( (property_exists($this, 'name')) && ($label == null) )
       {
         $label = $this->name;
       }
-      return $app->getPageLink($app->getURLBase() . $this->homepage . '?rowid=' . $this->rowid, $label, $role, $app->config->app_name, '', $new_page, $title);
+      if ( (property_exists($this, 'html_color')) && ($include_color) )
+      {
+        $color_block = algaeCore::getColorBlock($this->html_color, False) . '&nbsp;&nbsp;';
+      }
+      return $color_block . $app->getPageLink($app->getURLBase() . $this->homepage . '?rowid=' . $this->rowid, $label, $role, $app->config->app_name, '', $new_page, $title);
     }
     return '';
   }

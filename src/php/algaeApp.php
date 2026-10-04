@@ -74,6 +74,7 @@ class algaeApp
     //
     // ----- processing
     //
+    require_once 'algaeTblProcessStatus.php';
     require_once 'algaeTblCoreProcess.php';
     /*
     require_once 'algaeTblCoreStandardQuery.php';

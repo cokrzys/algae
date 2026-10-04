@@ -61,26 +61,6 @@ class algaeTblNamedObjectBase extends algaeTblBase
       $calling_class->get_control_id($fk_column_name), $this->name, True);
   }
   
-  /**
-   * TODO: Remove, handled in base class.
-   * Get a link to the homepage for a record.
-   * @param string $label Label for the link, will be the name if not specified.
-   * @param integer $role Role constant, algaeAccess::ROLE_READ if not defined.
-   * @param boolean $new_page True to open in a new tab, default is False.
-   * @return string The link.
-   */
-  public function getHomepageLinkObsolete($label = null, $role = algaeAccess::ROLE_READ, $new_page = False, $title = null)
-  // --------------------------------------------------------------------------
-  {
-    if ($this->homepage != null)
-    {
-      global $app;
-      if ($label == null) $label = $this->name;
-      return $app->getPageLink($app->getURLBase() . $this->homepage . '?rowid=' . $this->rowid, $label, $role, $app->settings->appName, '', $new_page, $title);
-    }
-    return '';
-  }
-  
   protected function showOverviewTab($form)
   // --------------------------------------------------------------------------
   {

@@ -14,8 +14,8 @@
 class algaeTblCoreProcess extends algaeTblBase
 {
   
-  public $owner;
-  public $process_status_rowid_fk;
+  public $app_user;
+  public $process_status;
   public $application;
   public $command;
   public $logfile;
@@ -26,8 +26,6 @@ class algaeTblCoreProcess extends algaeTblBase
   public $progress;
   public $progress_message;
   public $description;
-  public $process_status_name;
-  public $process_status_color;
   public $logfile_root;
   public $datetime_prefix;
   public $run_time;
@@ -52,8 +50,8 @@ class algaeTblCoreProcess extends algaeTblBase
     global $app;
     $this->table_name = 'core.process';
     $this->homepage = $app->config->process_status_page;
-    $this->owner = null;
-    $this->process_status_rowid_fk = null;
+    $this->app_user = new algaeTblCoreAppUser();
+    $this->process_status = new algaeTblProcessStatus();
     $this->application = null;
     $this->command  = null;
     $this->logfile = null;
@@ -64,8 +62,6 @@ class algaeTblCoreProcess extends algaeTblBase
     $this->progress = null;
     $this->progress_message = null;
     $this->description = null;
-    $this->process_status_name = null;
-    $this->process_status_color = null;
     $this->logfile_root = null;
     $this->run_time = null;
     $this->datetime_prefix = algaeFile::getDateTimePrefix();

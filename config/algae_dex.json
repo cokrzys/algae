@@ -130,7 +130,7 @@
   {
     "tableName": "algae.reference_base",
     "parentTableName": "algae.named_object_base",
-    "comment": "TODO",
+    "comment": "Standard set of fields for reference/lookup tables.",
     "source": "algae",
     "phpClass": "algaeTblReferenceBase",
     "pythonClass": "algaeTblReferenceBase",
@@ -193,5 +193,23 @@
         "name": "description"
       }
     ]
+  },
+  {
+    "tableName": "core.process_status",
+    "parentTableName": "algae.reference_base",
+    "comment": "Status values for processes in core.process.",
+    "source": "algae",
+    "phpClass": "algaeTblProcessStatus",
+    "pythonClass": "algaeTblProcessStatus",
+    "columns": []
+  },
+  {
+    "tableName": "core.process",
+    "parentTableName": "algae.base",
+    "comment": "Support for table core.process and keeping track of processes.",
+    "source": "algae",
+    "phpClass": "algaeTblCoreProcess",
+    "pythonClass": "algaeTblCoreProcess",
+    "columns": []
   }
 ]
