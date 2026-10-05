@@ -22,6 +22,17 @@ display_errors = On
 ```
 
 ## Setup Python for algae
+```shell
+# add algae modules to the Apache PYTHONPATH
+sudo vi /etc/apache2/envvars
+
+# restart Apache
+sudo systemctl restart apache2
+```
+
+```console
+export PYTHONPATH=$PYTHONPATH:"/opt/algae-main/src/python"
+```
 
 ## Setup Web Pages
 ```shell
