@@ -19,6 +19,7 @@
   2026.09.05 | Added defaults for all html_color fields.
   2026.09.07 | Added algae_random_color() function.
   2026.09.20 | Changed core.user to core.app_user.
+  2026.10.04 | ref.process_status updates.
 
 */
 
@@ -31,7 +32,7 @@ SET client_min_messages TO WARNING;
 -- function to get the version
 --
 CREATE OR REPLACE FUNCTION algae_app_database_version() RETURNS varchar LANGUAGE SQL AS
-  $$ SELECT CAST('2026.09.20' AS VARCHAR); $$;
+  $$ SELECT CAST('2026.10.04' AS VARCHAR); $$;
 
 --
 -- function to keep the last modified date updated automatically
@@ -175,12 +176,15 @@ CREATE OR REPLACE FUNCTION algae_active_rowid() RETURNS int LANGUAGE SQL AS
 --
 -- ref.process_status
 --
+DROP SEQUENCE IF EXISTS ref.process_status_rowid;
+DROP TABLE IF EXISTS ref.process_status;
 CREATE SEQUENCE ref.process_status_rowid START 1;
 CREATE TABLE ref.process_status
 (
   rowid INTEGER PRIMARY KEY DEFAULT nextval('ref.process_status_rowid'),
+  record_status_rowid_fk INTEGER NOT NULL REFERENCES ref.record_status DEFAULT algae_active_rowid(),
   name VARCHAR NOT NULL UNIQUE,
-  sort_order INTEGER NOT NULL UNIQUE,
+  sort_order INTEGER NOT NULL DEFAULT 0,
   html_color VARCHAR NOT NULL DEFAULT algae_default_color(),
   description VARCHAR,
   timestamp_loaded_utc TIMESTAMP NOT NULL DEFAULT current_timestamp,
@@ -252,7 +256,7 @@ CREATE TABLE ref.field
   field_type_rowid_fk INTEGER NOT NULL REFERENCES ref.field_type,
   name VARCHAR NOT NULL UNIQUE,
   num_decimals INTEGER NOT NULL,
-  sort_order INTEGER,
+  sort_order INTEGER DEFAULT 0,
   calc_sql VARCHAR,
   description VARCHAR,
   timestamp_loaded_utc TIMESTAMP NOT NULL DEFAULT current_timestamp,
@@ -292,7 +296,7 @@ CREATE TABLE ref.field_set_item
   rowid INTEGER PRIMARY KEY DEFAULT nextval('ref.field_set_item_rowid'),
   field_set_rowid_fk INTEGER NOT NULL REFERENCES ref.field_set,
   field_rowid_fk INTEGER NOT NULL REFERENCES ref.field,
-  sort_order INTEGER NOT NULL,
+  sort_order INTEGER NOT NULL DEFAULT 0,
   timestamp_loaded_utc TIMESTAMP NOT NULL DEFAULT current_timestamp,
   timestamp_modified_utc TIMESTAMP NOT NULL DEFAULT current_timestamp
 );

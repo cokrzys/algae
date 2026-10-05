@@ -195,7 +195,7 @@
     ]
   },
   {
-    "tableName": "core.process_status",
+    "tableName": "ref.process_status",
     "parentTableName": "algae.reference_base",
     "comment": "Status values for processes in core.process.",
     "source": "algae",

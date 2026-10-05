@@ -302,6 +302,7 @@ class algaeFile
   public static function normalizeFilename($filename = '')
   // --------------------------------------------------------------------------
   {
+    ini_set("pcre.jit", "0");
     $str = preg_replace("[^\w\s\d\.\-_~,;:\[\]\(\]]", '', $filename);
     $str = strtolower($str);
     $str = str_replace(',', '', $str);

@@ -31,7 +31,7 @@ class algaeTblProcessStatus extends algaeTblReferenceBase
   // --------------------------------------------------------------------------
   {
     parent::init();
-    $this->table_name = 'core.process_status';
+    $this->table_name = 'ref.process_status';
     $this->itemName = 'Process Status';
   }
   

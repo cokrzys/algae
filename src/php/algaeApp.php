@@ -13,6 +13,9 @@
 
 class algaeApp
 {
+  
+  CONST SCRIPTS_PATH_ID = 'scriptsPath';
+  CONST PYTHON_APPS_PATH_ID = 'pythonAppsPath';
 
   public $starttime;
   public $settings;
@@ -660,6 +663,36 @@ class algaeApp
       echo $line, '<p />';
     }
     echo '</div>';
+  }
+  
+  /**
+   * Gets a path to an application resource, typically a path to server side scripts or python applications.
+   * Optionally returns a full path to the resource if a resource filename is speciifed.
+   * @param string $id Id of resource, typically algaeApp::SCRIPTS_PATH_ID or algaeApp::PYTHON_APPS_PATH_ID.
+   * @param string $filename Optional filename of resource to return a full path to it. 
+   * @return string|unknown|NULL Path or null.
+   */
+  public function getAppResourcePath($id, $filename = null)
+  // --------------------------------------------------------------------------
+  {
+    $path = $this->config->getAppConfigParameter($this->config->app_name, $id);
+    if ($filename != null)
+    {
+      $path = algaeCore::getFullPath($path, $filename);
+    }
+    return $path;
+  }
+  
+  public function getScriptsPath($filename = null)
+  // --------------------------------------------------------------------------
+  {
+    return $this->getAppResourcePath(algaeApp::SCRIPTS_PATH_ID, $filename);
+  }
+  
+  public function getPythonAppsPath($filename = null)
+  // --------------------------------------------------------------------------
+  {
+    return $this->getAppResourcePath(algaeApp::PYTHON_APPS_PATH_ID, $filename);
   }
   
 }

@@ -98,43 +98,6 @@ class algaeTblCoreProcess extends algaeTblBase
     }
     return $html;
   }
-  
-  /**
-   * Build a log filename, setting up directories if required.
-   * The general format of the filename is:
-   * /ebs1/sp/gbhk/2020/09/20200927_create_study_area.log
-   * The root /ebs1/sp/gbhk must exist, the rest is created.
-   */
-  protected function buildLogFilenameOld()
-  // --------------------------------------------------------------------------
-  {
-    if (strlen($this->logfile_root) > 0)
-    {
-      $this->logfile = '';
-      $directory = $this->logfile_root . date('Y');
-      if (! file_exists($directory))
-      {
-        mkdir($directory, 0760);
-      }
-      if (file_exists($directory))
-      {
-        $directory .= '/' . date('m');
-        if (! file_exists($directory))
-        {
-          mkdir($directory, 0760);
-        }
-        if (file_exists($directory))
-        {
-          $this->logfile = $directory . '/' . date('Ymd') . '_' . $this->rowid . '_' . $this->application . '.log';
-        }
-      }
-    }
-    else 
-    {
-      global $app;
-      $app->errorMessage('Logfile root not defined in ' . get_class($this) . '::' . __FUNCTION__ . '().');
-    }
-  }
 
   /**
    * Build a process filename.
@@ -146,7 +109,8 @@ class algaeTblCoreProcess extends algaeTblBase
   {
     if (strlen($this->logfile_root) > 0)
     {
-      return $this->logfile_root . $this->datetime_prefix . '_' . $this->application . $extension;
+      $filename = $this->datetime_prefix . '_' . $this->application . $extension;
+      return algaeCore::getFullPath($this->logfile_root, $filename);
     }
     else
     {
@@ -230,6 +194,7 @@ class algaeTblCoreProcess extends algaeTblBase
     try
     {
       $result = shell_exec(sprintf("ps %d", $this->pid));
+      ini_set("pcre.jit", "0");
       if( count(preg_split("/\n/", $result)) > 2)
       {
         return true;
@@ -319,7 +284,7 @@ class algaeTblCoreProcess extends algaeTblBase
     algaeTable::writeTwoColumns('Command', $this->command);
     algaeTable::writeTwoColumns('Logfile', $this->logfile);
     algaeTable::writeTwoColumns('Parameters File', $this->parmsfile);
-    algaeTable::writeTwoColumns('Owner', $this->owner);
+    algaeTable::writeTwoColumns('Owner', $this->app_user->username);
     algaeTable::writeTwoColumns('PID', $this->pid);
     algaeTable::writeTwoColumns('Description', algaeCore::getStringWithLinks($this->description), False);
     algaeTable::writeTwoColumns('Rowid', $this->rowid);
