@@ -100,58 +100,6 @@ class algaeTblCoreProcess extends algaeTblBase
   }
   
   /**
-   * Get list of fields to use in a SQL statement.
-   */
-  public function getFields()
-  // --------------------------------------------------------------------------
-  {
-    $sql = parent::getFields();
-    $sql .= ", $this->table_name.process_status_rowid_fk, $this->table_name.application,
-               $this->table_name.command, $this->table_name.logfile, $this->table_name.parmsfile,
-               $this->table_name.pid, $this->table_name.result_url,
-               $this->table_name.starting_url, $this->table_name.progress,
-               $this->table_name.progress_message, $this->table_name.description,
-               TO_CHAR($this->table_name.timestamp_modified_utc - $this->table_name.timestamp_loaded_utc, 'HH24:MI:SS') AS difference,
-               core.user.name, ref.process_status.name, ref.process_status.html_color";
-    return $sql;
-  }
-  
-  public function getTableAndJoins()
-  // --------------------------------------------------------------------------
-  {
-    $sql = parent::getTableAndJoins();
-    $sql .= " INNER JOIN core.user ON $this->table_name.user_rowid_fk = core.user.rowid";
-    $sql .= " INNER JOIN ref.process_status ON $this->table_name.process_status_rowid_fk = ref.process_status.rowid";
-    return $sql;
-  }
-  
-  /**
-   * Read a row from the database.
-   * @param array $row The array of data from the database.
-   */
-  public function readRowFromDatabase($row)
-  // --------------------------------------------------------------------------
-  {
-    $cur = parent::readRowFromDatabase($row);
-    $this->process_status_rowid_fk = algaeDB::cleanDataRead($row[$cur++]);
-    $this->application = algaeDB::cleanDataRead($row[$cur++]);
-    $this->command = algaeDB::cleanDataRead($row[$cur++]);
-    $this->logfile = algaeDB::cleanDataRead($row[$cur++]);
-    $this->parmsfile = algaeDB::cleanDataRead($row[$cur++]);
-    $this->pid = algaeDB::cleanDataRead($row[$cur++]);
-    $this->result_url = algaeDB::cleanDataRead($row[$cur++]);
-    $this->starting_url = algaeDB::cleanDataRead($row[$cur++]);
-    $this->progress = algaeDB::cleanDataRead($row[$cur++]);
-    $this->progress_message = algaeDB::cleanDataRead($row[$cur++]);
-    $this->description = algaeDB::cleanDataRead($row[$cur++]);
-    $this->run_time = algaeDB::cleanDataRead($row[$cur++]);
-    $this->owner = algaeDB::cleanDataRead($row[$cur++]);
-    $this->process_status_name = algaeDB::cleanDataRead($row[$cur++]);
-    $this->process_status_color = algaeDB::cleanDataRead($row[$cur++]);
-    return $cur;
-  }
-  
-  /**
    * Build a log filename, setting up directories if required.
    * The general format of the filename is:
    * /ebs1/sp/gbhk/2020/09/20200927_create_study_area.log
@@ -221,22 +169,10 @@ class algaeTblCoreProcess extends algaeTblBase
     {
         $this->parmsfile = $this->getProcessFilename('.json');
     }
-    $sql = "INSERT INTO core.process (user_rowid_fk, process_status_rowid_fk, application, result_url, starting_url, logfile, parmsfile, description, progress) VALUES (";
-    $sql .= algaeAccess::getRowidSQLforUsername(algaeAccess::getUsername());
-    $sql .= ',' . algaeDB::getRowidSQLOrNull('ref.process_status', 'name', 'Running');
-    $sql .= ',' . algaeDB::getStringOrNull($this->application);
-    $sql .= ',' . algaeDB::getStringOrNull($this->result_url);
-    $sql .= ',' . algaeDB::getStringOrNull($this->starting_url);
-    $sql .= ',' . algaeDB::getStringOrNull($this->logfile);
-    $sql .= ',' . algaeDB::getStringOrNull($this->parmsfile);
-    $sql .= ',' . algaeDB::getStringOrNull($this->description);
-    $sql .= ',0)';
-    $this->rowid = algaeDB::executeInsert($sql, array());
-    if ($this->rowid > 0)
-    {
-      return true;
-    }
-    return false;
+    $this->app_user->rowid = algaeTblCoreAppUser::getAppUserRowidForLoggedInUser();
+    $this->process_status->read_row_from_database_with_name('Running');
+    $this->progress = 0;
+    return $this->insert();
   }
   
   /**
@@ -306,7 +242,7 @@ class algaeTblCoreProcess extends algaeTblBase
   public function isFinished()
   // --------------------------------------------------------------------------
   {
-    if ( ($this->process_status_name == 'Finished') || ($this->process_status_name == 'Success') )
+    if ( ($this->process_status->name == 'Finished') || ($this->process_status->name == 'Success') )
     {
       return True;
     }
@@ -358,8 +294,8 @@ class algaeTblCoreProcess extends algaeTblBase
   public function getStatusMessage()
   // --------------------------------------------------------------------------
   {
-    if (strlen($this->process_status_name) > 0)
-      return algaeCore::getColorBlock($this->process_status_color, True, $this->process_status_name);
+    if (strlen($this->process_status->name) > 0)
+      return algaeCore::getColorBlock($this->process_status->html_color, True, $this->process_status->name);
     return null;
   }
   
@@ -410,7 +346,7 @@ class algaeTblCoreProcess extends algaeTblBase
   // --------------------------------------------------------------------------
   {
     $this->updateStatus();
-    if ($this->process_status_name == 'Running')
+    if ($this->process_status->name == 'Running')
     {
       echo algaeForm::button('refresh', 'Refresh', 'location.reload();');
       echo '<p />';

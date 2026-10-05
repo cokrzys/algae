@@ -210,6 +210,54 @@
     "source": "algae",
     "phpClass": "algaeTblCoreProcess",
     "pythonClass": "algaeTblCoreProcess",
-    "columns": []
+    "columns": 
+    [
+      {
+        "name": "app_user_rowid_fk", 
+        "required": true,
+        "canUpdate": false,
+        "variableName": "app_user.rowid"
+      },
+      {
+        "name": "process_status_rowid_fk",
+        "variableName": "process_status.rowid"
+      },
+      {
+        "name": "application"
+      },
+      {
+        "name": "command"
+      },
+      {
+        "name": "logfile"
+      },
+      {
+        "name": "parmsfile"
+      },
+      {
+        "name": "pid"
+      },
+      {
+        "name": "starting_url"
+      },
+      {
+        "name": "result_url"
+      },
+      {
+        "name": "progress"
+      },
+      {
+        "name": "progress_message"
+      },
+      {
+        "name": "description"
+      },
+     {
+        "name": "run_time",
+        "canInsert": false,
+        "canUpdate": false,
+        "altReadSQL": "TO_CHAR(core.process.timestamp_modified_utc - core.process.timestamp_loaded_utc, 'HH24:MI:SS') AS run_time"
+      }
+    ]
   }
 ]
