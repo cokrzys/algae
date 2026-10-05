@@ -23,13 +23,14 @@ display_errors = On
 
 ## Setup Python for algae
 ```shell
-# add algae modules to the Apache PYTHONPATH
+# add path to the algae modules to the Apache PYTHONPATH
 sudo vi /etc/apache2/envvars
 
 # restart Apache
 sudo systemctl restart apache2
 ```
 
+Addition to the envvars file:
 ```console
 export PYTHONPATH=$PYTHONPATH:"/opt/algae-main/src/python"
 ```
