@@ -30,9 +30,14 @@ sudo vi /etc/apache2/envvars
 sudo systemctl restart apache2
 ```
 
-Addition to the envvars file:
+Addition to the ```envvars``` file.
 ```console
 export PYTHONPATH=$PYTHONPATH:"/opt/algae-main/src/python"
+```
+
+Install required modules.  Using the newer Ubuntu specific support for system-wide modules install.
+```shell
+sudo apt install python3-dotenv
 ```
 
 ## Setup Web Pages
