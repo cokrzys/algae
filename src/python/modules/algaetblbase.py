@@ -16,7 +16,7 @@ import inspect
 from algaeapp import algaeApp
 from algaedb import algaeDB
 
-class algaeTblBaseV2():
+class algaeTblBase():
     
     ALT_WRITE_SQL_PROP_NAME = 'altWriteSQL'
     EXISTS_CHECK_SQL_PROP_NAME = 'existsCheckSQL'
@@ -106,7 +106,7 @@ class algaeTblBaseV2():
         :return: List of dictionaries, one dictionary for each relationship.
         """
         
-        return self.get_array_from_dex(self.table_name, algaeTblBaseV2.RELATIONSHIPS_PROP_NAME)
+        return self.get_array_from_dex(self.table_name, algaeTblBase.RELATIONSHIPS_PROP_NAME)
         
 #         relationships = list()
 #         return relationships
@@ -429,7 +429,7 @@ class algaeTblBaseV2():
         sql = " FROM " + self.table_name
         relationships = self.get_relationships()
         for relationship in relationships:
-            joinSQL = relationship.get(algaeTblBaseV2.JOIN_SQL_PROP_NAME, None)
+            joinSQL = relationship.get(algaeTblBase.JOIN_SQL_PROP_NAME, None)
             if joinSQL != None:
                 sql += ' ' + joinSQL
         return sql
