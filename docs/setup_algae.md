@@ -32,8 +32,18 @@ sudo systemctl restart apache2
 
 Addition to the ```envvars``` file.
 ```console
-export PYTHONPATH=$PYTHONPATH:"/opt/algae-main/src/python"
+export PYTHONPATH=$PYTHONPATH:"/opt/algae-main/src/python/modules"
 ```
+
+If you want to run algae python apps when logged in to the console add the algae modules path to ```/etc/environment```.
+```shell
+sudo vi /etc/environment
+```
+
+```console
+export PYTHONPATH="${PYTHONPATH}:/opt/algae-main/src/python/modules"
+```
+
 
 Install required modules.  Using the newer Ubuntu specific support for system-wide modules install.
 ```shell
