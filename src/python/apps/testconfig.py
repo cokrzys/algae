@@ -34,7 +34,7 @@ builtins.app = app # add app to builtins for true globl access
 db = algaeDB()
 if db.open(app.config.admin_database, app.config.database_port, app.config.database_username,
            app.config.database_password):
-    print('OK: Admin database opened.')
+    print('OK: Database ' + app.config.admin_database + ' opened.')
     db.close()
 
 

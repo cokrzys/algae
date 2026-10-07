@@ -57,7 +57,7 @@ class algaeConfig():
         if os.environ.get(algaeConfig.KEY_RTSPATIAL_LOCAL_CONFIG_PATH) != None:
             self.local_config_path = os.environ.get(algaeConfig.KEY_RTSPATIAL_LOCAL_CONFIG_PATH)
         else:
-            print('Environment varible ' + algaeConfig.KEY_RTSPATIAL_LOCAL_CONFIG_PATH + ' is not setup.')
+            if debug: print('Environment varible ' + algaeConfig.KEY_RTSPATIAL_LOCAL_CONFIG_PATH + ' is not setup.')
             
         #
         # ----- basic config for algae applications
@@ -121,6 +121,17 @@ class algaeConfig():
                 if self.debug: print('OK: ' + str(len(json_data)) + ' JSON config items(s) read from ' + filename)
         else:
             print('JSON config file ' + filename + ' does not exist.')
+            
+    def getAppConfigParameter(self, app_name, parameter_name):
+    #------------------------------------------------------------------------------
+        name_tag = 'name'
+        for app in self.apps_json:
+            if app.get(name_tag, None) == app_name:
+                if app.get(parameter_name, None) != None:
+                    return app.get(parameter_name, None)
+        print('ERROR: Unable to get configuration parameter ' + parameter_name + ' for app ' + app_name + '.')
+        return None
+
             
 
             
