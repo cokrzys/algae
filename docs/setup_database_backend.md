@@ -98,6 +98,6 @@ chmod 600 ~/.pgpass
 
 You can now connect to a database locally with:
 ```shell
-postgres psql database_name
+psql database_name postgres
 ```
 
