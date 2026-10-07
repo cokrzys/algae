@@ -23,7 +23,7 @@ display_errors = On
 
 ## Setup Python for algae
 ```shell
-# add path to the algae modules to the Apache PYTHONPATH
+# add algae modules path to Apache PYTHONPATH
 sudo vi /etc/apache2/envvars
 
 # restart Apache
@@ -43,7 +43,6 @@ sudo vi /etc/environment
 ```console
 export PYTHONPATH="${PYTHONPATH}:/opt/algae-main/src/python/modules"
 ```
-
 
 Install required modules.  Using the newer Ubuntu specific support for system-wide modules install.
 ```shell
