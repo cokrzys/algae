@@ -168,20 +168,6 @@ class algaeConfig
     $this->loadJSONConfig(algaeCore::getFullPath($this->config_path, $this->app_name . '_wm.json'), $this->wm_json);
   }
   
-  protected static function getFullPathObsolete($path, $filename)
-  // --------------------------------------------------------------------------
-  {
-    if (strlen($path) == 0)
-    {
-      return $filename;
-    }
-    if (str_ends_with($path, DIRECTORY_SEPARATOR))
-    {
-      return $path . $filename;
-    }
-    return $path . DIRECTORY_SEPARATOR . $filename;
-  }
-  
   protected function mergeINIConfig($config)
   // --------------------------------------------------------------------------
   {

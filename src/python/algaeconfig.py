@@ -24,6 +24,7 @@ class algaeConfig():
         """
         Constructor.
         """
+        self.debug = debug
         self.app_name = 'algae'
         self.config_path = '/opt/algae-main/config/'
         self.local_config_path = '/opt/rtspatial/config/'
@@ -58,66 +59,72 @@ class algaeConfig():
         else:
             print('Environment varible ' + algaeConfig.KEY_RTSPATIAL_LOCAL_CONFIG_PATH + ' is not setup.')
             
-#         if os.path.isdir(self.config_path):
-#             self.loadAppConfigFile()
-#             self.loadDataExchangeConfig()
-#         else:
-#             print('Configuration path ' + self.config_path + ' does not exist.')
+        #
+        # ----- basic config for algae applications
+        #       this is to support "boostrapping" an app so it can find it's include files
+        #       do not add this to the loadConfigFiles() method
+        #        
+        self.loadJSONConfig(os.path.join(self.local_config_path, 'algae_apps.json'), self.apps_json);
+        #
+        # ----- load detailed configuration files
+        #
+        if load_detailed_config: self.loadConfigFiles()
+        
+    def loadConfigFiles(self):
+    #------------------------------------------------------------------------------
+        """
+        Files are typically loaded from a derived class as well so it's broken out here.
+        """    
+        self.loadINIConfig(os.path.join(self.config_path, self.app_name + '.ini'))
+        self.loadINIConfig(os.path.join(self.local_config_path, self.app_name + '.ini'))
+        self.loadJSONConfig(os.path.join(self.config_path, self.app_name + '_dex.json'), self.dex_json)
+        self.loadJSONConfig(os.path.join(self.config_path, self.app_name + '_wm.json'), self.wm_json)
+        
+    def mergeINIConfig(self, config):
+    #------------------------------------------------------------------------------
+        for key, value in config.items():
+            if hasattr(self, key):
+                if self.debug:
+                    print('OK: Replacing attribute ' + key + ' = ' + str(getattr(self, key)) + ' with ' + str(value))
+                setattr(self, key, value)
+            else:
+                setattr(self, key, value)
+                if self.debug:
+                    print('OK: Adding attribute ' + key + ' with value = ' + str(value))
             
-    def loadAppConfigFile(self):
+    def loadINIConfig(self, filename):
     #------------------------------------------------------------------------------
         """
         Load configuration data from a file.
         File is read from the path defined by the RTSPATIAL_CONFIG_PATH environment variable.
         Filename = app_name.ini.
-        The configuratinon is read and stored in an ordered dictionary self.config.
+        The configuratinon is read and stored in an associative array $this->config.
         When data is read with the same key (i.e. APP_DATABASE) newer configurations replace older.
         """
-        filename = self.config_path + '/' + self.app_name + '.ini'
         if os.path.isfile(filename):
-            if len(self.config) == 0:
-                self.config = dotenv_values(filename)
-            else:
-                app_config = dotenv_values(filename)
-                for key, value in app_config.items():
-                    self.config[key] = value
+            if self.debug: print('OK: Parsing ' + filename)
+            ini_config = dotenv_values(filename)
+            if self.debug: print('OK: ' + str(len(ini_config)) + ' INI config items(s) read from ' + filename)
+            self.mergeINIConfig(ini_config)
         else:
-            print('Configuration file ' + filename + ' does not exist.')
+            if self.debug: print('WARNING: Configuration file ' + filename + ' does not exist.')
             
-    def loadDataExchangeConfig(self):
+    def loadJSONConfig(self, filename, var):
     #------------------------------------------------------------------------------
         """
+        Load configuration settings from a JSON file.
         """
-        filename = self.config_path + '/' + self.app_name + '_dex.json'
         if os.path.isfile(filename):
             with open(filename) as f:
-                self.dex_json += json.load(f)
-                # print('DEBUG: JSON data exchange setup loaded from ' + filename + '.')
+                json_data = json.load(f)
+                var += json_data
+                if self.debug: print('OK: ' + str(len(json_data)) + ' JSON config items(s) read from ' + filename)
         else:
-            print('Data exchange JSON file ' + filename + ' does not exist.')
+            print('JSON config file ' + filename + ' does not exist.')
             
-    def getItem(self, key):
-    #------------------------------------------------------------------------------
-        """
-        Get a configuration item for a specified key.
-        Key names are typically defined by a constant.
-        Returns None if the key does not exist.
-        """
-        if key in self.config:
-            return self.config[key]
-        else:
-            print('A configuration item for key ' + key + ' does not exist.')
-        return None
 
-    def show(self):
-    #------------------------------------------------------------------------------
-        """
-        Simple tabular report to show the configuration parameters.
-        """
-        print('%r item(s) in self.config' % len(self.config))
-        print('Key | Value')
-        for key, value in self.config.items():
-            print('%s | %r' % (key, value))
+            
+
         
         
         
