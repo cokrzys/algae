@@ -1,8 +1,12 @@
 """
-Algae python database support.
 
-@author    Brian Krzys (cokrzys@gmail.com)
-@copyright 2022 RTSpatial Ltd.
+  algae | Database support.
+
+  @author    Brian Krzys (brian.krzys@rtspatial.com)
+  @copyright (c) 2026 RTSpatial Ltd.
+  @license   SPDX-License-Identifier: MIT
+  @link      https://github.com/cokrzys/algae
+ 
 """
 
 import psycopg2
