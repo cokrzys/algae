@@ -14,7 +14,7 @@ cd jquery
 sudo wget https://code.jquery.com/jquery-3.5.1.min.js
 
 # if not already installed
-sudo apt-get install zi
+sudo apt-get install zip
 
 # jQuery UI
 sudo wget https://jqueryui.com/resources/download/jquery-ui-1.12.1.zip
