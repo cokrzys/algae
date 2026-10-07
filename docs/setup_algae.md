@@ -38,6 +38,9 @@ export PYTHONPATH=$PYTHONPATH:"/opt/algae-main/src/python/modules"
 If you want to run algae python apps when logged in to the console add the algae modules path to ```/etc/environment```.
 ```shell
 sudo vi /etc/environment
+
+# reload environment after editing without logging out
+set -a; source /etc/environment; set +a
 ```
 
 ```console
