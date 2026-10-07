@@ -23,7 +23,7 @@ display_errors = On
 
 ## Setup Python for algae
 ```shell
-# add path to the algae modules to the Apache PYTHONPATH
+# add algae modules path to Apache PYTHONPATH
 sudo vi /etc/apache2/envvars
 
 # restart Apache
@@ -32,12 +32,25 @@ sudo systemctl restart apache2
 
 Addition to the ```envvars``` file.
 ```console
-export PYTHONPATH=$PYTHONPATH:"/opt/algae-main/src/python"
+export PYTHONPATH=$PYTHONPATH:"/opt/algae-main/src/python/modules"
+```
+
+If you want to run algae python apps when logged in to the console add the algae modules path to ```/etc/environment```.
+```shell
+sudo vi /etc/environment
+
+# reload environment after editing without logging out
+set -a; source /etc/environment; set +a
+```
+
+```console
+export PYTHONPATH="${PYTHONPATH}:/opt/algae-main/src/python/modules"
 ```
 
 Install required modules.  Using the newer Ubuntu specific support for system-wide modules install.
 ```shell
 sudo apt install python3-dotenv
+sudo apt install python3-psycopg2
 ```
 
 ## Setup Web Pages
