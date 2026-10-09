@@ -78,7 +78,7 @@ class algaeConfig
     
     $this->tablesorter_theme = 'algae';
     $this->show_query_link = False;
-    $this->footer_message = 'Copyright &copy; 2026 <a href="https://www.rtspatial.com">RTSpatial Ltd.</a>';
+    $this->footer_message = '&copy; 2020-' . date("Y") . ' <a href="https://www.rtspatial.com">RTSpatial Ltd</a>';
     $this->menu_separator = '&nbsp;|&nbsp;';
     
     $this->app_folder = 'algae';
