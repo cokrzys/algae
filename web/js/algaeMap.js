@@ -291,7 +291,7 @@ function showMap() {
   //
   // ----- control to toggle full-screen
   //
-  L.control.fullscreen({position: 'topleft'}).addTo(map);
+  // L.Control.FullScreen({position: 'topleft'}).addTo(map);  TODO, fix, latest version is broken
   
   //
   // ----- locate control

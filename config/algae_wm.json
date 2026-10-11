@@ -49,6 +49,22 @@
     ]    
   },
   {
+    "name": "leaflet",
+    "files":
+    [
+      "/leaflet/dist/leaflet.css",
+      "/leaflet/dist/leaflet.js",
+      "/leaflet/Leaflet.MousePosition-master/src/L.Control.MousePosition.css",
+      "/leaflet/Leaflet.MousePosition-master/src/L.Control.MousePosition.js",
+      "/leaflet/leaflet-groupedlayercontrol-gh-pages/dist/leaflet.groupedlayercontrol.min.css",
+      "/leaflet/leaflet-groupedlayercontrol-gh-pages/dist/leaflet.groupedlayercontrol.min.js",
+      "/leaflet/leaflet.fullscreen-master/dist/Control.FullScreen.css",
+      "/leaflet/leaflet.fullscreen-master/dist/Control.FullScreen.umd.js",
+      "/leaflet/leaflet-locatecontrol-gh-pages/dist/L.Control.Locate.min.css",
+      "/leaflet/leaflet-locatecontrol-gh-pages/dist/L.Control.Locate.min.js"
+    ]    
+  },
+  {
     "name": "algae",
     "files":
     [

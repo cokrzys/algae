@@ -187,13 +187,13 @@ class algaeTblNamedObjectBase extends algaeTblBase
     $separator = '';
     if (strlen($this->editpage) > 0)
     {
-      $html .= $separator . $app->getPageLink($this->editpage, 'Add ' . $this->itemName, algaeAccess::ROLE_WRITE, $app->settings->appName, '', $openInNewTab);
-      $separator = $app->settings->menuSeparator;
+      $html .= $separator . $app->getPageLink($this->editpage, 'Add ' . $this->itemName, algaeAccess::ROLE_WRITE, $app->config->app_name, '', $openInNewTab);
+      $separator = $app->config->menu_separator;
     }
     if (strlen($this->browsepage) > 0)
     {
-      $html .= $separator . $app->getPageLink($this->browsepage, algaeCore::getSingularOrPlural(2, $this->itemName), algaeAccess::ROLE_WRITE, $app->settings->appName, '', $openInNewTab);
-      $separator = $app->settings->menuSeparator;
+      $html .= $separator . $app->getPageLink($this->browsepage, algaeCore::getSingularOrPlural(2, $this->itemName), algaeAccess::ROLE_WRITE, $app->config->app_name, '', $openInNewTab);
+      $separator = $app->config->menu_separator;
     }
     return $html;
   }
