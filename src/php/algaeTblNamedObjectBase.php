@@ -285,6 +285,7 @@ class algaeTblNamedObjectBase extends algaeTblBase
       if (algaeForm::validTokens(algaeForm::getDefaultToken($this)))
       {
         $this->post_control_data();
+        $this->processDerivedVariables();
         //
         //
         //
