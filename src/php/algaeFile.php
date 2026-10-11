@@ -148,7 +148,7 @@ class algaeFile
     if (file_exists($filename))
     {
       
-      $str = '<a href="' . $app->settings->downloadLink . '?download_file=' . urlencode($filename) . '">' . $label . '</a>';
+      $str = '<a href="' . $app->config->download_page . '?download_file=' . urlencode($filename) . '">' . $label . '</a>';
       if ($showSize)
       {
         $str .= ' (' . algaeFile::getHumanFilesize(filesize($filename), 1) . ')';

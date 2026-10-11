@@ -35,6 +35,7 @@ class algaeConfig
   public $session_username_key;
   public $login_page;
   public $default_page;
+  public $download_page;
   public $tablesorter_theme;
   public $show_query_link;
   public $footer_message;
@@ -75,6 +76,7 @@ class algaeConfig
     $this->login_page = '/algae/login.php';
     $this->logout_page = '/algae/logout.php';
     $this->default_page = '/algae/home.php';
+    $this->download_page = '/algae/download_file.php';
     
     $this->tablesorter_theme = 'algae';
     $this->show_query_link = False;
