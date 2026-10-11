@@ -104,7 +104,7 @@ sudo unzip d3.zip
 sudo rm d3.zip
 ```
 
-## leaflet
+## Leaflet
 Web maps viewer.
 ```shell
 cd /var/www/html/
@@ -115,6 +115,23 @@ cd leaflet
 sudo wget https://github.com/Leaflet/Leaflet/releases/download/v1.9.4/leaflet.zip
 sudo unzip leaflet.zip 
 sudo rm leaflet.zip
+```
+
+## Leaflet Plugins
+```shell
+cd /var/www/html/leaflet
+
+# lat-long coordinates for mouse position
+sudo wget https://github.com/ardhi/Leaflet.MousePosition/archive/master.zip
+sudo unzip master.zip
+sudo rm master.zip
+
+# grouped layer control
+sudo wget https://github.com/ismyrnow/leaflet-groupedlayercontrol/archive/gh-pages.zip
+sudo unzip gh-pages.zip
+sudo rm gh-pages.zip
+
+
 ```
 
 
