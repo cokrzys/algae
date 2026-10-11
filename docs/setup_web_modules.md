@@ -131,7 +131,10 @@ sudo wget https://github.com/ismyrnow/leaflet-groupedlayercontrol/archive/gh-pag
 sudo unzip gh-pages.zip
 sudo rm gh-pages.zip
 
-
+# toggle full screen
+sudo wget https://github.com/brunob/leaflet.fullscreen/archive/refs/heads/master.zip
+sudo unzip master.zip
+sudo rm master.zip
 ```
 
 
