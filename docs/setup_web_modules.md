@@ -104,4 +104,17 @@ sudo unzip d3.zip
 sudo rm d3.zip
 ```
 
+## leaflet
+Web maps viewer.
+```shell
+cd /var/www/html/
+
+sudo mkdir leaflet
+cd leaflet
+
+sudo wget https://github.com/Leaflet/Leaflet/releases/download/v1.9.4/leaflet.zip
+sudo unzip leaflet.zip 
+sudo rm leaflet.zip
+```
+
 
