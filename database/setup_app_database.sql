@@ -20,6 +20,7 @@
   2026.09.07 | Added algae_random_color() function.
   2026.09.20 | Changed core.user to core.app_user.
   2026.10.04 | ref.process_status updates.
+  2026.10.12 | ref.field_type and ref.field updates.
 
 */
 
@@ -32,7 +33,7 @@ SET client_min_messages TO WARNING;
 -- function to get the version
 --
 CREATE OR REPLACE FUNCTION algae_app_database_version() RETURNS varchar LANGUAGE SQL AS
-  $$ SELECT CAST('2026.10.04' AS VARCHAR); $$;
+  $$ SELECT CAST('2026.10.12' AS VARCHAR); $$;
 
 --
 -- function to keep the last modified date updated automatically
@@ -216,6 +217,8 @@ CREATE TABLE ref.field_type
   rowid INTEGER PRIMARY KEY DEFAULT nextval('ref.field_type_rowid'),
   record_status_rowid_fk INTEGER NOT NULL REFERENCES ref.record_status DEFAULT algae_active_rowid(),
   name VARCHAR NOT NULL UNIQUE,
+  sort_order INTEGER NOT NULL DEFAULT 0,
+  html_color VARCHAR NOT NULL DEFAULT algae_default_color(),
   description VARCHAR,
   timestamp_loaded_utc TIMESTAMP NOT NULL DEFAULT current_timestamp,
   timestamp_modified_utc TIMESTAMP NOT NULL DEFAULT current_timestamp
@@ -255,8 +258,9 @@ CREATE TABLE ref.field
   record_status_rowid_fk INTEGER NOT NULL REFERENCES ref.record_status DEFAULT algae_active_rowid(),
   field_type_rowid_fk INTEGER NOT NULL REFERENCES ref.field_type,
   name VARCHAR NOT NULL UNIQUE,
-  num_decimals INTEGER NOT NULL,
+  num_decimals INTEGER NOT NULL DEFAULT 2,
   sort_order INTEGER DEFAULT 0,
+  html_color VARCHAR NOT NULL DEFAULT algae_default_color(),
   calc_sql VARCHAR,
   description VARCHAR,
   timestamp_loaded_utc TIMESTAMP NOT NULL DEFAULT current_timestamp,

@@ -259,5 +259,32 @@
         "altReadSQL": "TO_CHAR(core.process.timestamp_modified_utc - core.process.timestamp_loaded_utc, 'HH24:MI:SS') AS run_time"
       }
     ]
+  },
+  {
+    "tableName": "ref.field_type",
+    "parentTableName": "algae.reference_base",
+    "comment": "Field types.",
+    "source": "algae",
+    "phpClass": "algaeTblRefFieldType",
+    "pythonClass": "algaeTblRefFieldType",
+    "columns": []
+  },
+  {
+    "tableName": "ref.field",
+    "parentTableName": "algae.reference_base",
+    "comment": "Data fields.",
+    "source": "algae",
+    "phpClass": "algaeTblField",
+    "pythonClass": "algaeTblField",
+    "columns": 
+    [
+      {
+        "name": "field_type_rowid_fk",
+        "variableName": "field_type.rowid"
+      },
+      {
+        "name": "num_decimals"
+      }
+    ]
   }
 ]
