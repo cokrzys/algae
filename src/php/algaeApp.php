@@ -41,6 +41,7 @@ class algaeApp
     require_once 'algaeTable.php';
     require_once 'algaeForm.php';
     require_once 'algaeQueryTool.php';
+    require_once 'algaeReport.php';
     /*
     require_once 'algaeSVG.php';
     require_once 'algaeGraph.php';
@@ -103,7 +104,6 @@ class algaeApp
     //
     // ----- reporting and stats
     //
-    require_once 'algaeReport.php';
     require_once 'algaeFieldStats.php';
      */
     $this->config = new algaeConfig($load_detailed_config, $debug);

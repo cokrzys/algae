@@ -21,6 +21,7 @@
   2026.09.20 | Changed core.user to core.app_user.
   2026.10.04 | ref.process_status updates.
   2026.10.12 | ref.field_type and ref.field updates.
+  2026.10.13 | Made core.report a standard named object style table.
 
 */
 
@@ -33,7 +34,7 @@ SET client_min_messages TO WARNING;
 -- function to get the version
 --
 CREATE OR REPLACE FUNCTION algae_app_database_version() RETURNS varchar LANGUAGE SQL AS
-  $$ SELECT CAST('2026.10.12' AS VARCHAR); $$;
+  $$ SELECT CAST('2026.10.13' AS VARCHAR); $$;
 
 --
 -- function to keep the last modified date updated automatically
@@ -430,7 +431,9 @@ CREATE SEQUENCE core.report_rowid START 1;
 CREATE TABLE core.report
 (
   rowid INTEGER PRIMARY KEY DEFAULT nextval('core.report_rowid'),
+  record_status_rowid_fk INTEGER NOT NULL REFERENCES ref.record_status DEFAULT algae_active_rowid(),
   name VARCHAR NOT NULL UNIQUE,
+  html_color VARCHAR NOT NULL DEFAULT algae_default_color(),
   timestamp_loaded_utc TIMESTAMP NOT NULL DEFAULT current_timestamp,
   timestamp_modified_utc TIMESTAMP NOT NULL DEFAULT current_timestamp
 );
