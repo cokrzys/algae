@@ -39,6 +39,7 @@ class algaeTblBase
   public $debug;
   public $inserted;
   public $updated;
+  public $deleted;
   
   /**
    * Constructor.
@@ -71,6 +72,7 @@ class algaeTblBase
     $this->debug = False;
     $this->inserted = False;
     $this->updated = False;
+    $this->deleted = False;
   }
   
   protected function addDerivedFieldsToForm() {}
@@ -81,6 +83,7 @@ class algaeTblBase
   protected function postUpdate() { return True; }
   protected function processDerivedVariables() {}
   public function getControl($calling_class, $fk_column_name = null) { return ''; }
+  public function showWhatsBeingDeleted() { $this->errorNotImplemented(__FUNCTION__); }
   
   protected function errorNotImplemented($method)
   // --------------------------------------------------------------------------
@@ -1002,6 +1005,119 @@ class algaeTblBase
   // --------------------------------------------------------------------------
   {
     return "SELECT " . $this->getFieldsV1() . $this->getTableAndJoinsV1();
+  }
+  
+  /**
+   * Read data and show the homepage for a record.
+   */
+  public function showDeleteForm($includeTab = True)
+  // --------------------------------------------------------------------------
+  {
+    global $app;
+    if (! $this->deleted)
+    {
+      if (isset($_REQUEST['rowid']))
+      {
+        $this->rowid = algaeForm::cleanInput($_REQUEST['rowid']);
+        if ($this->rowid > 0)
+        {
+          $this->read_row_from_database_with_rowid($this->rowid);
+          if (strlen($this->timestamp_loaded_utc) > 0)
+          {
+            $f = new algaeForm();
+            //
+            // ----- start the form
+            //
+            if ($includeTab) algaeForm::startSingleTab('Delete');
+            $f->startForm(algaeForm::getDefaultToken($this));
+            if ($this->rowid > 0)
+            {
+              echo '<input type="hidden" name="rowid" value="', $this->rowid, '" />';
+            }
+            echo 'The following data will be deleted:<p />';
+            $this->showWhatsBeingDeleted();
+            echo $app->errorMessage('DELETING DATA IS PERMANENT AND CANNOT BE UNDONE.');
+            echo 'Continue deleting?&nbsp;&nbsp;';
+            echo $f->submitButton('Confirm'), '&nbsp;&nbsp;';
+            $f->endForm('Cancel', False);
+            if ($includeTab) algaeForm::endSingleTab();
+            echo '<p /><br />';
+          }
+          else
+          {
+            $app->errorMessage('Problem reading the details for rowid ' . $this->rowid . ' from ' . $this->table_name . '.');
+          }
+        }
+        else
+        {
+          $app->errorMessage('Rowid specified on the URL is not > 0.');
+        }
+      }
+      else
+      {
+        $app->errorMessage('Rowid not specified on the URL.');
+      }
+    }
+  }
+  
+  /**
+   * Delete the item.
+   * {@inheritDoc}
+   * @see algaeTblBase::delete()
+   */
+  public function delete()
+  // --------------------------------------------------------------------------
+  {
+    global $app;
+    $num = algaeDB::getScalarInteger("SELECT COUNT(*) FROM $this->table_name WHERE rowid = $1", array($this->rowid), 0);
+    if ($num > 0)
+    {
+      if (algaeDB::deleteFromTable($this->table_name, 'rowid', $this->rowid))
+      {
+        $app->successMessage('1 record deleted from ' . $this->table_name . '.');
+        $this->deleted = True;
+      }
+      else
+      {
+        $app->successMessage('Unable to delete a record from ' . $this->table_name . '.');
+        return False;
+      }
+    }
+    return True;
+  }
+  
+  /**
+   * Process a delete form that's been submitted.
+   */
+  public function processDeleteForm($includeTab = True)
+  // --------------------------------------------------------------------------
+  {
+    $showDeleteForm = True;
+    if (isset($_POST['submit']))
+    {
+      if (algaeForm::validTokens(algaeForm::getDefaultToken($this)))
+      {
+        if ($_REQUEST['submit'] == 'Confirm')
+        {
+          if (isset($_POST['rowid']))
+          {
+            $this->rowid = algaeForm::cleanInput($_POST['rowid']);
+          }
+          $this->read_row_from_database_with_rowid($this->rowid);
+          $this->delete();
+          //
+          // ----- at this point whether the delete worked or not we don't want to show the delete form again
+          //
+          $showDeleteForm = False;
+        }
+        else if ($_REQUEST['submit'] == 'Cancel')
+        {
+          header("Location: " . $this->browsepage);
+        }
+      }
+    }
+    if ($showDeleteForm) $this->showDeleteForm($includeTab);
+    return False;
   }
   
 }
