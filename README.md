@@ -22,7 +22,6 @@ PHP and Python application framework.
 - Finish setup checks page
 - Test when running without security
 - Add document showing basic page setup
-- Implement bar chart in algaeColStats.js
 
 ## Credits
 
