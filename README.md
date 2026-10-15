@@ -14,6 +14,7 @@ PHP and Python application framework.
 
 ## Documentation
 
+- [Development Cheat Sheet](docs/cheat_sheet.md)
 - [Security Model](docs/security_model.md)
 
 ## TODO
