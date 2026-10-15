@@ -1,4 +1,4 @@
-algae Framework Development Cheat Sheet
+# algae Framework Development Cheat Sheet
 
 Get rowid of application user.
 ```php
