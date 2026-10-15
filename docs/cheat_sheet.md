@@ -1,5 +1,6 @@
-## algae Framework Development Cheat Sheet
+# algae Framework Development Cheat Sheet
 
+## User
 Get rowid of application user.
 ```php
 algaeTblCoreAppUser::getAppUserRowidForLoggedInUser();
