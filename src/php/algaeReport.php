@@ -14,8 +14,6 @@
 class algaeReport
 {
   
-  const MOST_RECENT_REPORT = '==MostRecent==';
-  
   public $report_table_name;
   public $items_table_name;
   public $master_class;
@@ -58,7 +56,6 @@ class algaeReport
     $this->name = '';
     $this->results_tab_name = 'Results';
     $this->first_column_name  = 'Project';
-    $this->version = algaeReport::MOST_RECENT_REPORT;
     $this->fixed_columns = null; // override in derived class if needed
     $this->default_sort = null; // override in derived class if needed
     $this->final_sql = null;  // final SQL used to get data for the report
@@ -86,6 +83,7 @@ class algaeReport
   protected function updateJavaScript()
   // --------------------------------------------------------------------------
   {
+    global $app;
     $num_errors = 0;
     algaeApp::checkVariable($this->name, 'name', get_class($this), $num_errors);
     algaeApp::checkVariable($this->save_report_page, 'save_report_page', get_class($this), $num_errors);
@@ -93,9 +91,12 @@ class algaeReport
     {
       algaeCore::addJavaScript("algaeReport.active = true;");
       algaeCore::addJavaScript("algaeReport.name = '" . $this->name . "';");
-      algaeCore::addJavaScript("algaeReport.saveURL = '" . $this->save_report_page . "';");
-      algaeCore::addJavaScript("algaeReport.loadURL = '" . $this->load_report_page . "';");
-      algaeCore::addJavaScript("algaeReport.getReportListURL = '" . $this->load_report_names_page . "';");
+      algaeCore::addJavaScript("algaeReport.saveURL = '" . 
+        algaeCore::getFullPath($app->config->algae_root_url, $this->save_report_page) . "';");
+      algaeCore::addJavaScript("algaeReport.loadURL = '" . 
+        algaeCore::getFullPath($app->config->algae_root_url, $this->load_report_page) . "';");
+      algaeCore::addJavaScript("algaeReport.getReportListURL = '" . 
+        algaeCore::getFullPath($app->config->algae_root_url, $this->load_report_names_page) . "';");
     }
   }
   
@@ -117,44 +118,12 @@ class algaeReport
     return $sql;
   }
   
-  /**
-   * Read a set of fields, may be available fields or those used in the report.
-   */
-  protected function readFields($sql, $parms = array())
-  // --------------------------------------------------------------------------
-  {
-    $fields_array = array();
-    //
-    // ----- setup sql to read fields in standard way, but just for the report fields
-    //
-    $db = algaeDB::connect();
-    if ($db)
-    {
-      $result = pg_query_params($db, $sql, $parms);
-      if (! $result)
-      {
-        algaeDB::errorWithSQL($sql, $parms);
-      }
-      //
-      // ----- loop through the results
-      //
-      while ($row = pg_fetch_array($result))
-      {
-        $f = new $this->field_class();
-        $f->readRowFromDatabase($row);
-        $fields_array[] = $f;
-      }
-      algaeDB::close($db, $result);
-    }
-    return $fields_array;
-  }
-  
   protected function readSelectedFields()
   // --------------------------------------------------------------------------
   {
-    $sql = $this->getReportFieldsSQL();
-    echo 'DEBUG: ', $sql, '<p />';
-    return $this->readFields($sql, array($this->rowid));
+    // $sql = $this->getReportFieldsSQL();
+    //   return $this->readFields($sql, array($this->rowid));
+    return array();
   }
   
   /**
@@ -168,7 +137,7 @@ class algaeReport
     echo '<li class="ui-state-default"';
     echo ', rowid="', $field->rowid, '"';
     echo ', title="', $field->description, '"';
-    echo '>', $field->name, ' | ', strtolower($field->field_type);
+    echo '>', $field->name, ' | ', strtolower($field->field_type->name);
     if ($includeDelete)
     {
       echo '<a href="#" class="delete_item align_right"><img src="/algae/img/red_minus_128px.png" height="18px" width="18px" style="margin-top:3px;" /></a>';
@@ -185,7 +154,7 @@ class algaeReport
   {
     $f = new $this->field_class();
     $sql = $f->get_sql() . " ORDER BY $f->table_name.name";
-    $available_fields = $this->readFields($sql);
+    $available_fields = algaeDB::getArrayOfObjects($this->field_class);
     foreach ($available_fields as $field)
     {
       $this->showField($field, False);
@@ -198,6 +167,7 @@ class algaeReport
   protected function showSelectedFields()
   // --------------------------------------------------------------------------
   {
+    /*
     if ($this->rowid > 0)
     {
       $selected_fields = $this->readSelectedFields();
@@ -206,6 +176,7 @@ class algaeReport
         $this->showField($field, True);
       }
     }
+    */
   }
   
   /**
@@ -300,12 +271,14 @@ class algaeReport
     //
     // ----- div and buttons for pre-defined reports
     //
+    /*
     echo '<div id="predefined_buttons_div">';
     echo 'Custom report: ';
     echo algaeForm::button('saveReport', 'Save');
     echo '&nbsp;';
     echo algaeForm::button('loadReport', 'Load');
     echo '</div>';
+    */
     echo '</div>';
     //
     // ----- div ends
@@ -320,17 +293,6 @@ class algaeReport
     echo '</div>';
     algaeForm::endTabs('tabs', '400px');
     $f->endOptionsForm();
-  }
-  
-  /**
-   * Read the rowid for the most recent report.
-   */
-  protected function readReportRowid()
-  // --------------------------------------------------------------------------
-  {
-    $sql = "SELECT rowid FROM core.report WHERE name = $1 AND version = $2 AND user_rowid_fk = ";
-    $sql .= algaeAccess::getRowidSQLforUsername(algaeAccess::getUsername());
-    $this->rowid = algaeDB::getScalarInteger($sql, array($this->name, $this->version), 0);
   }
   
   /**
@@ -379,86 +341,11 @@ class algaeReport
   public function show($addActions = False, $addSQLTab = False)
   // --------------------------------------------------------------------------
   {
-    $this->readReportRowid();
+    // $this->readReportRowid();
     $this->updateJavaScript();
     $this->showOptions();
     echo '<p />';
     $this->showReport(True, $addActions, $addSQLTab);
-  }
-  
-  /**
-   * Save the report header, or if it already exists get the rowid.
-   */
-  protected function saveReport()
-  // --------------------------------------------------------------------------
-  {
-    $this->readReportRowid();
-    if ($this->rowid <= 0)
-    {
-      //
-      // -----SQL to insert a new record
-      //
-      $sql = "INSERT INTO $this->report_table_name (user_rowid_fk, name, version) VALUES (";
-      $sql .= algaeAccess::getRowidSQLforUsername(algaeAccess::getUsername());
-      $sql .= ", " . algaeDB::getStringOrNull($this->name);
-      $sql .= ", " . algaeDB::getStringOrNull($this->version);
-      $sql .= ")";
-      //
-      // ----- insert and get the rowid for the new record
-      //
-      $this->rowid = algaeDB::executeInsert($sql, array());
-    }
-  }
-  
-  /**
-   * Save the fields in a report.
-   * @param array $data Array of arrays with a named index field_rowid on the inner arrays.
-   */
-  protected function writeFieldsFromRowids($data)
-  // --------------------------------------------------------------------------
-  {
-    $sort_order = 1;
-    $num_errors = 0;
-    algaeDB::deleteFromTable($this->items_table_name, 'report_rowid_fk', $this->rowid);
-    if (isset($data) && (count($data) > 0))
-    {
-      foreach ($data as $row)
-      {
-        $field_rowid_fk = $row['field_rowid'];
-        $sql = "INSERT INTO $this->items_table_name (report_rowid_fk, field_rowid_fk, sort_order) VALUES (";
-        $sql .= algaeDB::getNumericOrNull($this->rowid, 0, 0);
-        $sql .= ", " . algaeDB::getNumericOrNull($field_rowid_fk, 0, 0);
-        $sql .= ", " . algaeDB::getNumericOrNull($sort_order, 0, 0);
-        $sql .= ")";
-        $rowid = algaeDB::executeInsert($sql, array());
-        if ($rowid > 0)
-        {
-          $sort_order++;
-        }
-        else
-        {
-          $num_errors++;
-        }
-      }
-    }
-    if ($num_errors == 0) return True;
-    return False;
-  }
-  
-  /**
-   * Save any optional data, override in derived class.
-   * @param array $data Array with one JSON object.
-   * @return boolean True on success, False on fail.
-   */
-  protected function saveOptionalData($data)
-  // --------------------------------------------------------------------------
-  {
-    //
-    // ----- example access
-    // error_log('DEBUG: num = ' . count($data), 0);
-    // error_log('DEBUG: group = ' . $data['group'], 0);
-    //
-    return True;
   }
   
   /**
@@ -470,38 +357,19 @@ class algaeReport
     $num_errors = 0;
     $data = null;
     $optionalData = null;
-    if (isset($_POST['name']))$this->name = $_POST['name'];
-    if (isset($_POST['version']))$this->version = $_POST['version'];
+    if (isset($_POST['name'])) $this->name = $_POST['name'];
     if (isset($_POST['data'])) $data = $_POST['data'];
     if (isset($_POST['optionalData'])) $optionalData = $_POST['optionalData'];
-    if (strlen($this->version) == 0) $this->version = algaeReport::MOST_RECENT_REPORT;
-    /*
-    error_log('DEBUG: report name = ' . $this->name, 0);
-    error_log('DEBUG: report version = ' . $this->version, 0);
-    error_log('DEBUG: username = ' . algaeAccess::getUsername(), 0);
-    */
-    //
-    // ----- save report and fields
-    //
-    $this->saveReport();
-    if ($this->rowid > 0)
-    {
-      if (! $this->writeFieldsFromRowids($data))
-      {
-        $num_errors++;
-      }
-      if ($optionalData != null)
-      {
-        if (! $this->saveOptionalData($optionalData))
-        {
-          $num_errors++;
-        }
-      }
-    }
-    else 
-    {
-      $num_errors++;  
-    }
+    
+    $a = array();
+    $a['fields'] = $data;
+    $a['optionalData'] = $optionalData;
+
+
+    algaeTblCoreUserParameter::save_parameter($this->name, json_encode($a, JSON_NUMERIC_CHECK | JSON_PRETTY_PRINT));
+    
+    // json_encode($a, JSON_NUMERIC_CHECK | JSON_PRETTY_PRINT);
+    
     //
     // ----- return success or fail
     //

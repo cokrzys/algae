@@ -73,6 +73,7 @@ class algaeConfig
     $this->favicon = '/algae/img/algae_favicon.png';
     $this->session_username_key = 'algae_username';
     
+    $this->algae_root_url = '/algae';
     $this->login_page = '/algae/login.php';
     $this->logout_page = '/algae/logout.php';
     $this->default_page = '/algae/home.php';

@@ -434,6 +434,7 @@ CREATE TABLE core.report
   record_status_rowid_fk INTEGER NOT NULL REFERENCES ref.record_status DEFAULT algae_active_rowid(),
   name VARCHAR NOT NULL UNIQUE,
   html_color VARCHAR NOT NULL DEFAULT algae_default_color(),
+  description VARCHAR,
   timestamp_loaded_utc TIMESTAMP NOT NULL DEFAULT current_timestamp,
   timestamp_modified_utc TIMESTAMP NOT NULL DEFAULT current_timestamp
 );

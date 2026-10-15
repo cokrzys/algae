@@ -304,6 +304,52 @@ class algaeDB
     return $data;
   }
   
+  public static function getArrayOfObjects($className, $parms = array(), $filterSQL = null, $rowidsSQL = null)
+  // --------------------------------------------------------------------------
+  {
+    $obj_read_method_name = 'read_row_from_database_with_rowid';
+    $obj = new $className();
+    if (method_exists($obj, $obj_read_method_name))
+    {
+      $rsql = $rowidsSQL;
+      if ($rsql == null)
+      {
+        if (method_exists($obj, 'get_sql'))
+        {
+          $rsql = $obj->get_sql(True);
+        }
+      }
+      if ($rsql != null)
+      {
+        if (($rowidsSQL == null) && ($filterSQL != null))
+        {
+          $rsql .= $filterSQL;
+        }
+        $rowids = algaeDB::getArray($rsql, $parms);
+        if (count($rowids) > 0)
+        {
+          $obj_array = array();
+          foreach ($rowids as $rowid)
+          {
+            $item = new $className();
+            $item->read_row_from_database_with_rowid($rowid[0]);
+            $obj_array[] = $item;
+          }
+          return $obj_array;
+        }
+      }
+      else
+      {
+        algaeApp::errorMessage('Rowids SQL not defined in ' . __FUNCTION__ . '.');
+      }
+    }
+    else
+    {
+      algaeApp::errorMessage('Method ' . $obj_read_method_name . ' does not exist in ' . $className . '.');
+    }
+    return null;
+  }
+  
   /**
    * Get an array of strings from a database query.
    * @param string $sql SQL statement that selects a set of text values.

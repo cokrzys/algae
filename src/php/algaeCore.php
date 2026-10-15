@@ -14,6 +14,8 @@
 class algaeCore
 {
   
+  CONST HTML_LF = '<p />';
+  
   /**
    * Constructor.
    */

@@ -262,7 +262,7 @@ function save(version) {
     //
     if (field_rowid != null) {
       var item = new Object();
-      item.field_rowid = field_rowid;
+      item.rowid = field_rowid;
       data.push(item); 
     }
   });
