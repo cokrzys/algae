@@ -14,16 +14,15 @@
 class algaeReport
 {
   
+  public $name;
   public $report_table_name;
   public $items_table_name;
   public $master_class;
   public $field_class;
-  public $rowid;
-  public $name;
-  public $version;
+  public $data_class;
+  public $parent_rowid_field;
   public $save_report_page;
   public $load_report_page;
-  public $load_report_names_page;
   public $results_tab_name;
   public $first_column_name;
   public $fixed_columns;
@@ -49,10 +48,10 @@ class algaeReport
     $this->items_table_name = 'core.report_item';
     $this->save_report_page = 'ajax_save_report.php';
     $this->load_report_page = 'ajax_load_report.php';
-    $this->load_report_names_page = 'ajax_load_report_names.php';
     $this->master_class = null;
     $this->field_class = 'algaeTblField';
-    $this->rowid = null;
+    $this->data_class = null;
+    $this->parent_rowid_field = null;
     $this->name = '';
     $this->results_tab_name = 'Results';
     $this->first_column_name  = 'Project';
@@ -91,39 +90,42 @@ class algaeReport
     {
       algaeCore::addJavaScript("algaeReport.active = true;");
       algaeCore::addJavaScript("algaeReport.name = '" . $this->name . "';");
-      algaeCore::addJavaScript("algaeReport.saveURL = '" . 
-        algaeCore::getFullPath($app->config->algae_root_url, $this->save_report_page) . "';");
-      algaeCore::addJavaScript("algaeReport.loadURL = '" . 
-        algaeCore::getFullPath($app->config->algae_root_url, $this->load_report_page) . "';");
-      algaeCore::addJavaScript("algaeReport.getReportListURL = '" . 
-        algaeCore::getFullPath($app->config->algae_root_url, $this->load_report_names_page) . "';");
+      
+      $app_database_url = '?app_database=' . $app->config->app_database;
+      
+      $page = algaeCore::getFullPath($app->config->algae_root_url, $this->save_report_page) . $app_database_url;
+      algaeCore::addJavaScript("algaeReport.saveURL = '" . $page . "';");
+      
+      $page = algaeCore::getFullPath($app->config->algae_root_url, $this->load_report_page) . $app_database_url;
+      algaeCore::addJavaScript("algaeReport.loadURL = '" . $page . "';");
+      
     }
   }
   
-  protected function getReportFieldsSQL()
-  // --------------------------------------------------------------------------
-  {
-    $field = new $this->field_class();
-    $sql = "SELECT f.* FROM (";
-    $sql .= $field->get_sql();
-    $sql .= ") f
-              RIGHT OUTER JOIN
-              (
-                SELECT ri.field_rowid_fk, ri.sort_order
-                            FROM " . $this->items_table_name . " ri
-                            WHERE ri.report_rowid_fk = $1
-                            ORDER BY ri.sort_order
-              ) sf ON f.rowid = sf.field_rowid_fk
-              ORDER BY sf.sort_order";
-    return $sql;
-  }
-  
+  /**
+   * 
+   * { "fields": [ { "rowid": 3 } ], "optionalData": null }
+   * @return array
+   */
   protected function readSelectedFields()
   // --------------------------------------------------------------------------
   {
-    // $sql = $this->getReportFieldsSQL();
-    //   return $this->readFields($sql, array($this->rowid));
-    return array();
+    $fields_array = array();
+    $parms = algaeTblCoreUserParameter::get_parameter($this->name);
+    if (strlen($parms) > 0)
+    {
+      $json = json_decode($parms);
+      $fields = $json->fields;
+      foreach ($fields as $field)
+      {
+        $f = new $this->field_class();
+        echo 'DEBUG: field rowid to load = ', $field->rowid, algaeCore::HTML_LF;
+        $f->read_row_from_database_with_rowid($field->rowid);
+        echo 'DEBUG: Loaded field ', $f->name, algaeCore::HTML_LF;
+        $fields_array[] = $f;
+      }
+    }
+    return $fields_array;
   }
   
   /**
@@ -201,10 +203,11 @@ class algaeReport
   // --------------------------------------------------------------------------
   {
     $sql = '';
+    $data_object = new $this->data_class();
     foreach ($fields as $key => $field)
     {
       $sql .= ' LEFT OUTER JOIN (';
-      $sql .= $field->calc_sql;
+      $sql .= $field->getCalcSQL($data_object);
       $sql .= ') field' . $key . ' ON field' . $key . '.rowid = m.rowid';
     }
     return $sql;
@@ -367,9 +370,7 @@ class algaeReport
 
 
     algaeTblCoreUserParameter::save_parameter($this->name, json_encode($a, JSON_NUMERIC_CHECK | JSON_PRETTY_PRINT));
-    
-    // json_encode($a, JSON_NUMERIC_CHECK | JSON_PRETTY_PRINT);
-    
+        
     //
     // ----- return success or fail
     //
@@ -385,35 +386,6 @@ class algaeReport
   public function load()
   // --------------------------------------------------------------------------
   {
-    exit;
-  }
-  
-  /**
-   * Load a list of reports via an AJAX call.
-   */
-  public function loadReportsList()
-  // --------------------------------------------------------------------------
-  {
-    $sql = "SELECT rowid, version
-            FROM core.report
-            WHERE name = $1 AND user_rowid_fk = $2 AND version <> '==MostRecent=='
-            ORDER BY version";
-    $reports_list = algaeDB::getArray($sql, array($this->name, algaeAccess::getUserRowid()));
-    //
-    // -----
-    //
-    $status = 'fail';
-    $names_array = array();
-    if (count($reports_list) > 0)
-    {
-      $status = 'success';
-      foreach ($reports_list as $row)
-      {
-        $names_array[] = array('rowid'=>$row[0], 'name'=>$row[1]);
-      }
-    }
-    # error_log('DEBUG: ' . json_encode(array('status'=>$status, 'num_reports'=>count($names_array), 'reports'=>$names_array), JSON_NUMERIC_CHECK), 0);
-    echo json_encode(array('status'=>$status, 'num_reports'=>count($names_array), 'reports'=>$names_array), JSON_NUMERIC_CHECK);
     exit;
   }
   

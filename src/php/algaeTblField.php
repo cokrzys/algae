@@ -326,6 +326,47 @@ class algaeTblField extends algaeTblReferenceBase
     return $this->selectFieldsOfType($id, $default, "IN ('TEXT')", $required, $attributes);
   }
   
+  public function getDataColumn()
+  // --------------------------------------------------------------------------
+  {
+    if ($this->isNumeric())
+    {
+      return 'numeric_val'; 
+    }
+    elseif ($this->isInteger())
+    {
+      return 'integer_val';
+    }
+    elseif ($this->isText())
+    {
+      return 'text_val';
+    }
+    elseif ($this->isDateTime())
+    {
+      return 'datetime_val';
+    }
+    else
+    {
+      algaeApp::errorMessage('Unknown classification in ' . __FUNCTION__ . '.');
+    }
+    return null;
+  }
+  
+  public function getCalcSQL($data_object, $parent_rowid_field)
+  // --------------------------------------------------------------------------
+  {
+    if (strlen($this->calc_sql) > 0)
+    {
+      return $this->calc_sql;
+    }
+    $column = $this->getDataColumn();
+    if ($column != null)
+    {
+      return 'SELECT ' . $parent_rowid_field . ' AS rowid, ' . $column . ' AS val FROM ' . $data_object->table_name;
+    }
+    return null;
+  }
+  
 }
 
 

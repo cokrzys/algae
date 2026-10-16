@@ -166,6 +166,7 @@ class algaeConfig
   {
     $this->loadINIConfig(algaeCore::getFullPath($this->config_path, $this->app_name . '.ini'));
     $this->loadINIConfig(algaeCore::getFullPath($this->local_config_path, $this->app_name . '.ini'));
+    $this->loadURLConfig();
     // $this->loadDataExchangeConfig();
     $this->loadJSONConfig(algaeCore::getFullPath($this->config_path, $this->app_name . '_dex.json'), $this->dex_json);
     $this->loadJSONConfig(algaeCore::getFullPath($this->config_path, $this->app_name . '_wm.json'), $this->wm_json);
@@ -245,6 +246,15 @@ class algaeConfig
     else
     {
       echo 'ERROR: JSON config file ', $filename, ' does not exist.<p />';
+    }
+  }
+  
+  public function loadURLConfig()
+  // --------------------------------------------------------------------------
+  {
+    if (isset($_REQUEST['app_database']))
+    {
+      $this->app_database = algaeForm::cleanInput($_REQUEST['app_database']);
     }
   }
     

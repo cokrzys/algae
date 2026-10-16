@@ -16,7 +16,6 @@
   //
   require_once 'algaeApp.php';
   $app = new algaeApp();
-  $app->config->app_database = 'slate';
   
   //
   // ----- check login and rights
