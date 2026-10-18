@@ -116,13 +116,14 @@ class algaeReport
     {
       $json = json_decode($parms);
       $fields = $json->fields;
-      foreach ($fields as $field)
+      if (isset($fields))
       {
-        $f = new $this->field_class();
-        echo 'DEBUG: field rowid to load = ', $field->rowid, algaeCore::HTML_LF;
-        $f->read_row_from_database_with_rowid($field->rowid);
-        echo 'DEBUG: Loaded field ', $f->name, algaeCore::HTML_LF;
-        $fields_array[] = $f;
+        foreach ($fields as $field)
+        {
+          $f = new $this->field_class();
+          $f->read_row_from_database_with_rowid($field->rowid);
+          $fields_array[] = $f;
+        }
       }
     }
     return $fields_array;
@@ -155,8 +156,8 @@ class algaeReport
   // --------------------------------------------------------------------------
   {
     $f = new $this->field_class();
-    $sql = $f->get_sql() . " ORDER BY $f->table_name.name";
-    $available_fields = algaeDB::getArrayOfObjects($this->field_class);
+    $filter = " ORDER BY $f->table_name.name";
+    $available_fields = algaeDB::getArrayOfObjects($this->field_class, array(), $filter);
     foreach ($available_fields as $field)
     {
       $this->showField($field, False);
@@ -169,16 +170,11 @@ class algaeReport
   protected function showSelectedFields()
   // --------------------------------------------------------------------------
   {
-    /*
-    if ($this->rowid > 0)
+    $fields = $this->readSelectedFields();
+    foreach ($fields as $field)
     {
-      $selected_fields = $this->readSelectedFields();
-      foreach ($selected_fields as $field)
-      {
-        $this->showField($field, True);
-      }
+      $this->showField($field, True);
     }
-    */
   }
   
   /**
@@ -203,11 +199,10 @@ class algaeReport
   // --------------------------------------------------------------------------
   {
     $sql = '';
-    $data_object = new $this->data_class();
     foreach ($fields as $key => $field)
     {
       $sql .= ' LEFT OUTER JOIN (';
-      $sql .= $field->getCalcSQL($data_object);
+      $sql .= $field->getCalcSQL($this->data_class);
       $sql .= ') field' . $key . ' ON field' . $key . '.rowid = m.rowid';
     }
     return $sql;
@@ -302,7 +297,7 @@ class algaeReport
    * Show the report.
    * @param boolean $includeResultsTab True (default) to include a 'Results' tab containing the report.
    */
-  public function showReport($includeResultsTab = True, $addActions = False, $addSQLTab = False)
+  public function showReport($includeResultsTab = True, $addActions = False, $addSQLTab = True)
   // --------------------------------------------------------------------------
   {
     if (! $addSQLTab)
@@ -341,10 +336,9 @@ class algaeReport
   /**
    * Show the report.
    */
-  public function show($addActions = False, $addSQLTab = False)
+  public function show($addActions = False, $addSQLTab = True)
   // --------------------------------------------------------------------------
   {
-    // $this->readReportRowid();
     $this->updateJavaScript();
     $this->showOptions();
     echo '<p />';

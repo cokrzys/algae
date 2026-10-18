@@ -329,13 +329,16 @@ class algaeTblField extends algaeTblReferenceBase
   public function getDataColumn()
   // --------------------------------------------------------------------------
   {
-    if ($this->isNumeric())
-    {
-      return 'numeric_val'; 
-    }
-    elseif ($this->isInteger())
+    //
+    // ----- the classifications isInteger(), isNumeric() ... are generic so order below is important
+    //
+    if ($this->isInteger())
     {
       return 'integer_val';
+    }
+    elseif ($this->isNumeric())
+    {
+      return 'numeric_val'; 
     }
     elseif ($this->isText())
     {
@@ -347,24 +350,22 @@ class algaeTblField extends algaeTblReferenceBase
     }
     else
     {
-      algaeApp::errorMessage('Unknown classification in ' . __FUNCTION__ . '.');
+      algaeApp::errorMessage('Unknown classification in ' . __METHOD__ . '.');
     }
     return null;
   }
   
-  public function getCalcSQL($data_object, $parent_rowid_field)
+  public function getCalcSQL($data_value_class)
   // --------------------------------------------------------------------------
   {
     if (strlen($this->calc_sql) > 0)
     {
       return $this->calc_sql;
     }
-    $column = $this->getDataColumn();
-    if ($column != null)
-    {
-      return 'SELECT ' . $parent_rowid_field . ' AS rowid, ' . $column . ' AS val FROM ' . $data_object->table_name;
-    }
-    return null;
+    $dv = new $data_value_class();
+    return 'SELECT ' . $dv->parent_column_name . ' AS rowid, ' .
+      $this->getDataColumn() . ' AS val FROM ' . $dv->table_name . ' WHERE field_rowid_fk = ' . 
+      strval($this->rowid);
   }
   
 }

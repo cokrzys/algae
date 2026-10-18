@@ -69,6 +69,7 @@ class algaeApp
     require_once 'algaeTblReferenceBase.php';
     require_once 'algaeTblRefFieldType.php';
     require_once 'algaeTblField.php';
+    require_once 'algaeTblDataValueBase.php';
     /*
     require_once 'algaeTblSetItemBase.php';
     require_once 'algaeTblSetBase.php';
@@ -90,7 +91,6 @@ class algaeApp
     require_once 'algaeTblStyle.php';
     require_once 'algaeTblCalcType.php';
     require_once 'algaeTblFile.php';
-    require_once 'algaeTblDataValue.php';
     //
     // ----- database tables V2
     //

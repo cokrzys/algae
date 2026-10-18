@@ -128,6 +128,32 @@
     ]
   },
   {
+    "tableName": "algae.data_value_base",
+    "parentTableName": "algae.base",
+    "comment": "Generic structure for data values associated with a parent object.",
+    "source": "algae",
+    "phpClass": "algaeTblDataValueBase",
+    "pythonClass": "algaeTblDataValueBase",
+    "columns":
+    [
+      {
+        "name": "text_val"
+      },
+      {
+        "name": "numeric_val"
+      },
+      {
+        "name": "integer_val"
+      },
+      {
+        "name": "datetime_val"
+      },
+      {
+        "name": "description"
+      }
+    ]
+  },
+  {
     "tableName": "algae.reference_base",
     "parentTableName": "algae.named_object_base",
     "comment": "Standard set of fields for reference/lookup tables.",
@@ -284,6 +310,9 @@
       },
       {
         "name": "num_decimals"
+      },
+      {
+        "name": "calc_sql"
       }
     ]
   }
