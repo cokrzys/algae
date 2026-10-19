@@ -55,14 +55,14 @@ class algaeApp
     require_once 'algaeBoxplot.php';
     require_once 'algaeBarChart.php';
     require_once 'algaeNumericStats.php';
+    */
+    // require_once 'algaeMapLayerShapefile.php';
+    // require_once 'algaeMapLayerPostGIS.php';
     require_once 'algaeMapLayer.php';
-    require_once 'algaeMapLayerShapefile.php';
-    require_once 'algaeMapLayerPostGIS.php';
     require_once 'algaeMap.php';
     //
     // ----- database tables
     //
-     */
     require_once 'algaeTblBase.php';
     require_once 'algaeTblRecordStatus.php';
     require_once 'algaeTblNamedObjectBase.php';

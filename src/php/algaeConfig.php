@@ -87,6 +87,11 @@ class algaeConfig
     $this->app_folder = 'algae';
     $this->max_app_shortcuts = 3;
     
+    $this->session_maps_folder = '/var/www/html/algae/smaps/';
+    $this->mapserver_error_file = '/var/www/html/algae/smaps/mapserver_errors.log';
+    
+    // $this->postGISConnectionFile = '/usr/data/algae/connection.map';
+    
     $this->process_status_page = 'process_status.php';
     
     $this->dex_json = array();

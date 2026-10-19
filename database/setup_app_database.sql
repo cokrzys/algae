@@ -22,6 +22,7 @@
   2026.10.04 | ref.process_status updates.
   2026.10.12 | ref.field_type and ref.field updates.
   2026.10.13 | Made core.report a standard named object style table.
+  2026.18.18 | Changed default colors for Active and InActive.
 
 */
 
@@ -164,9 +165,9 @@ CREATE TRIGGER update_modified BEFORE UPDATE
   algae_update_modified_column();
   
 INSERT INTO ref.record_status (name, sort_order, html_color, description) 
-  VALUES ('Active', 1, '#00FF00', 'Active record.');
+  VALUES ('Active', 1, '#1a9850', 'Active record.');
 INSERT INTO ref.record_status (name, sort_order, html_color, description) 
-  VALUES ('InActive', 0, '#FF0000', 'InActive record.');
+  VALUES ('InActive', 0, '#d73027', 'InActive record.');
   
 --
 -- function to get the rowid for an active record

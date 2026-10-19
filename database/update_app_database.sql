@@ -41,4 +41,13 @@ ALTER TABLE core.report ALTER COLUMN html_color SET NOT NULL;
 
 CREATE OR REPLACE FUNCTION algae_app_database_version() RETURNS varchar LANGUAGE SQL AS
   $$ SELECT CAST('2026.10.13' AS VARCHAR); $$;
+  
+-- 2026.10.18
+
+UPDATE ref.record_status SET html_color = '#1a9850' WHERE name = 'Active';
+UPDATE ref.record_status SET html_color = '#d73027' WHERE name = 'InActive';
+
+CREATE OR REPLACE FUNCTION algae_app_database_version() RETURNS varchar LANGUAGE SQL AS
+  $$ SELECT CAST('2026.10.18' AS VARCHAR); $$;
+
 
