@@ -120,6 +120,63 @@ class algaeTblField extends algaeTblReferenceBase
     algaeTable::writeTwoColumns('SQL', $this->calc_sql);
   }
   
+  protected function showCalcSQLTab($tab_id)
+  // --------------------------------------------------------------------------
+  {
+    echo '<div id="' , $tab_id, '">';
+    $id = $this->get_control_id('calc_sql');
+    echo '<textarea name="' . $id . '" id="' . $id . '" cols="83" rows="20">',
+      algaeCore::toHtml($this->calc_sql), '</textarea><p />';
+    algaeCore::addJavaScript("algaefw.makeTextareaSQL('" . $id . "', 500);");
+    
+    // algaeCore::addJavaScript("algaefw.makeTextareaSQL('sql', 525);");
+    echo '</div>';
+  }
+  
+  /**
+   * Show form to edit a record.
+   */
+  public function showForm()
+  // --------------------------------------------------------------------------
+  {
+    $f = new algaeForm();
+    $f->startForm(algaeForm::getDefaultToken($this));
+    //
+    // ----- get data if editing
+    //
+    if (isset($_REQUEST['rowid']))
+    {
+      $this->read_row_from_database_with_rowid($_REQUEST['rowid']);
+    }
+    algaeForm::startTabs(array(
+      array('#overview_tab', 'Overview'),
+      array('#calcsql_tab', 'Calc SQL'),
+      array('#existing_tab', 'Existing ' . algaeCore::getSingularOrPlural(2, $this->itemName, $this->itemNamePlural))
+    ));
+    //
+    // ----- overview_tab
+    //
+    $this->showOverviewTab($f);
+    //
+    // ----- calcsql_tab
+    //
+    $this->showCalcSQLTab('calcsql_tab');
+    //
+    // ----- existing_tab
+    //
+    echo '<div id="existing_tab">';
+    $this->editpage = null;  // disables the "Add a ___" at the top of the table
+    $this->reportExistingRecords();
+    echo '</div>';
+    //
+    // ----- end tabs
+    //
+    algaeForm::endTabs('tabs');
+    echo '</form>';
+    echo '<p />';
+    echo '<p /><br />';
+  }
+  
   /**
    * Report records.
    * @param string $tableId Id for HTML table.
@@ -238,12 +295,6 @@ class algaeTblField extends algaeTblReferenceBase
   // --------------------------------------------------------------------------
   {
     parent::showWhatsBeingDeleted();
-    $b = new algaeTblBreak();
-    $num_breaks = $b->getNumBreaks($this->rowid);
-    if ($num_breaks > 0)
-    {
-      echo $num_breaks, ' color break(s) from ', $b->table_name, '.<p />';
-    }
   }
   
   /**
@@ -255,17 +306,6 @@ class algaeTblField extends algaeTblReferenceBase
   // --------------------------------------------------------------------------
   {
     $num_errors = 0;
-    //
-    // ----- delete color breaks
-    //
-    if ($num_errors == 0)
-    {
-      $b = new algaeTblBreak();
-      if (! $b->deleteBreaks($this->rowid))
-      {
-        $num_errors += 1;
-      }
-    }
     //
     // ----- delete field
     //

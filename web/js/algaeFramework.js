@@ -234,7 +234,7 @@ algaefw.makeTextareaCodeMirror = function(id, mode, height = 600) {
  */
 algaefw.makeTextareaSQL = function(id, height = 600) {
 //--------------------------------------------------------------------------
-  algaefw.makeTextareaSQL(id, 'text/x-plsql', height);
+  algaefw.makeTextareaCodeMirror(id, 'text/x-plsql', height);
 }
 
 /**
