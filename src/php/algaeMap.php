@@ -164,10 +164,11 @@ class algaeMap
   protected function toJavascript()
   // --------------------------------------------------------------------------
   {
+    global $app;
     //
     // ----- build full url for the map file
     //
-    $url = 'https://' . $_SERVER["SERVER_NAME"] . '/cgi-bin/mapserv?map=' . $this->getMapFilename();
+    $url = $app->config->web_protocol . '://' . $_SERVER["SERVER_NAME"] . '/cgi-bin/mapserv?map=' . $this->getMapFilename();
     //
     // ----- send parameters to Javascript
     //
@@ -351,7 +352,9 @@ class algaeMap
     $this->writeLine('END');
     $this->writeLine('STATUS ON');
     $this->writeLine('DATA "' . $filename . '"');
+    $this->writeLine('COMPOSITE');
     $this->writeLine('OPACITY ' . $opacity); // make this smaller for more transparency
+    $this->writeLine('END');
     $this->writeLine('TYPE RASTER');
     $this->writeLine('END # Raster Layer');
   }

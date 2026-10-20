@@ -69,6 +69,7 @@ class algaeConfig
     
     $this->security_on = False;
     $this->default_css = '/algae/css/algae.css';
+    $this->web_protocol = 'http';
     $this->web_root_folder = '/var/www/html/';
     $this->favicon = '/algae/img/algae_favicon.png';
     $this->session_username_key = 'algae_username';
