@@ -44,7 +44,7 @@ set -a; source /etc/environment; set +a
 ```
 
 ```console
-export PYTHONPATH="${PYTHONPATH}:/opt/algae-main/src/python/modules"
+export PYTHONPATH=$PYTHONPATH:/opt/algae-main/src/python/modules
 ```
 
 Install required modules.  Using the newer Ubuntu specific support for system-wide modules install.
