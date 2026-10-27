@@ -19,6 +19,13 @@ include_path = ".:/usr/share/php:/opt/algae-main/src/php"
 
 # better to see errors
 display_errors = On
+
+# file uploads
+upload_max_filesize = 50G
+post_max_size = 51G  # needs to be a little bigger than upload_max_filesize
+max_file_uploads = 50 # max number of files at a time
+
+memory_limit = 256M
 ```
 
 ## Setup Python for algae
