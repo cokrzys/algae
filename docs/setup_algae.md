@@ -26,6 +26,7 @@ post_max_size = 51G  # needs to be a little bigger than upload_max_filesize
 max_file_uploads = 50 # max number of files at a time
 
 memory_limit = 256M
+output_buffering = 8192
 ```
 
 ## Setup Python for algae
