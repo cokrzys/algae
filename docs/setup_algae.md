@@ -17,16 +17,14 @@ Changes to PHP configuration file
 # add algae to the PHP path
 include_path = ".:/usr/share/php:/opt/algae-main/src/php"
 
-# better to see errors
-display_errors = On
-
 # file uploads
 upload_max_filesize = 50G
-post_max_size = 51G  # needs to be a little bigger than upload_max_filesize
+post_max_size = 51G # needs to be a little bigger than upload_max_filesize
 max_file_uploads = 50 # max number of files at a time
 
 memory_limit = 256M
-output_buffering = 8192
+output_buffering = 8192 # prevents headers already sent error
+display_errors = On
 ```
 
 ## Setup Python for algae
