@@ -411,8 +411,12 @@ class algaeTblBase
   public function read_row_from_database_with_rowid($rowid, $deep_read = True)
   // --------------------------------------------------------------------------
   {
-    $sql = $this->get_rowid_read_sql();
-    return $this->read_row_from_database_with_sql($sql, array($rowid), $deep_read);
+    if ( (isset($rowid)) && ($rowid > 0) )
+    {
+      $sql = $this->get_rowid_read_sql();
+      return $this->read_row_from_database_with_sql($sql, array($rowid), $deep_read);
+    }
+    return false;
   }
   
   protected function getPageLink($page, $label = 'Edit', $openInNewTab = True)
