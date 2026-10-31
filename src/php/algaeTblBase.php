@@ -81,6 +81,7 @@ class algaeTblBase
   protected function preUpdate() { return True; }
   protected function postInsert() { return True; }
   protected function postUpdate() { return True; }
+  protected function postReadFromDatabase() {}
   protected function processDerivedVariables() {}
   public function getControl($calling_class, $fk_column_name = null) { return ''; }
   public function showWhatsBeingDeleted() { $this->errorNotImplemented(__FUNCTION__); }
@@ -367,6 +368,7 @@ class algaeTblBase
         $this->{$classVariableName} = $row[$index];
       }
     }
+    $this->postReadFromDatabase();
   }
   
   protected function read_extra_data()
