@@ -17,7 +17,13 @@ Changes to PHP configuration file
 # add algae to the PHP path
 include_path = ".:/usr/share/php:/opt/algae-main/src/php"
 
-# better to see errors
+# file uploads
+upload_max_filesize = 50G
+post_max_size = 51G # needs to be a little bigger than upload_max_filesize
+max_file_uploads = 50 # max number of files at a time
+
+memory_limit = 256M
+output_buffering = 8192 # prevents headers already sent error
 display_errors = On
 ```
 
@@ -44,13 +50,14 @@ set -a; source /etc/environment; set +a
 ```
 
 ```console
-export PYTHONPATH="${PYTHONPATH}:/opt/algae-main/src/python/modules"
+export PYTHONPATH=$PYTHONPATH:/opt/algae-main/src/python/modules
 ```
 
 Install required modules.  Using the newer Ubuntu specific support for system-wide modules install.
 ```shell
 sudo apt install python3-dotenv
 sudo apt install python3-psycopg2
+sudo apt install python3-scipy
 ```
 
 ## Setup Web Pages
