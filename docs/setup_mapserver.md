@@ -24,3 +24,7 @@ sudo a2enmod cgi
 sudo service apache2 restart
 ```
 
+```console
+https://rtspatial.com/cgi-bin/mapserv
+```
+
