@@ -28,3 +28,5 @@ sudo service apache2 restart
 https://rtspatial.com/cgi-bin/mapserv
 ```
 
+## MapServer Configuration File
+
