@@ -18,3 +18,9 @@ ER SUPPORTS=FASTCGI SUPPORTS=THREADS SUPPORTS=GEOS SUPPORTS=PBF INPUT=JPEG INPUT
 EFILE INPUT=FLATGEOBUF
 ```
 
+## Apache Setup for MapServer
+```shell
+sudo a2enmod cgi
+sudo service apache2 restart
+```
+
