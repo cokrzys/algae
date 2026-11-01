@@ -13,3 +13,4 @@ Benchmark system setup on Ubuntu Server 26.04 LTS.
 
 ## Spatial Support
 - [Install GDAL](setup_gdal.md)
+- [Install MapServer](setup_mapserver.md)
