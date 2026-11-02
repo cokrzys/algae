@@ -37,6 +37,20 @@ class algaeTblReferenceBase extends algaeTblNamedObjectBase
     $this->sort_order = 1;
   }
   
+  protected function addDerivedFieldsToForm()
+  // --------------------------------------------------------------------------
+  {
+    parent::addDerivedFieldsToForm();
+    //
+    // ----- color
+    //
+    algaeTable::writeTwoColumns('Color', algaeForm::inputColor('html_color', $this->html_color, algaeForm::REQUIRED), False);
+    //
+    // ----- sort order
+    //
+    algaeTable::writeTwoColumns('Sort Order', algaeForm::inputText('sort_order', $this->sort_order, 20, algaeForm::REQUIRED), False);
+  }
+  
   /**
    * Write the header for the records table.
    */

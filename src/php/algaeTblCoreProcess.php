@@ -80,6 +80,13 @@ class algaeTblCoreProcess extends algaeTblBase
     return $a;
   }
   
+  public function getHomepageLink($label = null, $role = algaeAccess::ROLE_READ, $new_page = False, $title = null, $include_color = False)
+  // --------------------------------------------------------------------------
+  {
+    if ($label == null) { $label = 'Process ' . strval($this->rowid); }
+    return parent::getHomepageLink($label, $role, $new_page, $title, $include_color);
+  }
+  
   public function getActionLinks($openInNewTab=False)
   // --------------------------------------------------------------------------
   {
