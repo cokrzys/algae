@@ -367,70 +367,54 @@ class algaeTblCoreProcess extends algaeTblBase
   {
     $class = get_class($this);
     $p = new $class();
-    $sql = $p->getSQL();
+    $sql = $p->get_sql(True);
+    $data = algaeDB::getArray($sql, array());
     //
-    // ----- run the query
+    // ----- 
     //
-    $db = algaeDB::connect();
-    if ($db)
+    if (count($data) > 0)
     {
-      $result = pg_query($db, $sql);
-      if (! $result)
+      echo date("d-M-Y H:i:s"), ' UTC<p />';
+      //
+      // ----- initial the table
+      //
+      algaeTable::initTablesorterJavascript($tableId, '[[1,1]]', True, "headers: {1: {sorter:'milDate'} }");
+      algaeTable::start($tableId, 'tablesorter', 'width:100%;');
+      //
+      // ----- table header
+      //
+      $header_array = array(
+        array('Action', '8%'),
+        array('Started', '10%'),
+        array('Application', '10%'),
+        array('Status', '8%'),
+        array('Progress', '10%'),
+        array('Message', '15%'),
+        array('PID', '5%')
+      );
+      algaeTable::writeHeader($header_array, True);
+      //
+      // ----- loop through the results
+      //
+      foreach ($data as $row)
       {
-        algaeDB::errorWithSQL($sql);
+        $p = new $class();
+        $p->read_row_from_database_with_rowid($row[0]);
+        echo '<tr>';
+        algaeTable::writeData($p->getActionLinks(), False);
+        algaeTable::writeData($p->timestamp_loaded_utc);
+        algaeTable::writeData($p->application);
+        algaeTable::writeData($p->getStatusMessage(), False);
+        algaeTable::writeData(algaeCore::getPercentageBar($p->progress, 100, 0), False);
+        algaeTable::writeData($p->progress_message);
+        algaeTable::writeData($p->pid);
+        echo '</tr>';
       }
-      else
-      {
-        //
-        // ----- display the result rows if there are any
-        //
-        $num_rows = pg_num_rows($result);
-        if ($num_rows > 0)
-        {
-          echo date("d-M-Y H:i:s"), ' UTC<p />';
-          //
-          // ----- initial the table
-          //
-          algaeTable::initTablesorterJavascript($tableId, '[[1,1]]', True, "headers: {1: {sorter:'milDate'} }");
-          algaeTable::start($tableId, 'tablesorter', 'width:100%;');
-          //
-          // ----- table header
-          //
-          $header_array = array(
-            array('Action', '8%'),
-            array('Started', '10%'),
-            array('Application', '10%'),
-            array('Status', '8%'),
-            array('Progress', '10%'),
-            array('Message', '15%'),
-            array('PID', '5%')
-          );
-          algaeTable::writeHeader($header_array, True);
-          //
-          // ----- loop through the results
-          //
-          while ($row = pg_fetch_array($result))
-          {
-            $p->init();
-            $p->readRowFromDatabase($row);
-            echo '<tr>';
-            algaeTable::writeData($p->getActionLinks(), False);
-            algaeTable::writeData($p->timestamp_loaded_utc);
-            algaeTable::writeData($p->application);
-            algaeTable::writeData($p->getStatusMessage(), False);
-            algaeTable::writeData(algaeCore::getPercentageBar($p->progress, 100, 0), False);
-            algaeTable::writeData($p->progress_message);
-            algaeTable::writeData($p->pid);
-            echo '</tr>';
-          }
-          algaeTable::end();
-        }
-        else
-        {
-          echo 'No data in ', $p->table_name, '.<p />';
-        }
-        algaeDB::close($db, $result);
-      }
+      algaeTable::end();
+    }
+    else
+    {
+      echo 'No data in ', $p->table_name, '.<p />';
     }
   }
   
