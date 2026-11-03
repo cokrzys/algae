@@ -213,7 +213,8 @@
         "canUpdate": false
       },
       {
-        "name": "val"
+        "name": "val",
+        "required": true
       },
       {
         "name": "description"

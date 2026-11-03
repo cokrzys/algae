@@ -575,7 +575,7 @@ class algaeForm
       if (strlen($parameterName) > 0)
       {
         $ret = algaeDB::cleanInput($_POST[$id]);
-        algaeTblCoreUserParameter::saveParameter($parameterName, $ret);
+        algaeTblCoreUserParameter::save_parameter($parameterName, $ret);
       }
       //
       // ----- return the 'un-database-escaped' version for re-use in a form, etc.
@@ -593,7 +593,7 @@ class algaeForm
         if (strlen($parameterName) > 0)
         {
           $ret = algaeDB::cleanInput($_GET[$id]);
-          algaeTblCoreUserParameter::saveParameter($parameterName, $ret);
+          algaeTblCoreUserParameter::save_parameter($parameterName, $ret);
         }
         //
         // ----- return the 'un-database-escaped' version for re-use in a form, etc.
@@ -608,7 +608,7 @@ class algaeForm
         //
         if (strlen($parameterName) > 0)
         {
-          $ret = algaeTblCoreUserParameter::getParameter($parameterName);
+          $ret = algaeTblCoreUserParameter::get_parameter($parameterName);
           if (strlen($ret) == 0) $ret = $default;
         }
       }
@@ -691,14 +691,14 @@ class algaeForm
       }
       if (strlen($parameterName) > 0)
       {
-        algaeTblCoreUserParameter::saveParameter($parameterName, algaeCore::getTrueFalse($ret));
+        algaeTblCoreUserParameter::save_parameter($parameterName, algaeCore::getTrueFalse($ret));
       }
     }
     else
     {
       if (strlen($parameterName) > 0)
       {
-        $str = algaeTblCoreUserParameter::getParameter($parameterName);
+        $str = algaeTblCoreUserParameter::get_parameter($parameterName);
         if (strlen($str) > 0)
         {
           $ret = algaeCore::getBoolean($str);

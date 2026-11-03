@@ -14,6 +14,8 @@ import os
 
 from algaedb import algaeDB
 from algaetblbase import algaeTblBase
+from algaetblcoreappuser import algaeTblCoreAppUser
+from algaetblprocessstatus import algaeTblProcessStatus
 from concurrent.futures import process
 
 class algaeTblCoreProcess(algaeTblBase):
@@ -25,14 +27,14 @@ class algaeTblCoreProcess(algaeTblBase):
         """
         super(self.__class__, self).__init__()
         self.table_name = 'core.process'
-        self.username = None
+        self.app_user = algaeTblCoreAppUser()
         self.application = None
         self.command = None
         self.logfile = None
         self.parmsfile = None
         self.starting_url = None
         self.result_url = None
-        self.process_status = None
+        self.process_status = algaeTblProcessStatus()
         self.progress = None
         self.progress_message = None
         self.pid = None

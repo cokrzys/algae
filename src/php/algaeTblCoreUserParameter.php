@@ -58,7 +58,10 @@ class algaeTblCoreUserParameter extends algaeTblBase
     $o->app_user->rowid = algaeTblCoreAppUser::getAppUserRowidForLoggedInUser();
     $o->name = $name;
     $o->val = $value;
-    $o->write();
+    if ( (isset($o->val)) && (strlen(strval($o->val)) > 0) )
+    {
+      $o->write();
+    }
   }
   
 }
