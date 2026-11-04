@@ -40,6 +40,7 @@ class algaeTblBase
   public $inserted;
   public $updated;
   public $deleted;
+  public $canCopy;
   
   /**
    * Constructor.
@@ -73,6 +74,7 @@ class algaeTblBase
     $this->inserted = False;
     $this->updated = False;
     $this->deleted = False;
+    $this->canCopy = False;  // enable to support a Copy action link
   }
   
   protected function addDerivedFieldsToForm() {}
@@ -439,6 +441,19 @@ class algaeTblBase
     return $this->getPageLink($this->editpage, $label, $openInNewTab);
   }
   
+  public function getCopyPageLink($label = 'Copy', $openInNewTab = True)
+  // --------------------------------------------------------------------------
+  {
+    global $app;
+    $html = '';
+    if (strlen($this->editpage) > 0)
+    {
+      $html = $app->getPageLink($app->getURLBase() . $this->editpage . '?rowid=' . $this->rowid . '&copy=True',
+        $label, algaeAccess::ROLE_WRITE, $app->config->app_name, '', $openInNewTab);
+    }
+    return $html;
+  }
+  
   /**
    * Get a link to the homepage for a record.
    * @param string $label Label for the link, will be the name if not specified.
@@ -471,7 +486,7 @@ class algaeTblBase
    * @param boolean $openInNewTab True to open in a new tab, default is False.
    * @return string  HTML string with the links.
    */
-  public function getActionLinks($openInNewTab = False)
+  public function getActionLinks($openInNewTab = False, $includeDelete = True)
   // --------------------------------------------------------------------------
   {
     global $app;
@@ -484,8 +499,13 @@ class algaeTblBase
       {
         $html = $this->getEditPageLink('Edit', $openInNewTab);
         $separator = $app->config->menu_separator;
+        if ($this->canCopy)
+        {
+          $html .= $separator;
+          $html .= $this->getCopyPageLink();
+        }
       }
-      if (strlen($this->deletepage) > 0)
+      if ( (strlen($this->deletepage) > 0) && ($includeDelete) )
       {
         $html .= $separator;
         $html .= $app->getPageLink($this->deletepage . '?rowid=' . $this->rowid, 'Delete', algaeAccess::ROLE_WRITE, $app->config->app_name, '', $openInNewTab);

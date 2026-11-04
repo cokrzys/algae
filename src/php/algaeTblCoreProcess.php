@@ -87,7 +87,7 @@ class algaeTblCoreProcess extends algaeTblBase
     return parent::getHomepageLink($label, $role, $new_page, $title, $include_color);
   }
   
-  public function getActionLinks($openInNewTab=False)
+  public function getActionLinks($openInNewTab = False, $includeDelete = True)
   // --------------------------------------------------------------------------
   {
     global $app;
