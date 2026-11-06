@@ -42,14 +42,16 @@ class algaeApp
     require_once 'algaeForm.php';
     require_once 'algaeQueryTool.php';
     require_once 'algaeReport.php';
-    /*
-    require_once 'algaeSVG.php';
+    
     require_once 'algaeGraph.php';
     require_once 'algaeGraphAxis.php';
     require_once 'algaeGraphSeriesAttribs.php';
     require_once 'algaeGraphLegendItem.php';
-    require_once 'algaeXYGraph.php';
-    require_once 'algaeLineGraph.php';
+    require_once 'algaeGraphXY.php';
+    require_once 'algaeGraphLine.php';
+    
+    /*
+    require_once 'algaeSVG.php';
     require_once 'algaeHistogram.php';
     require_once 'algaeTreemap.php';
     require_once 'algaeBoxplot.php';
