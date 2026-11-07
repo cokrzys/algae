@@ -332,7 +332,8 @@ class algaeTblField extends algaeTblReferenceBase
   public function selectFieldsOfType($id, $default, $types, $required=False, $attributes=[])
   // --------------------------------------------------------------------------
   {
-    $sql = "SELECT DISTINCT $this->table_name.name FROM $this->table_name INNER JOIN ref.field_type ON $this->table_name.field_type_rowid_fk = ref.field_type.rowid";
+    $sql = "SELECT DISTINCT $this->table_name.name, $this->table_name.rowid 
+            FROM $this->table_name INNER JOIN ref.field_type ON $this->table_name.field_type_rowid_fk = ref.field_type.rowid";
     $sql .= " WHERE ref.field_type.name $1 ORDER BY $this->table_name.name";
     $sql = str_replace('$1', $types, $sql);
     return algaeForm::selectWithSQL($sql, $id, $default, $required, $attributes);

@@ -108,6 +108,7 @@ class algaeGraph
   public $mouseCoordinatesPosition;
   public $mouseCoordinateUnits;
   public $showFootprint;
+  public $showOptionsForm;
   public $debug;
   
   /**
@@ -154,6 +155,7 @@ class algaeGraph
     $this->mouseCoordinatesPosition = algaeGraph::LEGEND_UPPER_LEFT;
     $this->mouseCoordinateUnits = algaeGraph::GRAPH_COORDINATE_UNITS_DATA;
     $this->showFootprint = False;
+    $this->showOptionsForm = True;
     $this->debug = False;
   }
   
@@ -317,12 +319,31 @@ class algaeGraph
     algaeTable::end();
   }
   
+  protected function addOptionItems()
+  // --------------------------------------------------------------------------
+  {
+    echo 'Set showOptionsForm = False to hide the options form.<p />';
+    echo 'Implement addOptionItems() to show options.<p />';
+  }
+  
   /**
    * Show options form typically above the graph tabs.
    */
   protected function showForm()
   // --------------------------------------------------------------------------
   {
+    $f = new algaeForm();
+    $f->startOptionsForm(algaeForm::getDefaultToken($this));
+    echo '<p />';
+    algaeForm::startSingleTab('Options', 'options_tabs');
+    algaeTable::start('formTable', 'algae_form_table', '');
+    algaeTable::writeHeader(array(), False);
+    $this->addOptionItems();
+    algaeTable::end();
+    algaeForm::endSingleTab('options_tabs', '225px');
+    echo '<p />';
+    $f->endOptionsForm();
+    echo '<p />';
   }
   
   /**
@@ -331,7 +352,10 @@ class algaeGraph
   public function showGraphAndData()
   // --------------------------------------------------------------------------
   {
-    $this->showForm();
+    if ($this->showOptionsForm)
+    {
+      $this->showForm();
+    }
     algaeForm::startTabs($this->graphAndDataTabs);
     //
     // ----- graph_tab
