@@ -79,8 +79,10 @@ class algaeFile
   {
     if (is_dir($dirname))
       $dir_handle = opendir($dirname);
-    if (! $dir_handle)
+    if ((! isset($dir_handle)) || (! $dir_handle))
+    {
       return false;
+    }
     while ($file = readdir($dir_handle)) {
       if ($file != "." && $file != "..") {
         if (! is_dir($dirname . "/" . $file))
