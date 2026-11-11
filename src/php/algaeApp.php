@@ -91,16 +91,6 @@ class algaeApp
     require_once 'algaeTblCalcType.php';
     require_once 'algaeTblFile.php';
     //
-    // ----- database tables V2
-    //
-    require_once '/var/www/html/algae/classes/V2/algaeTblBaseV2.php';
-    require_once '/var/www/html/algae/classes/V2/algaeTblRecordStatusV2.php';
-    require_once '/var/www/html/algae/classes/V2/algaeTblCoreUserV2.php';
-    require_once '/var/www/html/algae/classes/V2/algaeTblNamedObjectBaseV2.php';
-    require_once '/var/www/html/algae/classes/V2/algaeTblReferenceBaseV2.php';
-    // require_once 'algaeTblNamedObjectBase.php';
-    // require_once 'algaeTblReferenceBase.php';
-    //
     // ----- reporting and stats
     //
     require_once 'algaeFieldStats.php';

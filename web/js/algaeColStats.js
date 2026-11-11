@@ -178,7 +178,7 @@ colStatsDialog.compileTextStats = function(tableId, colIndex) {
         if (text.length > max_length) max_length = text.length;
         if (text.length < min_length) min_length = text.length;
         counts[text] = 1 + (counts[text] || 0);
-        that.htmlCSV += '"' + text + '",';
+        that.htmlCSV += "'" + text + "',";
       } else {
         num_blank++;
       }
