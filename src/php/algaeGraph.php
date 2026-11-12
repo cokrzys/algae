@@ -170,6 +170,28 @@ class algaeGraph
     $app->errorMessage($method . '() not implemented in ' . get_class($this) . '.');
   }
   
+  protected function addData($data, $name = null, $color = null, $displayAttributes = null)
+  // --------------------------------------------------------------------------
+  {
+    if (! isset($name))
+    {
+      $name = $this->seriesName;
+    }
+    $js = $this->javaScriptVar . ".addData(" . json_encode($data, JSON_NUMERIC_CHECK);
+    $js .= ", '" . $name . "', '";
+    if (! isset($color))
+    {
+      $color = $this->defaultColor;
+    }
+    $js .= $color . "'";
+    if (isset($displayAttributes))
+    {
+      $js .= ", " . $displayAttributes->getJSON(); 
+    }
+    $js .= ");";
+    algaeCore::addJavaScript($js);
+  }
+  
   /**
    * Load the data, often overridden in the derived class.
    */
