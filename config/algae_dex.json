@@ -128,6 +128,20 @@
     ]
   },
   {
+    "tableName": "algae.set_base",
+    "parentTableName": "algae.named_object_base",
+    "comment": "Standard fields for a set of objects.",
+    "source": "algae",
+    "phpClass": "algaeTblSetBase",
+    "pythonClass": "algaeTblSetBase",
+    "columns":
+    [
+      {
+        "name": "sql"
+      }
+    ]
+  },
+  {
     "tableName": "algae.data_value_base",
     "parentTableName": "algae.base",
     "comment": "Generic structure for data values associated with a parent object.",
