@@ -614,7 +614,7 @@ class algaeTblBase():
         """
         return db.execute_query(self.get_update_sql(), self.get_update_data())
     
-    def write_to_database(self, db):
+    def write(self, db):
     #------------------------------------------------------------------------------
         """
         """
