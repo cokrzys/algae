@@ -21,6 +21,7 @@ Also goto `http://your_server_or_ip` to check the default web page.
 ![Apache Default Page](images/apache_default_screen.png)
 
 ## .pgpass for www-data
+Required if an application has shell scripts or other processes (gdal specifically) that connect to the database.
 
 ```shell
 # goto www-data user's home
@@ -34,5 +35,9 @@ sudo chown www-data:www-data .pgpass
 
 # change permissions on file so only www-data can use it
 sudo chmod 600 .pgpass
+```
+
+```console
+*:*:*:postgres:password
 ```
 
