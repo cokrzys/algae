@@ -386,11 +386,11 @@ class algaeTblCoreProcess extends algaeTblBase
       $header_array = array(
         array('Action', '8%'),
         array('Started', '10%'),
-        array('Application', '10%'),
+        array('Application', '9%'),
         array('Status', '8%'),
         array('Progress', '10%'),
         array('Message', '15%'),
-        array('PID', '5%')
+        array('Run Time', '6%')
       );
       algaeTable::writeHeader($header_array, True);
       //
@@ -407,7 +407,7 @@ class algaeTblCoreProcess extends algaeTblBase
         algaeTable::writeData($p->getStatusMessage(), False);
         algaeTable::writeData(algaeCore::getPercentageBar($p->progress, 100, 0), False);
         algaeTable::writeData($p->progress_message);
-        algaeTable::writeData($p->pid);
+        algaeTable::writeData($p->run_time);
         echo '</tr>';
       }
       algaeTable::end();
