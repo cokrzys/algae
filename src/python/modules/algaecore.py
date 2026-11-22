@@ -2,17 +2,33 @@
 
   algae | Core python items.
 
-  @author    Brian Krzys (brian.krzys@rtspatial.com)
+  @author	Brian Krzys (brian.krzys@rtspatial.com)
   @copyright (c) 2026 RTSpatial Ltd.
   @license   SPDX-License-Identifier: MIT
-  @link      https://github.com/cokrzys/algae
+  @link	  https://github.com/cokrzys/algae
  
 """
 
 import math
 
 class algaeCore():
-
+	
+	@staticmethod
+	def html_to_rgb(html):
+	#-------------------------------------------------------------------------------
+		"""
+		https://stackoverflow.com/questions/29643352/converting-hex-to-rgb-value-in-python
+		"""
+		return tuple(int(html.lstrip('#')[i:i+2], 16) for i in (0, 2, 4))
+	
+	@staticmethod
+	def rgb_to_html(rgb):
+	#-------------------------------------------------------------------------------
+		"""
+		https://stackoverflow.com/questions/29643352/converting-hex-to-rgb-value-in-python
+		"""
+		return ''.join(hex(x)[2:].zfill(2) for x in rgb)
+	
 	@staticmethod
 	def interpolate(val, minOrig, maxOrig, minNew, maxNew):
 	#-------------------------------------------------------------------------------
@@ -67,13 +83,13 @@ class algaeCore():
 		"""
 		Split a rowid into manageable parts for use in a hierarchical directory 
 		structure or filename.
-        * The rowid is left padded with zeros before splitting into parts.
-        * For example the rowid 2789 split into two levels is 002 789.
-        * https://stackoverflow.com/questions/9475241/split-string-every-nth-character
-        ------------------------------------------------------------------------
-        @param integer rowid Rowid to split, integer and not zero padded.
-        @param integer num_levels Number of three digit levels to split across.
-        @return array Array of split parts.
+		* The rowid is left padded with zeros before splitting into parts.
+		* For example the rowid 2789 split into two levels is 002 789.
+		* https://stackoverflow.com/questions/9475241/split-string-every-nth-character
+		------------------------------------------------------------------------
+		@param integer rowid Rowid to split, integer and not zero padded.
+		@param integer num_levels Number of three digit levels to split across.
+		@return array Array of split parts.
 		"""
 		level_len = 3
 		rs = str(rowid).zfill((num_levels) * level_len)
@@ -84,12 +100,12 @@ class algaeCore():
 	# ------------------------------------------------------------------------------
 		"""
 		Split and concatenate a rowid into a string for use in a hierarchical directory structure or filename.
-        * For example the rowid 2789 across two levels would be '002/789'.
-        ------------------------------------------------------------------------
-        @param integer rowid Rowid to split, integer and not zero padded.
-        @param integer num_levels Number of three digit levels to split across.
-        @param string separator Separator to add between parts, backspace by default.
-        @return string|NULL String typically for use in a directory structure or filename.
+		* For example the rowid 2789 across two levels would be '002/789'.
+		------------------------------------------------------------------------
+		@param integer rowid Rowid to split, integer and not zero padded.
+		@param integer num_levels Number of three digit levels to split across.
+		@param string separator Separator to add between parts, backspace by default.
+		@return string|NULL String typically for use in a directory structure or filename.
 		"""
 		parts = algaeCore.get_parts_from_rowid(rowid, num_levels)
 		if len(parts) >= 1:
@@ -106,11 +122,11 @@ class algaeCore():
 	# ------------------------------------------------------------------------------
 		"""
 		Get a path for use in a hierarchical directory structure from a rowid.
-        * For example the rowid 2789 across two levels would be '002/789'.
-        ------------------------------------------------------------------------
-	    @param integer rowid Rowid to split, integer and not zero padded.
-	    @param integer num_levels Number of three digit levels to split across.
-	    @return string|NULL String for use in a directory structure.
+		* For example the rowid 2789 across two levels would be '002/789'.
+		------------------------------------------------------------------------
+		@param integer rowid Rowid to split, integer and not zero padded.
+		@param integer num_levels Number of three digit levels to split across.
+		@return string|NULL String for use in a directory structure.
 		"""
 		return algaeCore.get_concatenated_parts_from_rowid(rowid, num_levels, '/')
 

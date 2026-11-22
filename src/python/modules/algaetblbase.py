@@ -434,12 +434,17 @@ class algaeTblBase():
                 sql += ' ' + joinSQL
         return sql
     
-    def get_sql(self):
+    def get_sql(self, rowid_only = False):
     #------------------------------------------------------------------------------
         """
         Get the SQL to read a record.
         """
-        return "SELECT " + self.get_fields() + self.get_joins();
+        fields = '';
+        if rowid_only:
+            fields = self.table_name + '.rowid'
+        else:
+            fields = self.get_fields()
+        return "SELECT " + fields + self.get_joins();
     
     def read_row_from_database(self, row):
     #------------------------------------------------------------------------------
@@ -497,6 +502,7 @@ class algaeTblBase():
         Read a row from the database with a SQL statement.
         """
         # print('DEBUG: Reading data for class ' + self.__class__.__name__)
+        if self.debug: print('DEBUG: SQL in read_row_from_database_with_sql = ' + sql)
         try:
             cur = db.connection.cursor()
             cur.execute(sql, data)
