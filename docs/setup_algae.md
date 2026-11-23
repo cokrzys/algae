@@ -53,7 +53,7 @@ set -a; source /etc/environment; set +a
 export PYTHONPATH=$PYTHONPATH:/opt/algae-main/src/python/modules
 ```
 
-Install required modules.  Using the newer Ubuntu specific support for system-wide modules install.
+Install required modules.  Using newer Ubuntu specific support for system-wide modules.
 ```shell
 sudo apt install python3-dotenv
 sudo apt install python3-psycopg2
