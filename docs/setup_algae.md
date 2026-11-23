@@ -58,6 +58,7 @@ Install required modules.  Using the newer Ubuntu specific support for system-wi
 sudo apt install python3-dotenv
 sudo apt install python3-psycopg2
 sudo apt install python3-scipy
+sudo apt install python3-pyshp
 ```
 
 ## Setup Web Pages
